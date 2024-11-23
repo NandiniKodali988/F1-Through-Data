@@ -914,7 +914,7 @@
     "href": "index.html#introduction",
     "title": "Predicting Startup Success",
     "section": "Introduction",
-    "text": "Introduction\nOn an average, an astounding 4.7 million businesses are started every year 1"
+    "text": "Introduction\nOn an average, an astounding 4.7 million businesses are started every year 1, fueling innovation and economic growth. However, up to 90% of the startups fail. The average failure rate in the first year is 10%, but this increases dramatically to 70% within the next 5 years 2.\nIn the United States alone, the venture capital investments exceeded $150 billion in 2023 3, reflecting the significant financial stakes involved.\nThese statistics underscore the crucial need for entrepreneurs, investors, and policy makers to make informed decisions.\nBy leveraging data science techniques, this project aims to predict whether a startup will succeed or fail, providing actionable insights to stakeholders. This will not only help investors mitigate risks but also empowers entrepreneurs to focus on strategies that maximize their chances of success."
   },
   {
     "objectID": "index.html#resources",
@@ -928,6 +928,13 @@
     "href": "index.html#footnotes",
     "title": "Predicting Startup Success",
     "section": "Footnotes",
-    "text": "Footnotes\n\n\nhttps://www.commerceinstitute.com/new-businesses-started-every-year/↩︎"
+    "text": "Footnotes\n\n\nhttps://www.commerceinstitute.com/new-businesses-started-every-year/ - data↩︎\nhttps://explodingtopics.com/blog/startup-failure-stats↩︎\nhttps://news.crunchbase.com/venture/q3-2024-funding-recap-charts/↩︎"
+  },
+  {
+    "objectID": "index.html#research-questions",
+    "href": "index.html#research-questions",
+    "title": "Predicting Startup Success",
+    "section": "Research Questions",
+    "text": "Research Questions\n\nHow are startups distributed across different domains in the United States, and what patterns or trends emerge from this distributions.\nWhat percentage of startups succeed in each domain, and what distribinguishes high-performing doomains from others?\nWhat are the key dfferences in financial, and operational factors between startups that have closed down, and those that are acquired?\nAre there specific terminologies in the new that drive the sentiment of articles on startups, and can these terms be leveraged to analyze success rates further?\nWhat Machine Learning algortihms can be used to predict the success of a startup based on the data collected, and what are the key features that drive the predictions?"
   }
 ]

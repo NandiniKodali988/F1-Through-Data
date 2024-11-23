@@ -85,7 +85,19 @@ By following these steps, you can 10X the efficiency of your literature review p
 
 
 ## Introduction
-On an average, an astounding 4.7 million businesses are started every year [^1]
+On an average, an astounding 4.7 million businesses are started every year [^1], fueling innovation and economic growth. However, up to 90% of the startups fail. The average failure rate in the first year is 10%, but this increases dramatically to 70% within the next 5 years [^2]. \
+In the United States alone, the venture capital investments exceeded $150 billion in 2023 [^3], reflecting the significant financial stakes involved. \
+These statistics underscore the crucial need for entrepreneurs, investors, and policy makers to make informed decisions. \
+By leveraging data science techniques, this project aims to predict whether a startup will succeed or fail, providing actionable insights to stakeholders. This will not only help investors mitigate risks but also empowers entrepreneurs to focus on strategies that maximize their chances of success.
+
+## Research Questions
+1. How are startups distributed across different domains in the United States, and what patterns or trends emerge from this distributions. 
+2. What percentage of startups succeed in each domain, and what distribinguishes high-performing doomains from others?
+3. What are the key dfferences in financial, and operational factors between startups that have closed down, and those that are acquired?
+4. Are there specific terminologies in the new that drive the sentiment of articles on startups, and can these terms be leveraged to analyze success rates further?
+5. What Machine Learning algortihms can be used to predict the success of a startup based on the data collected, and what are the key features that drive the predictions?
 
 ## Resources
-[^1]: https://www.commerceinstitute.com/new-businesses-started-every-year/
+[^1]: https://www.commerceinstitute.com/new-businesses-started-every-year/ - data
+[^2]: https://explodingtopics.com/blog/startup-failure-stats
+[^3]: https://news.crunchbase.com/venture/q3-2024-funding-recap-charts/

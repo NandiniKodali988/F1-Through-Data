@@ -5,5 +5,4 @@ title: "Progress log"
 
 - Home
   - Worked on project introduction
-  - Included data science questions
-
+  - Draft data science questions
