@@ -81,3 +81,11 @@ By following these steps, you can 10X the efficiency of your literature review p
 - **Use Cases/Examples**: A brief teaser of compelling stories or case studies you’ve worked on.
 - **Call to Action**: Invite visitors to explore the content, follow along, or contact you for more information.
 - **Visual/Infographic**: Add a simple graphic or visual element to make the page more dynamic.
+
+
+
+## Introduction
+On an average, an astounding 4.7 million businesses are started every year [^1]
+
+## Resources
+[^1]: https://www.commerceinstitute.com/new-businesses-started-every-year/
