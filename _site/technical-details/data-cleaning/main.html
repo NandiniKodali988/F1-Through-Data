@@ -195,6 +195,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#clean-the-news-data" id="toc-clean-the-news-data" class="nav-link" data-scroll-target="#clean-the-news-data">Clean the News Data</a></li>
   <li><a href="#clean-the-drivers-standings" id="toc-clean-the-drivers-standings" class="nav-link" data-scroll-target="#clean-the-drivers-standings">Clean the Drivers Standings</a></li>
+  <li><a href="#clean-the-circuit-information" id="toc-clean-the-circuit-information" class="nav-link" data-scroll-target="#clean-the-circuit-information">Clean the Circuit Information</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -424,6 +425,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the DataFrame to a CSV file</span></span>
 <span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>df.to_csv(output_file, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="clean-the-circuit-information" class="level2">
+<h2 class="anchored" data-anchor-id="clean-the-circuit-information">Clean the Circuit Information</h2>
+<div id="cell-13" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>input_file <span class="op">=</span> <span class="st">"../../data/raw-data/circuit_data.json"</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>output_file <span class="op">=</span> <span class="st">"../../data/processed-data/circuit_data_clean.csv"</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>os.makedirs(os.path.dirname(output_file), exist_ok<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-14" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure the output directory exists</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>os.makedirs(os.path.dirname(output_file), exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the JSON file</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(input_file, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> json.load(f)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract circuit data</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>circuits <span class="op">=</span> data.get(<span class="st">'MRData'</span>, {}).get(<span class="st">'CircuitTable'</span>, {}).get(<span class="st">'Circuits'</span>, [])</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare a list to store extracted records</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>cleaned_data <span class="op">=</span> []</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> circuit <span class="kw">in</span> circuits:</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    circuit_id <span class="op">=</span> circuit.get(<span class="st">'circuitId'</span>, <span class="st">''</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    circuit_name <span class="op">=</span> circuit.get(<span class="st">'circuitName'</span>, <span class="st">''</span>)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    country <span class="op">=</span> circuit.get(<span class="st">'Location'</span>, {}).get(<span class="st">'country'</span>, <span class="st">''</span>)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Append to the list</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    cleaned_data.append({</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Circuit_ID"</span>: circuit_id,</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Circuit_Name"</span>: circuit_name,</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Country"</span>: country</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the list to a Pandas DataFrame</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(cleaned_data)</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the DataFrame to a CSV file</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>df.to_csv(output_file, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
