@@ -10,3 +10,12 @@ title: "Progress log"
   - Search for data sources
   - Public APIs
   - F1 Official website
+
+**11-24-2024**
+
+- Data Collection
+  - Race Information - (2000-2023)
+  - Circuit Info
+  - Driver Standings
+  - Constructor Standings
+  -  
