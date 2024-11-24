@@ -6,3 +6,7 @@ title: "Progress log"
 - Home
   - Worked on project introduction
   - Draft data science questions
+- Data Collection
+  - Search for data sources
+  - Public APIs
+  - F1 Official website
