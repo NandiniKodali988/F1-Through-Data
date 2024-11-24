@@ -844,7 +844,7 @@
     "href": "technical-details/data-collection/main.html#conclusion-and-future-steps",
     "title": "Data Collection",
     "section": "Conclusion and Future Steps",
-    "text": "Conclusion and Future Steps\n\nSummarize the key technical points and outcomes of the project.\nSuggest potential improvements or refinements to this part of the project.\nBased on the results, provide actionable recommendations for further research or optimization efforts."
+    "text": "Conclusion and Future Steps\n\nSummarize the key technical points and outcomes of the project.\nSuggest potential improvements or refinements to this part of the project.\nBased on the results, provide actionable recommendations for further research or optimization efforts.\n\n\nimport requests\nimport pandas as pd\nimport numpy as np\nimport json\nimport os\n\n\nRace Information for 2000-2023 Seasons\n\ndef get_race_results(url, year, offset, limit=1000):\n    full_url = f\"{url}/{year}/results.json?limit={limit}&offset={offset}\"\n    result = requests.get(full_url)\n    return result.json()\n\n\n# Testing for 2023 season\nseason_2023_json = get_race_results(url='http://ergast.com/api/f1', year=2023, offset=0)\n\n# Save the data to a JSON file\nwith open('../../data/raw-data/race_data_2023.json', 'w') as outfile:\n    json.dump(season_2023_json, outfile)\n\n\n# collecting data from 2000 to 2022\n\n# function to loop through years and fetch the results\ndef race_data(start_year, end_year, output_dr, url):\n\n    for year in range(start_year, end_year + 1):\n        race_data = get_race_results(url, year, offset=0)\n        # save the output \n        output_file = os.path.join(output_dr, f\"race_data_{year}.json\")\n        with open(output_file, 'w') as f:\n            json.dump(race_data, f)\n\n\n# call race_data()\nrace_data(\n    start_year = 2000,\n    end_year = 2009,\n    output_dr = \"../../data/raw-data\",\n    url = 'http://ergast.com/api/f1'\n)\n\n\n\nDriver Standings for 2000-2023 Seasons\n\ndef driverstanding_info(url, season):\n    full_url = f\"{url}/{season}/driverStandings.json\"\n    response = requests.get(full_url)\n    return response.json()\n\n# Function to fetch and save all driver standings for the given seasons\ndef driverstandings_info(start_year, end_year, output_file, url=\"http://ergast.com/api/f1\"):\n    driver_standings_data = {}\n    \n    for year in range(start_year, end_year + 1):\n        data = driverstanding_info(url, year)\n        driver_standings_data[year] = data\n    \n    # Save to output file\n    with open(output_file, 'w') as outfile:\n        json.dump(driver_standings_data, outfile)\n\n# Call the function for seasons 2000–2023\ndriverstandings_info(\n    start_year=2000,\n    end_year=2023,\n    output_file=\"../../data/raw-data/driver_standings/driver_standings_2000_2023.json\"\n)\n\n\n\nCircuit Information for 2000-2023 Seasons\n\ndef circuit_info(output_file, url):\n    results = requests.get(url)\n    \n    # save to output file\n    with open(output_file, 'w') as f:\n        json.dump(results.json(), f)\n        \n\n\ncircuit_info(output_file='../../data/raw-data/circuit_data.json', url = \"http://ergast.com/api/f1/circuits.json\")"
   },
   {
     "objectID": "technical-details/supervised-learning/main.html",
@@ -912,29 +912,4 @@
   {
     "objectID": "index.html#introduction",
     "href": "index.html#introduction",
-    "title": "Predicting Startup Success",
-    "section": "Introduction",
-    "text": "Introduction\nOn an average, an astounding 4.7 million businesses are started every year 1, fueling innovation and economic growth. However, up to 90% of the startups fail. The average failure rate in the first year is 10%, but this increases dramatically to 70% within the next 5 years 2.\nIn the United States alone, the venture capital investments exceeded $150 billion in 2023 3, reflecting the significant financial stakes involved.\nThese statistics underscore the crucial need for entrepreneurs, investors, and policy makers to make informed decisions.\nBy leveraging data science techniques, this project aims to predict whether a startup will succeed or fail, providing actionable insights to stakeholders. This will not only help investors mitigate risks but also empowers entrepreneurs to focus on strategies that maximize their chances of success."
-  },
-  {
-    "objectID": "index.html#resources",
-    "href": "index.html#resources",
-    "title": "Predicting Startup Success",
-    "section": "Resources",
-    "text": "Resources"
-  },
-  {
-    "objectID": "index.html#footnotes",
-    "href": "index.html#footnotes",
-    "title": "Predicting Startup Success",
-    "section": "Footnotes",
-    "text": "Footnotes\n\n\nhttps://www.commerceinstitute.com/new-businesses-started-every-year/ - data↩︎\nhttps://explodingtopics.com/blog/startup-failure-stats↩︎\nhttps://news.crunchbase.com/venture/q3-2024-funding-recap-charts/↩︎"
-  },
-  {
-    "objectID": "index.html#research-questions",
-    "href": "index.html#research-questions",
-    "title": "Predicting Startup Success",
-    "section": "Research Questions",
-    "text": "Research Questions\n\nHow are startups distributed across different domains in the United States, and what patterns or trends emerge from this distributions.\nWhat percentage of startups succeed in each domain, and what distribinguishes high-performing doomains from others?\nWhat are the key dfferences in financial, and operational factors between startups that have closed down, and those that are acquired?\nAre there specific terminologies in the new that drive the sentiment of articles on startups, and can these terms be leveraged to analyze success rates further?\nWhat Machine Learning algortihms can be used to predict the success of a startup based on the data collected, and what are the key features that drive the predictions?"
-  }
-]
+    "title": "

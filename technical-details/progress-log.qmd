@@ -14,8 +14,11 @@ title: "Progress log"
 **11-24-2024**
 
 - Data Collection
-  - Race Information - (2000-2023)
-  - Circuit Info
-  - Driver Standings
-  - Constructor Standings
-  -  
+  - record data
+    - Race Information - (2000-2023)
+    - Driver Standings
+    - Circuit Info
+    - Constructor Standings - not required - analysing only drivers' performance
+  - Text data
+    - news api
+    - news on top 10 drivers
