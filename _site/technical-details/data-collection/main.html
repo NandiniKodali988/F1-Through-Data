@@ -206,9 +206,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#benchmarks" id="toc-benchmarks" class="nav-link" data-scroll-target="#benchmarks">Benchmarks</a></li>
   <li><a href="#conclusion-and-future-steps" id="toc-conclusion-and-future-steps" class="nav-link" data-scroll-target="#conclusion-and-future-steps">Conclusion and Future Steps</a>
   <ul class="collapse">
+  <li><a href="#import-required-libraries" id="toc-import-required-libraries" class="nav-link" data-scroll-target="#import-required-libraries">Import Required Libraries</a></li>
   <li><a href="#race-information-for-2000-2023-seasons" id="toc-race-information-for-2000-2023-seasons" class="nav-link" data-scroll-target="#race-information-for-2000-2023-seasons">Race Information for 2000-2023 Seasons</a></li>
   <li><a href="#driver-standings-for-2000-2023-seasons" id="toc-driver-standings-for-2000-2023-seasons" class="nav-link" data-scroll-target="#driver-standings-for-2000-2023-seasons">Driver Standings for 2000-2023 Seasons</a></li>
   <li><a href="#circuit-information-for-2000-2023-seasons" id="toc-circuit-information-for-2000-2023-seasons" class="nav-link" data-scroll-target="#circuit-information-for-2000-2023-seasons">Circuit Information for 2000-2023 Seasons</a></li>
+  <li><a href="#news-of-top-10-drivers-in-2024-season-so-far" id="toc-news-of-top-10-drivers-in-2024-season-so-far" class="nav-link" data-scroll-target="#news-of-top-10-drivers-in-2024-season-so-far">News of Top 10 drivers in 2024 season (so far)</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -424,22 +426,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Suggest potential improvements or refinements to this part of the project.</li>
 <li>Based on the results, provide actionable recommendations for further research or optimization efforts.</li>
 </ul>
-<div id="cell-8" class="cell" data-execution_count="10">
+<section id="import-required-libraries" class="level3">
+<h3 class="anchored" data-anchor-id="import-required-libraries">Import Required Libraries</h3>
+<div id="cell-9" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
 <section id="race-information-for-2000-2023-seasons" class="level3">
 <h3 class="anchored" data-anchor-id="race-information-for-2000-2023-seasons">Race Information for 2000-2023 Seasons</h3>
-<div id="cell-10" class="cell" data-execution_count="11">
+<div id="cell-11" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_race_results(url, year, offset, limit<span class="op">=</span><span class="dv">1000</span>):</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    full_url <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>url<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>year<span class="sc">}</span><span class="ss">/results.json?limit=</span><span class="sc">{</span>limit<span class="sc">}</span><span class="ss">&amp;offset=</span><span class="sc">{</span>offset<span class="sc">}</span><span class="ss">"</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> requests.get(full_url)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result.json()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-11" class="cell" data-execution_count="21">
+<div id="cell-12" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Testing for 2023 season</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>season_2023_json <span class="op">=</span> get_race_results(url<span class="op">=</span><span class="st">'http://ergast.com/api/f1'</span>, year<span class="op">=</span><span class="dv">2023</span>, offset<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -447,7 +454,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'../../data/raw-data/race_data_2023.json'</span>, <span class="st">'w'</span>) <span class="im">as</span> outfile:</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    json.dump(season_2023_json, outfile)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-12" class="cell" data-execution_count="18">
+<div id="cell-13" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># collecting data from 2000 to 2022</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># function to loop through years and fetch the results</span></span>
@@ -460,7 +467,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> <span class="bu">open</span>(output_file, <span class="st">'w'</span>) <span class="im">as</span> f:</span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>            json.dump(race_data, f)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-13" class="cell" data-execution_count="20">
+<div id="cell-14" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># call race_data()</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>race_data(</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    start_year <span class="op">=</span> <span class="dv">2000</span>,</span>
@@ -472,7 +479,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="driver-standings-for-2000-2023-seasons" class="level3">
 <h3 class="anchored" data-anchor-id="driver-standings-for-2000-2023-seasons">Driver Standings for 2000-2023 Seasons</h3>
-<div id="cell-15" class="cell" data-execution_count="26">
+<div id="cell-16" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> driverstanding_info(url, season):</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    full_url <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>url<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>season<span class="sc">}</span><span class="ss">/driverStandings.json"</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> requests.get(full_url)</span>
@@ -500,7 +507,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="circuit-information-for-2000-2023-seasons" class="level3">
 <h3 class="anchored" data-anchor-id="circuit-information-for-2000-2023-seasons">Circuit Information for 2000-2023 Seasons</h3>
-<div id="cell-17" class="cell" data-execution_count="22">
+<div id="cell-18" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> circuit_info(output_file, url):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> requests.get(url)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -509,11 +516,95 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        json.dump(results.json(), f)</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-18" class="cell" data-execution_count="24">
+<div id="cell-19" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>circuit_info(output_file<span class="op">=</span><span class="st">'../../data/raw-data/circuit_data.json'</span>, url <span class="op">=</span> <span class="st">"http://ergast.com/api/f1/circuits.json"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="news-of-top-10-drivers-in-2024-season-so-far" class="level3">
+<h3 class="anchored" data-anchor-id="news-of-top-10-drivers-in-2024-season-so-far">News of Top 10 drivers in 2024 season (so far)</h3>
+<ul>
+<li>Using News-API</li>
+<li>Resources: https://jfh.georgetown.domains/centralized-lecture-content/content/data-science/data-collection/share/API-newapi/news-api.html</li>
+</ul>
+<section id="set-credentials" class="level4">
+<h4 class="anchored" data-anchor-id="set-credentials">Set Credentials</h4>
+<div id="cell-22" class="cell" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>baseURL <span class="op">=</span> <span class="st">"https://newsapi.org/v2/everything?"</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>total_requests<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>verbose<span class="op">=</span><span class="va">True</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>API_KEY<span class="op">=</span><span class="st">'86d4dac5a4864ece92da90bc31277e53'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-23" class="cell" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> news_data(topic, API_KEY, total_requests<span class="op">=</span><span class="dv">1</span>, verbose<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    baseURL <span class="op">=</span> <span class="st">"https://newsapi.org/v2/everything?"</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># API parameters</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    URLpost <span class="op">=</span> {</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">'apiKey'</span>: API_KEY,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'q'</span>: <span class="st">'+'</span><span class="op">+</span>topic,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">'sotBy'</span>: <span class="st">'relevancy'</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'pageSize'</span>: <span class="dv">100</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">'page'</span>: <span class="dv">1</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># last name of the drives to avoid spaces in the file names</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    file_name <span class="op">=</span> topic.split()[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    all_articles <span class="op">=</span> []</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># make an API request </span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> request_num <span class="kw">in</span> <span class="bu">range</span>(total_requests):</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> requests.get(baseURL, params<span class="op">=</span>URLpost)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>        response_data <span class="op">=</span> response.json()</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>        articles <span class="op">=</span> response_data.get(<span class="st">'articles'</span>, [])</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>        all_articles.extend(articles)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>        URLpost[<span class="st">'page'</span>] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># output file path</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    output_dr <span class="op">=</span> <span class="st">"../../data/raw-data/News_Drivers"</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    output_file <span class="op">=</span> os.path.join(output_dr, <span class="ss">f"</span><span class="sc">{</span>file_name<span class="sc">}</span><span class="ss">_raw_text.json"</span>)</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># save to output file</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(output_file, <span class="st">'w'</span>) <span class="im">as</span> f:</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>        json.dump(all_articles, f, indent<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> all_articles</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="top-10-drivers-as-of-round-22-las-vegas-grand-prix" class="level4">
+<h4 class="anchored" data-anchor-id="top-10-drivers-as-of-round-22-las-vegas-grand-prix">Top 10 Drivers as of Round 22 (Las Vegas Grand Prix)</h4>
+<ol type="1">
+<li>Max Verstappen</li>
+<li>Lando Norris</li>
+<li>Charles Leclerc</li>
+<li>Oscar Piastri</li>
+<li>Carlos Sainz</li>
+<li>George Russell</li>
+<li>Lewis Hamilton</li>
+<li>Sergio Perez</li>
+<li>Fernando Alonso</li>
+<li>Nico Hulkenberg</li>
+</ol>
+<div id="cell-25" class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># testing </span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>text_data <span class="op">=</span> news_data(<span class="st">'Max Verstappen'</span>, API_KEY, total_requests<span class="op">=</span><span class="dv">1</span>, verbose<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-26" class="cell" data-execution_count="57">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>text_data <span class="op">=</span> news_data(<span class="st">'Lando Norris'</span>, API_KEY, total_requests<span class="op">=</span><span class="dv">1</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>text_data <span class="op">=</span> news_data(<span class="st">'Charles Leclerc'</span>, API_KEY, total_requests<span class="op">=</span><span class="dv">1</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>text_data <span class="op">=</span> news_data(<span class="st">'Oscar Piastri'</span>, API_KEY, total_requests<span class="op">=</span><span class="dv">1</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>text_data <span class="op">=</span> news_data(<span class="st">'Carlos Sainz'</span>, API_KEY, total_requests<span class="op">=</span><span class="dv">1</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>text_data <span class="op">=</span> news_data(<span class="st">'George Russell'</span>, API_KEY, total_requests<span class="op">=</span><span class="dv">1</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>text_data <span class="op">=</span> news_data(<span class="st">'Lewis Hamilton'</span>, API_KEY, total_requests<span class="op">=</span><span class="dv">1</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>text_data <span class="op">=</span> news_data(<span class="st">'Sergio Perez'</span>, API_KEY, total_requests<span class="op">=</span><span class="dv">1</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>text_data <span class="op">=</span> news_data(<span class="st">'Fernando Alonso'</span>, API_KEY, total_requests<span class="op">=</span><span class="dv">1</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>text_data <span class="op">=</span> news_data(<span class="st">'Nico Hulkenberg'</span>, API_KEY, total_requests<span class="op">=</span><span class="dv">1</span>, verbose<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
+</section>
 </section>
 </section>
 </section>

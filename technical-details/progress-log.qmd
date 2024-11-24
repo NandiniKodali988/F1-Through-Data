@@ -22,3 +22,5 @@ title: "Progress log"
   - Text data
     - news api
     - news on top 10 drivers
+- Data Cleaning
+  - Clean Race Info: json -> csv
