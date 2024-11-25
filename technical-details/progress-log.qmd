@@ -19,8 +19,10 @@ title: "Progress log"
     - Driver Standings
     - Circuit Info
     - Constructor Standings - not required - analysing only drivers' performance
+    - weather data for each race
   - Text data
     - news api
     - news on top 10 drivers
 - Data Cleaning
-  - Clean Race Info: json -> csv
+  - Clean Race Info: json
+  - clean news data - for sentiment analysis

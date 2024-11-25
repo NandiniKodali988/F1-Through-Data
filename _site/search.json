@@ -732,7 +732,7 @@
     "href": "technical-details/progress-log.html",
     "title": "Progress log",
     "section": "",
-    "text": "11-23-2024\n\nHome\n\nWorked on project introduction\nDraft data science questions\n\nData Collection\n\nSearch for data sources\nPublic APIs\nF1 Official website\n\n\n11-24-2024\n\nData Collection\n\nrecord data\n\nRace Information - (2000-2023)\nDriver Standings\nCircuit Info\nConstructor Standings - not required - analysing only drivers’ performance\n\nText data\n\nnews api\nnews on top 10 drivers\n\n\nData Cleaning\n\nClean Race Info: json -&gt; csv"
+    "text": "11-23-2024\n\nHome\n\nWorked on project introduction\nDraft data science questions\n\nData Collection\n\nSearch for data sources\nPublic APIs\nF1 Official website\n\n\n11-24-2024\n\nData Collection\n\nrecord data\n\nRace Information - (2000-2023)\nDriver Standings\nCircuit Info\nConstructor Standings - not required - analysing only drivers’ performance\nweather data for each race\n\nText data\n\nnews api\nnews on top 10 drivers\n\n\nData Cleaning\n\nClean Race Info: json\nclean news data - for sentiment analysis"
   },
   {
     "objectID": "technical-details/progress-log.html#to-do",
@@ -957,5 +957,12 @@
     "title": "Data Cleaning",
     "section": "Clean the Circuit Information",
     "text": "Clean the Circuit Information\n\ninput_file = \"../../data/raw-data/circuit_data.json\"\noutput_file = \"../../data/processed-data/circuit_data_clean.csv\"\nos.makedirs(os.path.dirname(output_file), exist_ok=True)\n\n\n# Ensure the output directory exists\nos.makedirs(os.path.dirname(output_file), exist_ok=True)\n\n# Read the JSON file\nwith open(input_file, 'r') as f:\n    data = json.load(f)\n\n# Extract circuit data\ncircuits = data.get('MRData', {}).get('CircuitTable', {}).get('Circuits', [])\n\n# Prepare a list to store extracted records\ncleaned_data = []\n\nfor circuit in circuits:\n    circuit_id = circuit.get('circuitId', '')\n    circuit_name = circuit.get('circuitName', '')\n    country = circuit.get('Location', {}).get('country', '')\n    \n    # Append to the list\n    cleaned_data.append({\n        \"Circuit_ID\": circuit_id,\n        \"Circuit_Name\": circuit_name,\n        \"Country\": country\n    })\n\n# Convert the list to a Pandas DataFrame\ndf = pd.DataFrame(cleaned_data)\n\n# Save the DataFrame to a CSV file\ndf.to_csv(output_file, index=False)"
+  },
+  {
+    "objectID": "technical-details/data-cleaning/main.html#clean-the-race-data",
+    "href": "technical-details/data-cleaning/main.html#clean-the-race-data",
+    "title": "Data Cleaning",
+    "section": "Clean the Race data",
+    "text": "Clean the Race data"
   }
 ]
