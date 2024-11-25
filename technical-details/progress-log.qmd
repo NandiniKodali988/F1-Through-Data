@@ -26,3 +26,14 @@ title: "Progress log"
 - Data Cleaning
   - Clean Race Info: json
   - clean news data - for sentiment analysis
+  - drivers standings
+  - race information
+
+
+**11-25-2024**
+- Data Cleaning
+  - include url in the race dataset
+- data collection
+  - weather data 
+    - wiki - based on the race url from the dataset
+  
