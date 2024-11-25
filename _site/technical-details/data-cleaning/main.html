@@ -477,62 +477,65 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="clean-the-race-data" class="level2">
 <h2 class="anchored" data-anchor-id="clean-the-race-data">Clean the Race data</h2>
-<div id="cell-16" class="cell" data-execution_count="36">
+<div id="cell-16" class="cell" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>input_file <span class="op">=</span> <span class="st">"../../data/raw-data/race_data_2000.json"</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>output_file <span class="op">=</span> <span class="st">"../../data/processed-data/race_data/race_data_2000_clean.csv"</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>os.makedirs(os.path.dirname(output_file), exist_ok<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-17" class="cell" data-execution_count="37">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the JSON file</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(input_file, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> json.load(f)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract races from the JSON</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>races <span class="op">=</span> data.get(<span class="st">'MRData'</span>, {}).get(<span class="st">'RaceTable'</span>, {}).get(<span class="st">'Races'</span>, [])</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare a list to hold flattened race results</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>all_results <span class="op">=</span> []</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop through each race and flatten its data</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> race <span class="kw">in</span> races:</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    race_info <span class="op">=</span> {  <span class="co"># Extract race-level details</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"season"</span>: race.get(<span class="st">"season"</span>, <span class="st">""</span>),</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"round"</span>: race.get(<span class="st">"round"</span>, <span class="st">""</span>),</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"raceName"</span>: race.get(<span class="st">"raceName"</span>, <span class="st">""</span>),</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"circuitName"</span>: race.get(<span class="st">"Circuit"</span>, {}).get(<span class="st">"circuitName"</span>, <span class="st">""</span>),</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"locality"</span>: race.get(<span class="st">"Circuit"</span>, {}).get(<span class="st">"Location"</span>, {}).get(<span class="st">"locality"</span>, <span class="st">""</span>),</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">"country"</span>: race.get(<span class="st">"Circuit"</span>, {}).get(<span class="st">"Location"</span>, {}).get(<span class="st">"country"</span>, <span class="st">""</span>),</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"date"</span>: race.get(<span class="st">"date"</span>, <span class="st">""</span>),</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract results and combine with race-level details</span></span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> race.get(<span class="st">"Results"</span>, [])</span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> result <span class="kw">in</span> results:</span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Combine race-level and result-level data</span></span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>        combined_data <span class="op">=</span> {<span class="op">**</span>race_info, <span class="op">**</span>result}</span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add flattened driver and constructor details</span></span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>        combined_data.update({</span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>            <span class="st">"driverId"</span>: result.get(<span class="st">"Driver"</span>, {}).get(<span class="st">"driverId"</span>, <span class="st">""</span>),</span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>            <span class="st">"driverGivenName"</span>: result.get(<span class="st">"Driver"</span>, {}).get(<span class="st">"givenName"</span>, <span class="st">""</span>),</span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>            <span class="st">"driverFamilyName"</span>: result.get(<span class="st">"Driver"</span>, {}).get(<span class="st">"familyName"</span>, <span class="st">""</span>),</span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>            <span class="st">"constructorId"</span>: result.get(<span class="st">"Constructor"</span>, {}).get(<span class="st">"constructorId"</span>, <span class="st">""</span>),</span>
-<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>            <span class="st">"constructorName"</span>: result.get(<span class="st">"Constructor"</span>, {}).get(<span class="st">"name"</span>, <span class="st">""</span>),</span>
-<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>            <span class="st">"status"</span>: result.get(<span class="st">"status"</span>, <span class="st">""</span>),</span>
-<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>            <span class="st">"timeMillis"</span>: result.get(<span class="st">"Time"</span>, {}).get(<span class="st">"millis"</span>, <span class="st">""</span>),</span>
-<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>            <span class="st">"time"</span>: result.get(<span class="st">"Time"</span>, {}).get(<span class="st">"time"</span>, <span class="st">""</span>)</span>
-<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>        })</span>
-<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>        all_results.append(combined_data)</span>
-<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to a Pandas DataFrame</span></span>
-<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(all_results)</span>
+<div id="cell-17" class="cell" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># testing on a single file</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the JSON file</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(input_file, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> json.load(f)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract races from the JSON</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>races <span class="op">=</span> data.get(<span class="st">'MRData'</span>, {}).get(<span class="st">'RaceTable'</span>, {}).get(<span class="st">'Races'</span>, [])</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare a list to hold flattened race results</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>all_results <span class="op">=</span> []</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop through each race and flatten its data</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> race <span class="kw">in</span> races:</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    race_info <span class="op">=</span> {  <span class="co"># Extract race-level details</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"season"</span>: race.get(<span class="st">"season"</span>, <span class="st">""</span>),</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"round"</span>: race.get(<span class="st">"round"</span>, <span class="st">""</span>),</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"raceName"</span>: race.get(<span class="st">"raceName"</span>, <span class="st">""</span>),</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"circuitName"</span>: race.get(<span class="st">"Circuit"</span>, {}).get(<span class="st">"circuitName"</span>, <span class="st">""</span>),</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">"locality"</span>: race.get(<span class="st">"Circuit"</span>, {}).get(<span class="st">"Location"</span>, {}).get(<span class="st">"locality"</span>, <span class="st">""</span>),</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"country"</span>: race.get(<span class="st">"Circuit"</span>, {}).get(<span class="st">"Location"</span>, {}).get(<span class="st">"country"</span>, <span class="st">""</span>),</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"lat"</span>: race.get(<span class="st">"Circuit"</span>, {}).get(<span class="st">"Location"</span>, {}).get(<span class="st">"lat"</span>, <span class="st">""</span>),</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"long"</span>: race.get(<span class="st">"Circuit"</span>, {}).get(<span class="st">"Location"</span>, {}).get(<span class="st">"long"</span>, <span class="st">""</span>),</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"date"</span>: race.get(<span class="st">"date"</span>, <span class="st">""</span>),</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract results and combine with race-level details</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> race.get(<span class="st">"Results"</span>, [])</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> result <span class="kw">in</span> results:</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Combine race-level and result-level data</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>        combined_data <span class="op">=</span> {<span class="op">**</span>race_info, <span class="op">**</span>result}</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add flattened driver and constructor details</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>        combined_data.update({</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>            <span class="st">"driverId"</span>: result.get(<span class="st">"Driver"</span>, {}).get(<span class="st">"driverId"</span>, <span class="st">""</span>),</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>            <span class="st">"driverGivenName"</span>: result.get(<span class="st">"Driver"</span>, {}).get(<span class="st">"givenName"</span>, <span class="st">""</span>),</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>            <span class="st">"driverFamilyName"</span>: result.get(<span class="st">"Driver"</span>, {}).get(<span class="st">"familyName"</span>, <span class="st">""</span>),</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>            <span class="st">"constructorId"</span>: result.get(<span class="st">"Constructor"</span>, {}).get(<span class="st">"constructorId"</span>, <span class="st">""</span>),</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>            <span class="st">"constructorName"</span>: result.get(<span class="st">"Constructor"</span>, {}).get(<span class="st">"name"</span>, <span class="st">""</span>),</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>            <span class="st">"status"</span>: result.get(<span class="st">"status"</span>, <span class="st">""</span>),</span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>            <span class="st">"timeMillis"</span>: result.get(<span class="st">"Time"</span>, {}).get(<span class="st">"millis"</span>, <span class="st">""</span>),</span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>            <span class="st">"time"</span>: result.get(<span class="st">"Time"</span>, {}).get(<span class="st">"time"</span>, <span class="st">""</span>)</span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>        all_results.append(combined_data)</span>
 <span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the DataFrame to a CSV file</span></span>
-<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>df.to_csv(output_file, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to a Pandas DataFrame</span></span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(all_results)</span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the DataFrame to a CSV file</span></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>df.to_csv(output_file, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-18" class="cell" data-execution_count="39">
+<div id="cell-18" class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>race_df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/race_data/race_data_2000_clean.csv"</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>race_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="39">
+<div class="cell-output cell-output-display" data-execution_count="52">
 <div>
 
 
@@ -546,10 +549,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <th data-quarto-table-cell-role="th">circuitName</th>
 <th data-quarto-table-cell-role="th">locality</th>
 <th data-quarto-table-cell-role="th">country</th>
+<th data-quarto-table-cell-role="th">lat</th>
+<th data-quarto-table-cell-role="th">long</th>
 <th data-quarto-table-cell-role="th">date</th>
 <th data-quarto-table-cell-role="th">number</th>
-<th data-quarto-table-cell-role="th">position</th>
-<th data-quarto-table-cell-role="th">positionText</th>
 <th data-quarto-table-cell-role="th">...</th>
 <th data-quarto-table-cell-role="th">laps</th>
 <th data-quarto-table-cell-role="th">status</th>
@@ -572,10 +575,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Albert Park Grand Prix Circuit</td>
 <td>Melbourne</td>
 <td>Australia</td>
+<td>-37.8497</td>
+<td>144.968</td>
 <td>2000-03-12</td>
 <td>3</td>
-<td>1</td>
-<td>1</td>
 <td>...</td>
 <td>58</td>
 <td>Finished</td>
@@ -596,10 +599,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Albert Park Grand Prix Circuit</td>
 <td>Melbourne</td>
 <td>Australia</td>
+<td>-37.8497</td>
+<td>144.968</td>
 <td>2000-03-12</td>
 <td>4</td>
-<td>2</td>
-<td>2</td>
 <td>...</td>
 <td>58</td>
 <td>Finished</td>
@@ -620,10 +623,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Albert Park Grand Prix Circuit</td>
 <td>Melbourne</td>
 <td>Australia</td>
+<td>-37.8497</td>
+<td>144.968</td>
 <td>2000-03-12</td>
 <td>9</td>
-<td>3</td>
-<td>3</td>
 <td>...</td>
 <td>58</td>
 <td>Finished</td>
@@ -644,10 +647,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Albert Park Grand Prix Circuit</td>
 <td>Melbourne</td>
 <td>Australia</td>
+<td>-37.8497</td>
+<td>144.968</td>
 <td>2000-03-12</td>
 <td>22</td>
-<td>4</td>
-<td>4</td>
 <td>...</td>
 <td>58</td>
 <td>Finished</td>
@@ -668,10 +671,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Albert Park Grand Prix Circuit</td>
 <td>Melbourne</td>
 <td>Australia</td>
+<td>-37.8497</td>
+<td>144.968</td>
 <td>2000-03-12</td>
 <td>11</td>
-<td>5</td>
-<td>5</td>
 <td>...</td>
 <td>58</td>
 <td>Finished</td>
@@ -687,27 +690,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 
-<p>5 rows × 24 columns</p>
+<p>5 rows × 26 columns</p>
 </div>
 </div>
 </div>
-<div id="cell-19" class="cell" data-execution_count="41">
+<div id="cell-19" class="cell" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>race_df.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="41">
+<div class="cell-output cell-output-display" data-execution_count="53">
 <pre><code>Index(['season', 'round', 'raceName', 'circuitName', 'locality', 'country',
-       'date', 'number', 'position', 'positionText', 'points', 'Driver',
-       'Constructor', 'grid', 'laps', 'status', 'Time', 'driverId',
+       'lat', 'long', 'date', 'number', 'position', 'positionText', 'points',
+       'Driver', 'Constructor', 'grid', 'laps', 'status', 'Time', 'driverId',
        'driverGivenName', 'driverFamilyName', 'constructorId',
        'constructorName', 'timeMillis', 'time'],
       dtype='object')</code></pre>
 </div>
 </div>
-<div id="cell-20" class="cell" data-execution_count="42">
+<div id="cell-20" class="cell" data-execution_count="54">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>race_df <span class="op">=</span> race_df.drop(columns<span class="op">=</span>[<span class="st">'positionText'</span>, <span class="st">'Driver'</span>, <span class="st">'Constructor'</span>, <span class="st">'Time'</span>], axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-21" class="cell" data-execution_count="44">
+<div id="cell-21" class="cell" data-execution_count="55">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>race_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="44">
+<div class="cell-output cell-output-display" data-execution_count="55">
 <div>
 
 
@@ -721,10 +724,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <th data-quarto-table-cell-role="th">circuitName</th>
 <th data-quarto-table-cell-role="th">locality</th>
 <th data-quarto-table-cell-role="th">country</th>
+<th data-quarto-table-cell-role="th">lat</th>
+<th data-quarto-table-cell-role="th">long</th>
 <th data-quarto-table-cell-role="th">date</th>
 <th data-quarto-table-cell-role="th">number</th>
-<th data-quarto-table-cell-role="th">position</th>
-<th data-quarto-table-cell-role="th">points</th>
+<th data-quarto-table-cell-role="th">...</th>
 <th data-quarto-table-cell-role="th">grid</th>
 <th data-quarto-table-cell-role="th">laps</th>
 <th data-quarto-table-cell-role="th">status</th>
@@ -746,10 +750,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Albert Park Grand Prix Circuit</td>
 <td>Melbourne</td>
 <td>Australia</td>
+<td>-37.8497</td>
+<td>144.968</td>
 <td>2000-03-12</td>
 <td>3</td>
-<td>1</td>
-<td>10</td>
+<td>...</td>
 <td>3</td>
 <td>58</td>
 <td>Finished</td>
@@ -769,10 +774,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Albert Park Grand Prix Circuit</td>
 <td>Melbourne</td>
 <td>Australia</td>
+<td>-37.8497</td>
+<td>144.968</td>
 <td>2000-03-12</td>
 <td>4</td>
-<td>2</td>
-<td>6</td>
+<td>...</td>
 <td>4</td>
 <td>58</td>
 <td>Finished</td>
@@ -792,10 +798,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Albert Park Grand Prix Circuit</td>
 <td>Melbourne</td>
 <td>Australia</td>
+<td>-37.8497</td>
+<td>144.968</td>
 <td>2000-03-12</td>
 <td>9</td>
-<td>3</td>
-<td>4</td>
+<td>...</td>
 <td>11</td>
 <td>58</td>
 <td>Finished</td>
@@ -815,10 +822,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Albert Park Grand Prix Circuit</td>
 <td>Melbourne</td>
 <td>Australia</td>
+<td>-37.8497</td>
+<td>144.968</td>
 <td>2000-03-12</td>
 <td>22</td>
-<td>4</td>
-<td>3</td>
+<td>...</td>
 <td>8</td>
 <td>58</td>
 <td>Finished</td>
@@ -838,10 +846,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Albert Park Grand Prix Circuit</td>
 <td>Melbourne</td>
 <td>Australia</td>
+<td>-37.8497</td>
+<td>144.968</td>
 <td>2000-03-12</td>
 <td>11</td>
-<td>5</td>
-<td>2</td>
+<td>...</td>
 <td>9</td>
 <td>58</td>
 <td>Finished</td>
@@ -856,6 +865,292 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 
+<p>5 rows × 22 columns</p>
+</div>
+</div>
+</div>
+<div id="cell-22" class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Cleaning all the race_data and appending them in to a single csv file </span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># input output directory</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>input_dir <span class="op">=</span> <span class="st">"../../data/raw-data/"</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># output directory</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>output_file <span class="op">=</span> <span class="st">"../../data/processed-data/all_race_results_cleaned.csv"</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># creating an output file</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>os.makedirs(os.path.dirname(output_file), exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co"># initialize a list to hold all results</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>all_combined_results <span class="op">=</span> []</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co"># process each JSON file in the input directory</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co"># they are the only .json files in the directory</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file_name <span class="kw">in</span> os.listdir(input_dir):</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># process only JSON files</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> file_name.endswith(<span class="st">".json"</span>): </span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>        file_path <span class="op">=</span> os.path.join(input_dir, file_name)</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Processing file: </span><span class="sc">{</span>file_path<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># read the JSON file</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> <span class="bu">open</span>(file_path, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>            data <span class="op">=</span> json.load(f)</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># extract races from the JSON</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>        races <span class="op">=</span> data.get(<span class="st">'MRData'</span>, {}).get(<span class="st">'RaceTable'</span>, {}).get(<span class="st">'Races'</span>, [])</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>        <span class="co"># prepare a list to hold flattened race results for this file</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>        file_results <span class="op">=</span> []</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>        <span class="co"># loop through each race and flatten its data</span></span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> race <span class="kw">in</span> races:</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>            <span class="co"># extract required information </span></span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>            race_info <span class="op">=</span> { </span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>                <span class="st">"season"</span>: race.get(<span class="st">"season"</span>, <span class="st">""</span>),</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>                <span class="st">"round"</span>: race.get(<span class="st">"round"</span>, <span class="st">""</span>),</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>                <span class="st">"raceName"</span>: race.get(<span class="st">"raceName"</span>, <span class="st">""</span>),</span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>                <span class="st">"circuitName"</span>: race.get(<span class="st">"Circuit"</span>, {}).get(<span class="st">"circuitName"</span>, <span class="st">""</span>),</span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>                <span class="st">"locality"</span>: race.get(<span class="st">"Circuit"</span>, {}).get(<span class="st">"Location"</span>, {}).get(<span class="st">"locality"</span>, <span class="st">""</span>),</span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>                <span class="st">"country"</span>: race.get(<span class="st">"Circuit"</span>, {}).get(<span class="st">"Location"</span>, {}).get(<span class="st">"country"</span>, <span class="st">""</span>),</span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>                <span class="st">"lat"</span>: race.get(<span class="st">"Circuit"</span>, {}).get(<span class="st">"Location"</span>, {}).get(<span class="st">"lat"</span>, <span class="st">""</span>),</span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>                <span class="st">"long"</span>: race.get(<span class="st">"Circuit"</span>, {}).get(<span class="st">"Location"</span>, {}).get(<span class="st">"long"</span>, <span class="st">""</span>),</span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>                <span class="st">"date"</span>: race.get(<span class="st">"date"</span>, <span class="st">""</span>),</span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>            <span class="co"># extract results and combine with useful details</span></span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>            results <span class="op">=</span> race.get(<span class="st">"Results"</span>, [])</span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> result <span class="kw">in</span> results:</span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>                <span class="co"># combine race-level and result-level data</span></span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a>                combined_data <span class="op">=</span> {<span class="op">**</span>race_info, <span class="op">**</span>result}</span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a>                <span class="co"># add flattened driver and constructor details</span></span>
+<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a>                combined_data.update({</span>
+<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"driverId"</span>: result.get(<span class="st">"Driver"</span>, {}).get(<span class="st">"driverId"</span>, <span class="st">""</span>),</span>
+<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"driverGivenName"</span>: result.get(<span class="st">"Driver"</span>, {}).get(<span class="st">"givenName"</span>, <span class="st">""</span>),</span>
+<span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"driverFamilyName"</span>: result.get(<span class="st">"Driver"</span>, {}).get(<span class="st">"familyName"</span>, <span class="st">""</span>),</span>
+<span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"constructorId"</span>: result.get(<span class="st">"Constructor"</span>, {}).get(<span class="st">"constructorId"</span>, <span class="st">""</span>),</span>
+<span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"constructorName"</span>: result.get(<span class="st">"Constructor"</span>, {}).get(<span class="st">"name"</span>, <span class="st">""</span>),</span>
+<span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"status"</span>: result.get(<span class="st">"status"</span>, <span class="st">""</span>),</span>
+<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"timeMillis"</span>: result.get(<span class="st">"Time"</span>, {}).get(<span class="st">"millis"</span>, <span class="st">""</span>),</span>
+<span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"time"</span>: result.get(<span class="st">"Time"</span>, {}).get(<span class="st">"time"</span>, <span class="st">""</span>)</span>
+<span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a>                })</span>
+<span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a>                file_results.append(combined_data)</span>
+<span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-65"><a href="#cb17-65" aria-hidden="true" tabindex="-1"></a>        <span class="co"># append the results for this file to the combined list</span></span>
+<span id="cb17-66"><a href="#cb17-66" aria-hidden="true" tabindex="-1"></a>        all_combined_results.extend(file_results)</span>
+<span id="cb17-67"><a href="#cb17-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-68"><a href="#cb17-68" aria-hidden="true" tabindex="-1"></a><span class="co"># aonvert the combined results to a Pandas DataFrame</span></span>
+<span id="cb17-69"><a href="#cb17-69" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(all_combined_results)</span>
+<span id="cb17-70"><a href="#cb17-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-71"><a href="#cb17-71" aria-hidden="true" tabindex="-1"></a><span class="co"># aave the combined DataFrame to a CSV file</span></span>
+<span id="cb17-72"><a href="#cb17-72" aria-hidden="true" tabindex="-1"></a>df.to_csv(output_file, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb17-73"><a href="#cb17-73" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Processing file: ../../data/raw-data/race_data_2010.json
+Processing file: ../../data/raw-data/race_data_2006.json
+Processing file: ../../data/raw-data/race_data_2007.json
+Processing file: ../../data/raw-data/race_data_2011.json
+Processing file: ../../data/raw-data/race_data_2016.json
+Processing file: ../../data/raw-data/race_data_2000.json
+Processing file: ../../data/raw-data/race_data_2020.json
+Processing file: ../../data/raw-data/race_data_2021.json
+Processing file: ../../data/raw-data/race_data_2001.json
+Processing file: ../../data/raw-data/race_data_2017.json
+Processing file: ../../data/raw-data/race_data_2002.json
+Processing file: ../../data/raw-data/race_data_2014.json
+Processing file: ../../data/raw-data/race_data_2022.json
+Processing file: ../../data/raw-data/race_data_2018.json
+Processing file: ../../data/raw-data/race_data_2019.json
+Processing file: ../../data/raw-data/race_data_2023.json
+Processing file: ../../data/raw-data/race_data_2015.json
+Processing file: ../../data/raw-data/race_data_2003.json
+Processing file: ../../data/raw-data/race_data_2008.json
+Processing file: ../../data/raw-data/race_data_2004.json
+Processing file: ../../data/raw-data/race_data_2012.json
+Processing file: ../../data/raw-data/race_data_2013.json
+Processing file: ../../data/raw-data/race_data_2005.json
+Processing file: ../../data/raw-data/race_data_2009.json</code></pre>
+</div>
+</div>
+<div id="cell-23" class="cell" data-execution_count="57">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/all_race_results_cleaned.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-24" class="cell" data-execution_count="60">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="60">
+<pre><code>(2400, 27)</code></pre>
+</div>
+</div>
+<div id="cell-25" class="cell" data-execution_count="61">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="61">
+<pre><code>Index(['season', 'round', 'raceName', 'circuitName', 'locality', 'country',
+       'lat', 'long', 'date', 'number', 'position', 'positionText', 'points',
+       'Driver', 'Constructor', 'grid', 'laps', 'status', 'Time', 'FastestLap',
+       'driverId', 'driverGivenName', 'driverFamilyName', 'constructorId',
+       'constructorName', 'timeMillis', 'time'],
+      dtype='object')</code></pre>
+</div>
+</div>
+<div id="cell-26" class="cell" data-execution_count="63">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop(columns<span class="op">=</span>[<span class="st">'positionText'</span>, <span class="st">'number'</span>, <span class="st">'FastestLap'</span>, <span class="st">'Driver'</span>, <span class="st">'Constructor'</span>, <span class="st">'Time'</span>], axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-27" class="cell" data-execution_count="65">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="65">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">season</th>
+<th data-quarto-table-cell-role="th">round</th>
+<th data-quarto-table-cell-role="th">raceName</th>
+<th data-quarto-table-cell-role="th">circuitName</th>
+<th data-quarto-table-cell-role="th">locality</th>
+<th data-quarto-table-cell-role="th">country</th>
+<th data-quarto-table-cell-role="th">lat</th>
+<th data-quarto-table-cell-role="th">long</th>
+<th data-quarto-table-cell-role="th">date</th>
+<th data-quarto-table-cell-role="th">position</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">grid</th>
+<th data-quarto-table-cell-role="th">laps</th>
+<th data-quarto-table-cell-role="th">status</th>
+<th data-quarto-table-cell-role="th">driverId</th>
+<th data-quarto-table-cell-role="th">driverGivenName</th>
+<th data-quarto-table-cell-role="th">driverFamilyName</th>
+<th data-quarto-table-cell-role="th">constructorId</th>
+<th data-quarto-table-cell-role="th">constructorName</th>
+<th data-quarto-table-cell-role="th">timeMillis</th>
+<th data-quarto-table-cell-role="th">time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>2010</td>
+<td>1</td>
+<td>Bahrain Grand Prix</td>
+<td>Bahrain International Circuit</td>
+<td>Sakhir</td>
+<td>Bahrain</td>
+<td>26.0325</td>
+<td>50.5106</td>
+<td>2010-03-14</td>
+<td>1</td>
+<td>...</td>
+<td>3</td>
+<td>49</td>
+<td>Finished</td>
+<td>alonso</td>
+<td>Fernando</td>
+<td>Alonso</td>
+<td>ferrari</td>
+<td>Ferrari</td>
+<td>5960396.0</td>
+<td>1:39:20.396</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2010</td>
+<td>1</td>
+<td>Bahrain Grand Prix</td>
+<td>Bahrain International Circuit</td>
+<td>Sakhir</td>
+<td>Bahrain</td>
+<td>26.0325</td>
+<td>50.5106</td>
+<td>2010-03-14</td>
+<td>2</td>
+<td>...</td>
+<td>2</td>
+<td>49</td>
+<td>Finished</td>
+<td>massa</td>
+<td>Felipe</td>
+<td>Massa</td>
+<td>ferrari</td>
+<td>Ferrari</td>
+<td>5976495.0</td>
+<td>+16.099</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>2010</td>
+<td>1</td>
+<td>Bahrain Grand Prix</td>
+<td>Bahrain International Circuit</td>
+<td>Sakhir</td>
+<td>Bahrain</td>
+<td>26.0325</td>
+<td>50.5106</td>
+<td>2010-03-14</td>
+<td>3</td>
+<td>...</td>
+<td>4</td>
+<td>49</td>
+<td>Finished</td>
+<td>hamilton</td>
+<td>Lewis</td>
+<td>Hamilton</td>
+<td>mclaren</td>
+<td>McLaren</td>
+<td>5983578.0</td>
+<td>+23.182</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>2010</td>
+<td>1</td>
+<td>Bahrain Grand Prix</td>
+<td>Bahrain International Circuit</td>
+<td>Sakhir</td>
+<td>Bahrain</td>
+<td>26.0325</td>
+<td>50.5106</td>
+<td>2010-03-14</td>
+<td>4</td>
+<td>...</td>
+<td>1</td>
+<td>49</td>
+<td>Finished</td>
+<td>vettel</td>
+<td>Sebastian</td>
+<td>Vettel</td>
+<td>red_bull</td>
+<td>Red Bull</td>
+<td>5999195.0</td>
+<td>+38.799</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>2010</td>
+<td>1</td>
+<td>Bahrain Grand Prix</td>
+<td>Bahrain International Circuit</td>
+<td>Sakhir</td>
+<td>Bahrain</td>
+<td>26.0325</td>
+<td>50.5106</td>
+<td>2010-03-14</td>
+<td>5</td>
+<td>...</td>
+<td>5</td>
+<td>49</td>
+<td>Finished</td>
+<td>rosberg</td>
+<td>Nico</td>
+<td>Rosberg</td>
+<td>mercedes</td>
+<td>Mercedes</td>
+<td>6000609.0</td>
+<td>+40.213</td>
+</tr>
+</tbody>
+</table>
+
+<p>5 rows × 21 columns</p>
 </div>
 </div>
 </div>
