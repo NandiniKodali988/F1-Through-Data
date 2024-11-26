@@ -31,6 +31,7 @@ title: "Progress log"
 
 
 **11-25-2024**
+
 - Data Cleaning
   - include url in the race dataset
   - follow the data cleaning process on the collected data

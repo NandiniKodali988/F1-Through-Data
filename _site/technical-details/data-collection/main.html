@@ -57,7 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -101,6 +101,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -429,7 +432,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <section id="import-required-libraries" class="level3">
 <h3 class="anchored" data-anchor-id="import-required-libraries">Import Required Libraries</h3>
-<div id="cell-9" class="cell" data-execution_count="5">
+<div id="cell-9" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -437,7 +440,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="race-information-for-2000-2023-seasons" class="level3">
@@ -610,6 +614,238 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="fetch-weather-data-on-the-day-of-the-race">Fetch Weather data on the day of the race</h3>
 <p><img src="../../data/images/weather_wiki.png" class="img-fluid"><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <p>The weather data will be fetched from the wiki page of each race.</p>
+<div id="cell-28" class="cell" data-execution_count="61">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the url for each race is in the race data collected using ergast API</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>race_df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/all_race_results_cleaned.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-29" class="cell" data-execution_count="62">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>race_data <span class="op">=</span> race_df[[<span class="st">'season'</span>, <span class="st">'raceName'</span>, <span class="st">'url'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-30" class="cell" data-execution_count="63">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>race_data <span class="op">=</span> race_data.drop_duplicates()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-31" class="cell" data-execution_count="64">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>race_data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="64">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">season</th>
+<th data-quarto-table-cell-role="th">raceName</th>
+<th data-quarto-table-cell-role="th">url</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>2010</td>
+<td>Bahrain Grand Prix</td>
+<td>http://en.wikipedia.org/wiki/2010_Bahrain_Gran...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">24</td>
+<td>2010</td>
+<td>Australian Grand Prix</td>
+<td>http://en.wikipedia.org/wiki/2010_Australian_G...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">48</td>
+<td>2010</td>
+<td>Malaysian Grand Prix</td>
+<td>http://en.wikipedia.org/wiki/2010_Malaysian_Gr...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">72</td>
+<td>2010</td>
+<td>Chinese Grand Prix</td>
+<td>http://en.wikipedia.org/wiki/2010_Chinese_Gran...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">96</td>
+<td>2010</td>
+<td>Spanish Grand Prix</td>
+<td>http://en.wikipedia.org/wiki/2010_Spanish_Gran...</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cell-32" class="cell" data-execution_count="65">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_weather_from_wikipedia(url):</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> requests.get(url)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    bs <span class="op">=</span> BeautifulSoup(response.text, <span class="st">'html.parser'</span>)  </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># locate the infobox table</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    table <span class="op">=</span> bs.find(<span class="st">'table'</span>, {<span class="st">'class'</span>: <span class="st">'infobox infobox-table vevent'</span>})</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> table:</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"No infobox found on the page: </span><span class="sc">{</span>url<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Not Available"</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># search for the "Weather" row in the table</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> row <span class="kw">in</span> table.find_all(<span class="st">'tr'</span>):</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># find the header cell with class 'infobox-label'</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>        header <span class="op">=</span> row.find(<span class="st">'th'</span>, {<span class="st">'class'</span>: <span class="st">'infobox-label'</span>})  </span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># check if it contains "Weather"</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> header <span class="kw">and</span> <span class="st">'Weather'</span> <span class="kw">in</span> header.text:  <span class="co"># Check if it contains "Weather"</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>            <span class="co"># find the corresponding data cell with class 'infobox-data'</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>            data <span class="op">=</span> row.find(<span class="st">'td'</span>, {<span class="st">'class'</span>: <span class="st">'infobox-data'</span>})  </span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> data:</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> data.text.strip()  </span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>race_data[<span class="st">'weather'</span>] <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a><span class="co"># fetch weather information for each URL</span></span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> index, row <span class="kw">in</span> race_data.iterrows():</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> row[<span class="st">'url'</span>]</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># for debuggin purpose</span></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Fetching weather for: </span><span class="sc">{</span>url<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># get the weather information</span></span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>    weather <span class="op">=</span> get_weather_from_wikipedia(url)</span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># update the weather column</span></span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>    race_data.at[index, <span class="st">'weather'</span>] <span class="op">=</span> weather</span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a><span class="co"># save to output file</span></span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>output_csv <span class="op">=</span> <span class="st">"../../data/raw-data/weather/race_data_with_weather.csv"</span></span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>race_data.to_csv(output_csv, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Updated race data saved to: </span><span class="sc">{</span>output_csv<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Fetching weather for: http://en.wikipedia.org/wiki/2010_Bahrain_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2010_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2010_Malaysian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2010_Chinese_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2010_Spanish_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2006_Bahrain_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2006_Malaysian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2006_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2006_San_Marino_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2006_European_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2007_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2007_Malaysian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2007_Bahrain_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2007_Spanish_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2007_Monaco_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2011_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2011_Malaysian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2011_Chinese_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2011_Turkish_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2011_Spanish_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2016_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2016_Bahrain_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2016_Chinese_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2016_Russian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2016_Spanish_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2000_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2000_Brazilian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2000_San_Marino_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2000_British_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2000_Spanish_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2020_Austrian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2020_Styrian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2020_Hungarian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2020_British_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/70th_Anniversary_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2021_Bahrain_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2021_Emilia_Romagna_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2021_Portuguese_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2021_Spanish_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2021_Monaco_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2001_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2001_Malaysian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2001_Brazilian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2001_San_Marino_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2001_Spanish_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2017_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2017_Chinese_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2017_Bahrain_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2017_Russian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2017_Spanish_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2002_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2002_Malaysian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2002_Brazilian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2002_San_Marino_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2002_Spanish_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2014_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2014_Malaysian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2014_Bahrain_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2014_Chinese_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2014_Spanish_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2022_Bahrain_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2022_Saudi_Arabian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2022_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2022_Emilia_Romagna_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2022_Miami_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2018_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2018_Bahrain_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2018_Chinese_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2018_Azerbaijan_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2018_Spanish_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2019_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2019_Bahrain_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2019_Chinese_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2019_Azerbaijan_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2019_Spanish_Grand_Prix
+Fetching weather for: https://en.wikipedia.org/wiki/2023_Bahrain_Grand_Prix
+Fetching weather for: https://en.wikipedia.org/wiki/2023_Saudi_Arabian_Grand_Prix
+Fetching weather for: https://en.wikipedia.org/wiki/2023_Australian_Grand_Prix
+Fetching weather for: https://en.wikipedia.org/wiki/2023_Azerbaijan_Grand_Prix
+Fetching weather for: https://en.wikipedia.org/wiki/2023_Miami_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2015_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2015_Malaysian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2015_Chinese_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2015_Bahrain_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2015_Spanish_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2015_Monaco_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2003_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2003_Malaysian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2003_Brazilian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2003_San_Marino_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2003_Spanish_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2008_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2008_Malaysian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2008_Bahrain_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2008_Spanish_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2008_Turkish_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2004_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2004_Malaysian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2004_Bahrain_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2004_San_Marino_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2004_Spanish_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2012_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2012_Malaysian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2012_Chinese_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2012_Bahrain_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2012_Spanish_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2013_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2013_Malaysian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2013_Chinese_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2013_Bahrain_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2013_Spanish_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2005_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2005_Malaysian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2005_Bahrain_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2005_San_Marino_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2005_Spanish_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2005_Monaco_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2009_Australian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2009_Malaysian_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2009_Chinese_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2009_Bahrain_Grand_Prix
+Fetching weather for: http://en.wikipedia.org/wiki/2009_Spanish_Grand_Prix
+Updated race data saved to: race_data_with_weather.csv</code></pre>
+</div>
+</div>
 
 
 </section>
