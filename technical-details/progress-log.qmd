@@ -44,7 +44,3 @@ title: "Progress log"
       - word clouds
       - interpretaion
   
--- Focus on DSAN 5100 Project, 6300 Project and Final --
-
-**12-11-2024**
-- Complete EDA
