@@ -1429,9 +1429,12 @@ dtype: int64</code></pre>
 <span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the scaler to the dataframe</span></span>
 <span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>data[req_cols] <span class="op">=</span> scaler.fit_transform(data[req_cols])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-59" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div id="cell-59" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>data.drop(columns<span class="op">=</span>[<span class="st">'Unnamed: 0'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-60" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
 
@@ -1439,7 +1442,6 @@ dtype: int64</code></pre>
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Unnamed: 0</th>
 <th data-quarto-table-cell-role="th">Year</th>
 <th data-quarto-table-cell-role="th">Grand Prix</th>
 <th data-quarto-table-cell-role="th">Track Length (m)</th>
@@ -1452,7 +1454,6 @@ dtype: int64</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>0</td>
 <td>2020</td>
 <td>Pre-Season Test 1</td>
 <td>-1.000607</td>
@@ -1463,7 +1464,6 @@ dtype: int64</code></pre>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>1</td>
 <td>2020</td>
 <td>Pre-Season Test 2</td>
 <td>-1.000607</td>
@@ -1474,7 +1474,6 @@ dtype: int64</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>2</td>
 <td>2020</td>
 <td>Austrian Grand Prix</td>
 <td>-1.000607</td>
@@ -1485,7 +1484,6 @@ dtype: int64</code></pre>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>3</td>
 <td>2020</td>
 <td>Styrian Grand Prix</td>
 <td>-1.024865</td>
@@ -1496,7 +1494,6 @@ dtype: int64</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>4</td>
 <td>2020</td>
 <td>Hungarian Grand Prix</td>
 <td>-0.957039</td>
@@ -1511,8 +1508,8 @@ dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-60" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>data.to_csv(<span class="st">"../../data/processed-data/race_track_features.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-61" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>data.to_csv(<span class="st">"../../data/processed-data/race_track_features.csv"</span>)    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
