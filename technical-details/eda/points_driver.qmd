@@ -1,3 +1,10 @@
+---
+title: "Points by Driver for Different Teams"
+author: "Nandini Kodali"
+embed-resources: true
+---
+
+
 ![Sebastian Vettel](../../data/eda/PointsOverSeason_Drivers/seb.png)
 ![Fernando Alonso](../../data/eda/PointsOverSeason_Drivers/alonso.png)
 ![Kimi Räikkönen](../../data/eda/PointsOverSeason_Drivers/kimi.png)
