@@ -1,2 +1,3 @@
 /.quarto/
-/data/
+/data/processed-data/
+/data/raw-data/
