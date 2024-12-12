@@ -48,3 +48,15 @@ title: "Progress log"
 
 **12-11-2024**
 - Complete EDA
+  - Word Clouds
+  - Points / Driver and Constructor
+  - Line plot: points / driver for different teams - different colors
+  - distrubution of DNF per team
+  - Trend in points for constructors - for top teams only
+  - pair plot for finish categories
+- Work on the theme 
+  - overall theme:
+    - team colors or blue?
+  - colors for the plot
+  - font size
+  - sequence of plots - figure it out!!!
