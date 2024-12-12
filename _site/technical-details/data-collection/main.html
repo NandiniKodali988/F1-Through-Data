@@ -676,7 +676,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="cell-32" class="cell" data-execution_count="65">
+<div id="cell-32" class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_weather_from_wikipedia(url):</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> requests.get(url)</span>
@@ -720,131 +720,84 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>race_data.to_csv(output_csv, index<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Updated race data saved to: </span><span class="sc">{</span>output_csv<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Fetching weather for: http://en.wikipedia.org/wiki/2010_Bahrain_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2010_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2010_Malaysian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2010_Chinese_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2010_Spanish_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2006_Bahrain_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2006_Malaysian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2006_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2006_San_Marino_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2006_European_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2007_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2007_Malaysian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2007_Bahrain_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2007_Spanish_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2007_Monaco_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2011_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2011_Malaysian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2011_Chinese_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2011_Turkish_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2011_Spanish_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2016_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2016_Bahrain_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2016_Chinese_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2016_Russian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2016_Spanish_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2000_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2000_Brazilian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2000_San_Marino_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2000_British_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2000_Spanish_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2020_Austrian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2020_Styrian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2020_Hungarian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2020_British_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/70th_Anniversary_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2021_Bahrain_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2021_Emilia_Romagna_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2021_Portuguese_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2021_Spanish_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2021_Monaco_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2001_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2001_Malaysian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2001_Brazilian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2001_San_Marino_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2001_Spanish_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2017_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2017_Chinese_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2017_Bahrain_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2017_Russian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2017_Spanish_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2002_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2002_Malaysian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2002_Brazilian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2002_San_Marino_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2002_Spanish_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2014_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2014_Malaysian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2014_Bahrain_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2014_Chinese_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2014_Spanish_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2022_Bahrain_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2022_Saudi_Arabian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2022_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2022_Emilia_Romagna_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2022_Miami_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2018_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2018_Bahrain_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2018_Chinese_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2018_Azerbaijan_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2018_Spanish_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2019_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2019_Bahrain_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2019_Chinese_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2019_Azerbaijan_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2019_Spanish_Grand_Prix
-Fetching weather for: https://en.wikipedia.org/wiki/2023_Bahrain_Grand_Prix
-Fetching weather for: https://en.wikipedia.org/wiki/2023_Saudi_Arabian_Grand_Prix
-Fetching weather for: https://en.wikipedia.org/wiki/2023_Australian_Grand_Prix
-Fetching weather for: https://en.wikipedia.org/wiki/2023_Azerbaijan_Grand_Prix
-Fetching weather for: https://en.wikipedia.org/wiki/2023_Miami_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2015_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2015_Malaysian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2015_Chinese_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2015_Bahrain_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2015_Spanish_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2015_Monaco_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2003_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2003_Malaysian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2003_Brazilian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2003_San_Marino_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2003_Spanish_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2008_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2008_Malaysian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2008_Bahrain_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2008_Spanish_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2008_Turkish_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2004_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2004_Malaysian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2004_Bahrain_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2004_San_Marino_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2004_Spanish_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2012_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2012_Malaysian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2012_Chinese_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2012_Bahrain_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2012_Spanish_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2013_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2013_Malaysian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2013_Chinese_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2013_Bahrain_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2013_Spanish_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2005_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2005_Malaysian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2005_Bahrain_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2005_San_Marino_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2005_Spanish_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2005_Monaco_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2009_Australian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2009_Malaysian_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2009_Chinese_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2009_Bahrain_Grand_Prix
-Fetching weather for: http://en.wikipedia.org/wiki/2009_Spanish_Grand_Prix
-Updated race data saved to: race_data_with_weather.csv</code></pre>
 </div>
+<div id="cell-33" class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>os.makedirs(<span class="st">'cache'</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>fastf1.Cache.enable_cache(<span class="st">'cache'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-34" class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>track_data <span class="op">=</span> []</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_track_features(year, race_name):</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    session <span class="op">=</span> fastf1.get_session(year, race_name, <span class="st">'Q'</span>) </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    session.load()</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get the fastest lap</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    fastest_lap <span class="op">=</span> session.laps.pick_fastest()</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    telemetry <span class="op">=</span> fastest_lap.get_telemetry()</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Track Length</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    track_length <span class="op">=</span> telemetry[<span class="st">'Distance'</span>].iloc[<span class="op">-</span><span class="dv">1</span>]  <span class="co"># Distance of the fastest lap</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Max Speed</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    max_speed <span class="op">=</span> telemetry[<span class="st">'Speed'</span>].<span class="bu">max</span>()</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Average Speed</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    avg_speed <span class="op">=</span> track_length <span class="op">/</span> fastest_lap[<span class="st">'LapTime'</span>].total_seconds()</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Percentage of Full Throttle</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    full_throttle <span class="op">=</span> telemetry[telemetry[<span class="st">'Throttle'</span>] <span class="op">&gt;=</span> <span class="dv">95</span>]</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    perc_full_throttle <span class="op">=</span> (<span class="bu">len</span>(full_throttle) <span class="op">/</span> <span class="bu">len</span>(telemetry)) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Number of Corners</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>    telemetry[<span class="st">'is_corner'</span>] <span class="op">=</span> telemetry[<span class="st">'Speed'</span>] <span class="op">&lt;</span> <span class="dv">100</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>    num_corners <span class="op">=</span> (telemetry[<span class="st">'is_corner'</span>] <span class="op">&amp;</span> <span class="op">~</span>telemetry[<span class="st">'is_corner'</span>].shift(<span class="dv">1</span>, fill_value<span class="op">=</span><span class="va">False</span>)).<span class="bu">sum</span>()</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Number of Straights</span></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>    telemetry[<span class="st">'is_straight'</span>] <span class="op">=</span> telemetry[<span class="st">'Speed'</span>] <span class="op">&gt;</span> <span class="dv">150</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>    num_straights <span class="op">=</span> (telemetry[<span class="st">'is_straight'</span>] <span class="op">&amp;</span> <span class="op">~</span>telemetry[<span class="st">'is_straight'</span>].shift(<span class="dv">1</span>, fill_value<span class="op">=</span><span class="va">False</span>)).<span class="bu">sum</span>()</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Year"</span>: year,</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Grand Prix"</span>: race_name,</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Track Length (m)"</span>: track_length,</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Max Speed (km/h)"</span>: max_speed,</span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Full Throttle (%)"</span>: perc_full_throttle,</span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Number of Corners"</span>: num_corners,</span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Number of Straights"</span>: num_straights</span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>year <span class="op">=</span> <span class="dv">2023</span></span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a>schedule <span class="op">=</span> fastf1.get_event_schedule(year)</span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _, event <span class="kw">in</span> schedule.iterrows():  </span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> pd.isna(event[<span class="st">'Session1'</span>]):  </span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a>            track_features <span class="op">=</span> extract_track_features(year, event[<span class="st">'EventName'</span>])</span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a>            track_data.append(track_features)</span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"Failed for </span><span class="sc">{</span>event[<span class="st">'EventName'</span>]<span class="sc">}</span><span class="ss"> in </span><span class="sc">{</span>year<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a>df_tracks <span class="op">=</span> pd.DataFrame(track_data)</span>
+<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-35" class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># merging all racetrack features into a single csv</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>folder_path <span class="op">=</span> <span class="st">"../../data/raw-data/circuit_data/"</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>dataframes <span class="op">=</span> []</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file_name <span class="kw">in</span> os.listdir(folder_path):</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> file_name.endswith(<span class="st">'.csv'</span>): </span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>        file_path <span class="op">=</span> os.path.join(folder_path, file_name)</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> pd.read_csv(file_path)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>        dataframes.append(df)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> pd.concat(dataframes, ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>output_file <span class="op">=</span> <span class="st">"../../data/raw-data/circuit_data/merged_circuit_features.csv"</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>os.makedirs(os.path.dirname(output_file), exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>merged_df.to_csv(output_file, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
