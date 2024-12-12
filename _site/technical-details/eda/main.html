@@ -425,7 +425,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>Alonso</figcaption>
 </figure>
 </div>
-<div id="cell-9" class="cell" data-execution_count="101">
+<div id="cell-9" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># number of points by driver</span></span>
@@ -468,7 +468,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="cell-10" class="cell" data-execution_count="102">
+<div id="cell-10" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>total_points <span class="op">=</span> data.groupby(<span class="st">"Constructor_Name"</span>)[<span class="st">"Points"</span>].<span class="bu">sum</span>().reset_index()</span>
@@ -508,7 +508,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="cell-11" class="cell" data-execution_count="103">
+<div id="cell-11" class="cell" data-execution_count="28">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># points scored by driver over time with different teams</span></span>
@@ -549,7 +549,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _, row <span class="kw">in</span> driver_data.iterrows():</span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>        plt.text(row[<span class="st">'Season'</span>], row[<span class="st">'Points'</span>], <span class="bu">str</span>(row[<span class="st">'Points'</span>]), fontsize<span class="op">=</span><span class="dv">14</span>, ha<span class="op">=</span><span class="st">'center'</span>)</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>        plt.text(row[<span class="st">'Season'</span>], row[<span class="st">'Points'</span>], <span class="bu">str</span>(row[<span class="st">'Points'</span>]), fontsize<span class="op">=</span><span class="dv">12</span>, ha<span class="op">=</span><span class="st">'center'</span>)</span>
 <span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f"Points Over Seasons for </span><span class="sc">{</span>driver_name<span class="sc">}</span><span class="ss">"</span>, fontsize<span class="op">=</span><span class="dv">16</span>)</span>
@@ -562,7 +562,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>    legend_elements <span class="op">=</span> [</span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>        mlines.Line2D([], [], color<span class="op">=</span>constructor_colors[constructor], label<span class="op">=</span>constructor)</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>        mlines.Line2D([], [], color<span class="op">=</span>constructor_colors[constructor], label<span class="op">=</span>constructor, linewidth<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> constructor <span class="kw">in</span> unique_constructors</span>
 <span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>    ]</span>
 <span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>    plt.legend(handles<span class="op">=</span>legend_elements, loc<span class="op">=</span><span class="st">"upper left"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
@@ -570,14 +570,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
 <span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>color_list <span class="op">=</span> [<span class="st">"lightskyblue"</span>, <span class="st">"cornflowerblue"</span>, <span class="st">"deepskyblue"</span>, <span class="st">"powderblue"</span>, <span class="st">"steelblue"</span>, <span class="st">"lightblue"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>color_list <span class="op">=</span> [<span class="st">"lightskyblue"</span>, <span class="st">"cornflowerblue"</span>, <span class="st">"deepskyblue"</span>, <span class="st">"powderblue"</span>, <span class="st">"steelblue"</span>, <span class="st">"lightblue"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="cell-12" class="cell" data-execution_count="46">
+<div id="cell-12" class="cell" data-execution_count="31">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>plot_driver_points(data, <span class="st">"Kimi Räikkönen"</span>, color_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>plot_driver_points(data, <span class="st">"Max Verstappen"</span>, color_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
