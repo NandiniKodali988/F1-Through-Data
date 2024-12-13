@@ -433,7 +433,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <section id="import-required-libraries" class="level3">
 <h3 class="anchored" data-anchor-id="import-required-libraries">Import Required Libraries</h3>
-<div id="cell-9" class="cell" data-execution_count="2">
+<div id="cell-9" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -442,7 +442,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> csv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="race-information-for-2000-2023-seasons" class="level3">
@@ -803,6 +804,85 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="pitstop-data" class="level3">
 <h3 class="anchored" data-anchor-id="pitstop-data">Pitstop data</h3>
+<div id="cell-37" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data available from 2011</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to fetch pitstop data for a specific race</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_pitstop_data(year, round_number):</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> <span class="ss">f"http://ergast.com/api/f1/</span><span class="sc">{</span>year<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>round_number<span class="sc">}</span><span class="ss">/pitstops.json?limit=1000"</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> requests.get(url)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> response.status_code <span class="op">==</span> <span class="dv">200</span> <span class="kw">and</span> response.text.strip():</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> response.json()</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"Error parsing JSON for </span><span class="sc">{</span>year<span class="sc">}</span><span class="ss"> Round </span><span class="sc">{</span>round_number<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Failed to fetch data for </span><span class="sc">{</span>year<span class="sc">}</span><span class="ss"> Round </span><span class="sc">{</span>round_number<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>response<span class="sc">.</span>status_code<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to fetch race schedule</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_race_schedule(year):</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> <span class="ss">f"http://ergast.com/api/f1/</span><span class="sc">{</span>year<span class="sc">}</span><span class="ss">.json"</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> requests.get(url)</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> response.status_code <span class="op">==</span> <span class="dv">200</span>:</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> response.json().get(<span class="st">"MRData"</span>, {}).get(<span class="st">"RaceTable"</span>, {}).get(<span class="st">"Races"</span>, [])</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Failed to fetch schedule for </span><span class="sc">{</span>year<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>response<span class="sc">.</span>status_code<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> []</span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to extract and save pitstop data to CSV</span></span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fetch_and_save_pitstop_data(start_year, end_year, output_csv):</span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create the CSV file and write the header</span></span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(output_csv, <span class="st">'w'</span>, newline<span class="op">=</span><span class="st">''</span>, encoding<span class="op">=</span><span class="st">'utf-8'</span>) <span class="im">as</span> csvfile:</span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>        fieldnames <span class="op">=</span> [<span class="st">"Year"</span>, <span class="st">"Round"</span>, <span class="st">"RaceName"</span>, <span class="st">"DriverID"</span>, <span class="st">"Lap"</span>, <span class="st">"Stop"</span>, <span class="st">"Time"</span>, <span class="st">"Duration"</span>]</span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>        writer <span class="op">=</span> csv.DictWriter(csvfile, fieldnames<span class="op">=</span>fieldnames)</span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>        writer.writeheader()</span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Loop through years and races</span></span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> year <span class="kw">in</span> <span class="bu">range</span>(start_year, end_year <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"Fetching data for year: </span><span class="sc">{</span>year<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>            races <span class="op">=</span> get_race_schedule(year)</span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> race <span class="kw">in</span> races:</span>
+<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a>                round_number <span class="op">=</span> race.get(<span class="st">"round"</span>)</span>
+<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a>                race_name <span class="op">=</span> race.get(<span class="st">"raceName"</span>)</span>
+<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(<span class="ss">f"Processing </span><span class="sc">{</span>race_name<span class="sc">}</span><span class="ss"> (Round </span><span class="sc">{</span>round_number<span class="sc">}</span><span class="ss">) in </span><span class="sc">{</span>year<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Fetch pitstop data for this race</span></span>
+<span id="cb23-47"><a href="#cb23-47" aria-hidden="true" tabindex="-1"></a>                pitstop_data <span class="op">=</span> get_pitstop_data(year, round_number)</span>
+<span id="cb23-48"><a href="#cb23-48" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> pitstop_data:</span>
+<span id="cb23-49"><a href="#cb23-49" aria-hidden="true" tabindex="-1"></a>                    races_list <span class="op">=</span> pitstop_data.get(<span class="st">"MRData"</span>, {}).get(<span class="st">"RaceTable"</span>, {}).get(<span class="st">"Races"</span>, [])</span>
+<span id="cb23-50"><a href="#cb23-50" aria-hidden="true" tabindex="-1"></a>                    </span>
+<span id="cb23-51"><a href="#cb23-51" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># Ensure there is race data</span></span>
+<span id="cb23-52"><a href="#cb23-52" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> races_list:</span>
+<span id="cb23-53"><a href="#cb23-53" aria-hidden="true" tabindex="-1"></a>                        pitstops <span class="op">=</span> races_list[<span class="dv">0</span>].get(<span class="st">"PitStops"</span>, [])</span>
+<span id="cb23-54"><a href="#cb23-54" aria-hidden="true" tabindex="-1"></a>                        </span>
+<span id="cb23-55"><a href="#cb23-55" aria-hidden="true" tabindex="-1"></a>                        <span class="co"># Write each pitstop to the CSV</span></span>
+<span id="cb23-56"><a href="#cb23-56" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">for</span> pitstop <span class="kw">in</span> pitstops:</span>
+<span id="cb23-57"><a href="#cb23-57" aria-hidden="true" tabindex="-1"></a>                            writer.writerow({</span>
+<span id="cb23-58"><a href="#cb23-58" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Year"</span>: year,</span>
+<span id="cb23-59"><a href="#cb23-59" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Round"</span>: round_number,</span>
+<span id="cb23-60"><a href="#cb23-60" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"RaceName"</span>: race_name,</span>
+<span id="cb23-61"><a href="#cb23-61" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"DriverID"</span>: pitstop.get(<span class="st">"driverId"</span>),</span>
+<span id="cb23-62"><a href="#cb23-62" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Lap"</span>: pitstop.get(<span class="st">"lap"</span>),</span>
+<span id="cb23-63"><a href="#cb23-63" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Stop"</span>: pitstop.get(<span class="st">"stop"</span>),</span>
+<span id="cb23-64"><a href="#cb23-64" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Time"</span>: pitstop.get(<span class="st">"time"</span>),</span>
+<span id="cb23-65"><a href="#cb23-65" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Duration"</span>: pitstop.get(<span class="st">"duration"</span>)</span>
+<span id="cb23-66"><a href="#cb23-66" aria-hidden="true" tabindex="-1"></a>                            })</span>
+<span id="cb23-67"><a href="#cb23-67" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">else</span>:</span>
+<span id="cb23-68"><a href="#cb23-68" aria-hidden="true" tabindex="-1"></a>                        <span class="bu">print</span>(<span class="ss">f"No race data available for </span><span class="sc">{</span>race_name<span class="sc">}</span><span class="ss"> in </span><span class="sc">{</span>year<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb23-69"><a href="#cb23-69" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-38" class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>output_csv <span class="op">=</span> <span class="st">"../../data/raw-data/pitstop_data.csv"</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>fetch_and_save_pitstop_data(</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    start_year<span class="op">=</span><span class="dv">2000</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    end_year<span class="op">=</span><span class="dv">2023</span>,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    output_csv<span class="op">=</span>output_csv</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 </section>
