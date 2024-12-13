@@ -1625,6 +1625,61 @@ dtype: int64</code></pre>
 <pre><code>(5118, 32)</code></pre>
 </div>
 </div>
+<div id="cell-65" class="cell" data-execution_count="65">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>transformed.to_csv(<span class="st">"../../data/processed-data/pitstop.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-66" class="cell" data-execution_count="62">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add position and grid columns to "transformed" by merging with race_info csv</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>race_data_df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/race_info.csv"</span>)</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> transformed.merge(</span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>    race_data_df[[<span class="st">"season"</span>, <span class="st">"raceName"</span>, <span class="st">"driverId"</span>, <span class="st">"position"</span>, <span class="st">"grid"</span>]],</span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>    how<span class="op">=</span><span class="st">"left"</span>,</span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>    left_on<span class="op">=</span>[<span class="st">"Year"</span>, <span class="st">"RaceName"</span>, <span class="st">"DriverID"</span>],</span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>    right_on<span class="op">=</span>[<span class="st">"season"</span>, <span class="st">"raceName"</span>, <span class="st">"driverId"</span>]</span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop rows where position or grid is missing</span></span>
+<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> merged_df.dropna(subset<span class="op">=</span>[<span class="st">"position"</span>, <span class="st">"grid"</span>])</span>
+<span id="cb69-12"><a href="#cb69-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-13"><a href="#cb69-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop duplicate columns resulting from the merge</span></span>
+<span id="cb69-14"><a href="#cb69-14" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> merged_df.drop(columns<span class="op">=</span>[<span class="st">"season"</span>, <span class="st">"raceName"</span>, <span class="st">"driverId"</span>])</span>
+<span id="cb69-15"><a href="#cb69-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-16"><a href="#cb69-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Save or display the resulting DataFrame</span></span>
+<span id="cb69-17"><a href="#cb69-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(merged_df.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Year  Round               RaceName     DriverID  Lap1  Lap2  Lap3  Lap4  \
+0  2011      1  Australian Grand Prix  alguersuari     1    17    35     0   
+1  2011      1  Australian Grand Prix       alonso    12    27    42     0   
+2  2011      1  Australian Grand Prix     ambrosio    14    38     0     0   
+3  2011      1  Australian Grand Prix  barrichello    13    23    28    40   
+4  2011      1  Australian Grand Prix        buemi    15    29     0     0   
+
+   Lap5  Lap6  ...  Time7  Duration1  Duration2  Duration3  Duration4  \
+0     0     0  ...      0     26.898     24.463     26.348          0   
+1     0     0  ...      0     23.251     24.733     24.181          0   
+2     0     0  ...      0     25.259     26.446          0          0   
+3     0     0  ...      0     23.643     37.856     16.892     26.309   
+4     0     0  ...      0     25.342       23.1          0          0   
+
+   Duration5  Duration6  Duration7 position  grid  
+0          0          0          0     11.0  12.0  
+1          0          0          0      4.0   5.0  
+2          0          0          0     14.0  22.0  
+3          0          0          0     16.0  17.0  
+4          0          0          0      8.0  10.0  
+
+[5 rows x 34 columns]</code></pre>
+</div>
+</div>
+<div id="cell-67" class="cell" data-execution_count="63">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>merged_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="63">
+<pre><code>(1206, 34)</code></pre>
+</div>
+</div>
+<div id="cell-68" class="cell" data-execution_count="66">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>merged_df.to_csv(<span class="st">"../../data/processed-data/pitstop_with_positions.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 </section>
