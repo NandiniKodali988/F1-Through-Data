@@ -207,7 +207,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#decision-trees" id="toc-decision-trees" class="nav-link" data-scroll-target="#decision-trees">Decision Trees</a></li>
   <li><a href="#random-forest" id="toc-random-forest" class="nav-link" data-scroll-target="#random-forest">Random Forest</a></li>
   </ul></li>
-  <li><a href="#multiclass-classification" id="toc-multiclass-classification" class="nav-link" data-scroll-target="#multiclass-classification">Multiclass Classification</a></li>
+  <li><a href="#multiclass-classification" id="toc-multiclass-classification" class="nav-link" data-scroll-target="#multiclass-classification">Multiclass Classification</a>
+  <ul class="collapse">
+  <li><a href="#random-forest-classifier" id="toc-random-forest-classifier" class="nav-link" data-scroll-target="#random-forest-classifier">Random Forest Classifier</a></li>
+  <li><a href="#knn" id="toc-knn" class="nav-link" data-scroll-target="#knn">KNN</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -310,7 +314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Remember, this page is a technical narrative, NOT just a notebook with a collection of code cells, include in-line Prose, to describe what is going on.</p>
 <section id="feature-selection" class="level2">
 <h2 class="anchored" data-anchor-id="feature-selection">Feature Selection</h2>
-<div id="cell-4" class="cell" data-execution_count="35">
+<div id="cell-4" class="cell" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import required libraries</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -325,7 +329,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier, plot_tree</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> roc_curve, auc</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> label_binarize</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> label_binarize</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-5" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the binary target variable</span></span>
@@ -848,7 +853,9 @@ weighted avg       0.79      0.79      0.79       242
 </section>
 <section id="multiclass-classification" class="level2">
 <h2 class="anchored" data-anchor-id="multiclass-classification">Multiclass Classification</h2>
-<div id="cell-26" class="cell" data-execution_count="27">
+<section id="random-forest-classifier" class="level3">
+<h3 class="anchored" data-anchor-id="random-forest-classifier">Random Forest Classifier</h3>
+<div id="cell-27" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new column with binned classes based on 'position'</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> position_to_class(position):</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="dv">1</span> <span class="op">&lt;=</span> position <span class="op">&lt;=</span> <span class="dv">5</span>:</span>
@@ -870,11 +877,11 @@ weighted avg       0.79      0.79      0.79       242
 <span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df_transformed[[<span class="st">'grid'</span>, <span class="st">'Year'</span>, <span class="st">'Duration1'</span>, <span class="st">'Duration2'</span>, <span class="st">'Duration3'</span>, <span class="st">'Duration4'</span>, <span class="st">'Lap1'</span>, <span class="st">'Lap2'</span>, <span class="st">'Lap3'</span>, <span class="st">'Stop2'</span>, <span class="st">'Stop3'</span>, <span class="st">'Stop4'</span>]]</span>
 <span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df_transformed[<span class="st">'position_class'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-27" class="cell" data-execution_count="29">
+<div id="cell-28" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train-test split</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">123</span>, stratify<span class="op">=</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-28" class="cell" data-execution_count="30">
+<div id="cell-29" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize Random Forest Classifier</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>rf_multi <span class="op">=</span> RandomForestClassifier(random_state<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -914,7 +921,7 @@ weighted avg       0.49      0.49      0.49       235
 </div>
 </div>
 </div>
-<div id="cell-29" class="cell" data-execution_count="31">
+<div id="cell-30" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define hyperparameters</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>param_grid_multi <span class="op">=</span> {</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'n_estimators'</span>: [<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>],</span>
@@ -965,27 +972,43 @@ weighted avg       0.49      0.49      0.48       235
 </div>
 </div>
 </div>
-<div id="cell-30" class="cell" data-execution_count="40">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Binarize the target for multi-class ROC</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>y_test_binarized <span class="op">=</span> label_binarize(y_test, classes<span class="op">=</span>[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>])</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>y_proba_nb <span class="op">=</span> nb.predict_proba(X_test)</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>blue_colors <span class="op">=</span> [<span class="st">"lightskyblue"</span>, <span class="st">"deepskyblue"</span>, <span class="st">"blue"</span>, <span class="st">"steelblue"</span>]</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot ROC for each class</span></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (class_label, color) <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">zip</span>([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>], blue_colors)):</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    fpr, tpr, _ <span class="op">=</span> roc_curve(y_test_binarized[:, i], y_proba_nb[:, i])</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    roc_auc <span class="op">=</span> auc(fpr, tpr)</span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    plt.plot(fpr, tpr, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f"Class </span><span class="sc">{</span>class_label<span class="sc">}</span><span class="ss"> (AUC = </span><span class="sc">{</span>roc_auc<span class="sc">:.2f}</span><span class="ss">)"</span>, color<span class="op">=</span>color)</span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot diagonal for random guessing</span></span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [<span class="dv">0</span>, <span class="dv">1</span>], color<span class="op">=</span><span class="st">"gray"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, lw<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"False Positive Rate"</span>)</span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"True Positive Rate"</span>)</span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Multi-class ROC Curve - Naive Bayes"</span>)</span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">"lower right"</span>)</span>
-<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="knn" class="level3">
+<h3 class="anchored" data-anchor-id="knn">KNN</h3>
+<div id="cell-32" class="cell" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Range of k values to test</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>k_values <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">25</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Lists to store training and test accuracy</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>train_accuracies <span class="op">=</span> []</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>test_accuracies <span class="op">=</span> []</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> k_values:</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize KNN with k neighbors</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    knn <span class="op">=</span> KNeighborsClassifier(n_neighbors<span class="op">=</span>k)</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Train the model</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    knn.fit(X_train, y_train)</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Predict on training and test data</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    y_train_pred <span class="op">=</span> knn.predict(X_train)</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>    y_test_pred <span class="op">=</span> knn.predict(X_test)</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate accuracy for training and test data</span></span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>    train_accuracies.append(accuracy_score(y_train, y_train_pred))</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>    test_accuracies.append(accuracy_score(y_test, y_test_pred))</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot accuracy vs. k value</span></span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>plt.plot(k_values, train_accuracies, label<span class="op">=</span><span class="st">"Training Accuracy"</span>, marker<span class="op">=</span><span class="st">'o'</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>plt.plot(k_values, test_accuracies, label<span class="op">=</span><span class="st">"Test Accuracy"</span>, marker<span class="op">=</span><span class="st">'o'</span>, color<span class="op">=</span><span class="st">'deepskyblue'</span>)</span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>plt.xticks(k_values)</span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Number of Neighbors (k)"</span>)</span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Accuracy"</span>)</span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Accuracy vs. Number of Neighbors (k)"</span>)</span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -994,8 +1017,49 @@ weighted avg       0.49      0.49      0.48       235
 </div>
 </div>
 </div>
+<div id="cell-33" class="cell" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize KNN with k=19</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>knn <span class="op">=</span> KNeighborsClassifier(n_neighbors<span class="op">=</span><span class="dv">19</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Train the model</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>knn.fit(X_train, y_train)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict on the test set</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> knn.predict(X_test)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate Performance</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Report - KNN (k=19):"</span>)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, y_pred))</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Confusion Matrix</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>ConfusionMatrixDisplay.from_estimator(knn, X_test, y_test, cmap<span class="op">=</span><span class="st">"Blues"</span>)</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Confusion Matrix - KNN (k=19)"</span>)</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Classification Report - KNN (k=19):
+              precision    recall  f1-score   support
+
+         1.0       0.72      0.83      0.77        65
+         2.0       0.46      0.59      0.52        63
+         3.0       0.45      0.36      0.40        61
+         4.0       0.48      0.33      0.39        46
+
+    accuracy                           0.54       235
+   macro avg       0.53      0.53      0.52       235
+weighted avg       0.53      0.54      0.53       235
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/cell-24-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
+</section>
 </section>
 </section>
 
