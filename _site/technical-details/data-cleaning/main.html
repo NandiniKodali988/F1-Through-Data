@@ -1625,123 +1625,161 @@ dtype: int64</code></pre>
 <pre><code>(5118, 32)</code></pre>
 </div>
 </div>
-<div id="cell-65" class="cell" data-execution_count="72">
+<div id="cell-65" class="cell" data-execution_count="78">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert relevant columns to minutes</span></span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_to_minutes(value):</span>
-<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">float</span>(value) <span class="op">/</span> <span class="dv">60</span>  <span class="co"># Convert seconds to minutes</span></span>
-<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span>:</span>
-<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span>  <span class="co"># Default to 0 for invalid values</span></span>
-<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a><span class="co"># List of time and duration columns</span></span>
-<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>time_and_duration_cols <span class="op">=</span> [</span>
-<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Time1"</span>, <span class="st">"Time2"</span>, <span class="st">"Time3"</span>, <span class="st">"Time4"</span>, <span class="st">"Time5"</span>, <span class="st">"Time6"</span>, <span class="st">"Time7"</span>,</span>
-<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Duration1"</span>, <span class="st">"Duration2"</span>, <span class="st">"Duration3"</span>, <span class="st">"Duration4"</span>, <span class="st">"Duration5"</span>, <span class="st">"Duration6"</span>, <span class="st">"Duration7"</span></span>
-<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb68-13"><a href="#cb68-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-14"><a href="#cb68-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert each column to minutes</span></span>
-<span id="cb68-15"><a href="#cb68-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> time_and_duration_cols:</span>
-<span id="cb68-16"><a href="#cb68-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> col <span class="kw">in</span> transformed.columns:</span>
-<span id="cb68-17"><a href="#cb68-17" aria-hidden="true" tabindex="-1"></a>        transformed[col] <span class="op">=</span> transformed[col].<span class="bu">apply</span>(convert_to_minutes)</span>
-<span id="cb68-18"><a href="#cb68-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-19"><a href="#cb68-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill missing values (if any) with 0</span></span>
-<span id="cb68-20"><a href="#cb68-20" aria-hidden="true" tabindex="-1"></a>transformed.fillna(<span class="dv">0</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb68-21"><a href="#cb68-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-22"><a href="#cb68-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Select all columns except `Year`, `Round`, `RaceName`, and `DriverID` for scaling</span></span>
-<span id="cb68-23"><a href="#cb68-23" aria-hidden="true" tabindex="-1"></a>scalable_columns <span class="op">=</span> transformed.drop(columns<span class="op">=</span>[<span class="st">"Year"</span>, <span class="st">"Round"</span>, <span class="st">"RaceName"</span>, <span class="st">"DriverID"</span>]).columns</span>
-<span id="cb68-24"><a href="#cb68-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-25"><a href="#cb68-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply Standard Scaling</span></span>
-<span id="cb68-26"><a href="#cb68-26" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
-<span id="cb68-27"><a href="#cb68-27" aria-hidden="true" tabindex="-1"></a>transformed[scalable_columns] <span class="op">=</span> scaler.fit_transform(transformed[scalable_columns])</span>
-<span id="cb68-28"><a href="#cb68-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-29"><a href="#cb68-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Save or display the result</span></span>
-<span id="cb68-30"><a href="#cb68-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(transformed.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_to_minutes(value):</span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">float</span>(value) <span class="op">/</span> <span class="dv">60</span>  <span class="co"># Convert seconds to minutes</span></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span>:</span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span>  <span class="co"># Default to 0 for invalid values</span></span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a><span class="co"># List of time and duration columns</span></span>
+<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a>time_and_duration_cols <span class="op">=</span> [</span>
+<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Time1"</span>, <span class="st">"Time2"</span>, <span class="st">"Time3"</span>, <span class="st">"Time4"</span>, <span class="st">"Time5"</span>, <span class="st">"Time6"</span>, <span class="st">"Time7"</span>,</span>
+<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Duration1"</span>, <span class="st">"Duration2"</span>, <span class="st">"Duration3"</span>, <span class="st">"Duration4"</span>, <span class="st">"Duration5"</span>, <span class="st">"Duration6"</span>, <span class="st">"Duration7"</span></span>
+<span id="cb68-13"><a href="#cb68-13" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb68-14"><a href="#cb68-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-15"><a href="#cb68-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert each column to minutes</span></span>
+<span id="cb68-16"><a href="#cb68-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> time_and_duration_cols:</span>
+<span id="cb68-17"><a href="#cb68-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> col <span class="kw">in</span> transformed.columns:</span>
+<span id="cb68-18"><a href="#cb68-18" aria-hidden="true" tabindex="-1"></a>        transformed[col] <span class="op">=</span> transformed[col].<span class="bu">apply</span>(convert_to_minutes)</span>
+<span id="cb68-19"><a href="#cb68-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-20"><a href="#cb68-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill missing values (if any) with 0</span></span>
+<span id="cb68-21"><a href="#cb68-21" aria-hidden="true" tabindex="-1"></a>transformed.fillna(<span class="dv">0</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb68-22"><a href="#cb68-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-23"><a href="#cb68-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Select all columns except `Year`, `Round`, `RaceName`, and `DriverID` for scaling</span></span>
+<span id="cb68-24"><a href="#cb68-24" aria-hidden="true" tabindex="-1"></a>scalable_columns <span class="op">=</span> transformed.drop(columns<span class="op">=</span>[<span class="st">"Year"</span>, <span class="st">"Round"</span>, <span class="st">"RaceName"</span>, <span class="st">"DriverID"</span>]).columns</span>
+<span id="cb68-25"><a href="#cb68-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-26"><a href="#cb68-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply Standard Scaling</span></span>
+<span id="cb68-27"><a href="#cb68-27" aria-hidden="true" tabindex="-1"></a><span class="co">#scaler = StandardScaler()</span></span>
+<span id="cb68-28"><a href="#cb68-28" aria-hidden="true" tabindex="-1"></a><span class="co">#transformed[scalable_columns] = scaler.fit_transform(transformed[scalable_columns])</span></span>
+<span id="cb68-29"><a href="#cb68-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-30"><a href="#cb68-30" aria-hidden="true" tabindex="-1"></a><span class="co"># normalization</span></span>
+<span id="cb68-31"><a href="#cb68-31" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> MinMaxScaler()</span>
+<span id="cb68-32"><a href="#cb68-32" aria-hidden="true" tabindex="-1"></a>transformed[scalable_columns] <span class="op">=</span> scaler.fit_transform(transformed[scalable_columns])</span>
+<span id="cb68-33"><a href="#cb68-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-34"><a href="#cb68-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Save or display the result</span></span>
+<span id="cb68-35"><a href="#cb68-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(transformed.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Year  Round               RaceName     DriverID      Lap1      Lap2  \
-0  2011      1  Australian Grand Prix  alguersuari -1.492522 -0.208201   
-1  2011      1  Australian Grand Prix       alonso -0.414215  0.355923   
-2  2011      1  Australian Grand Prix     ambrosio -0.218159  0.976458   
-3  2011      1  Australian Grand Prix  barrichello -0.316187  0.130273   
-4  2011      1  Australian Grand Prix        buemi -0.120131  0.468747   
+0  2011      1  Australian Grand Prix  alguersuari  0.000000  0.229730   
+1  2011      1  Australian Grand Prix       alonso  0.174603  0.364865   
+2  2011      1  Australian Grand Prix     ambrosio  0.206349  0.513514   
+3  2011      1  Australian Grand Prix  barrichello  0.190476  0.310811   
+4  2011      1  Australian Grand Prix        buemi  0.222222  0.391892   
 
-       Lap3      Lap4     Lap5      Lap6  ...  Time5  Time6  Time7  Duration1  \
-0  1.339923 -0.281099 -0.15023 -0.074145  ...    0.0    0.0    0.0   0.471224   
-1  1.723412 -0.281099 -0.15023 -0.074145  ...    0.0    0.0    0.0  -0.122753   
-2 -0.577525 -0.281099 -0.15023 -0.074145  ...    0.0    0.0    0.0   0.204284   
-3  0.956433  3.039918 -0.15023 -0.074145  ...    0.0    0.0    0.0  -0.058909   
-4 -0.577525 -0.281099 -0.15023 -0.074145  ...    0.0    0.0    0.0   0.217802   
+       Lap3      Lap4  Lap5  Lap6  ...  Time5  Time6  Time7  Duration1  \
+0  0.479452  0.000000   0.0   0.0  ...    0.0    0.0    0.0   0.453661   
+1  0.575342  0.000000   0.0   0.0  ...    0.0    0.0    0.0   0.392151   
+2  0.000000  0.000000   0.0   0.0  ...    0.0    0.0    0.0   0.426017   
+3  0.383562  0.512821   0.0   0.0  ...    0.0    0.0    0.0   0.398762   
+4  0.000000  0.000000   0.0   0.0  ...    0.0    0.0    0.0   0.427417   
 
    Duration2  Duration3  Duration4  Duration5  Duration6  Duration7  
-0   0.733521   1.882538  -0.277274  -0.130754  -0.060017   -0.01976  
-1   0.755727   1.679973  -0.277274  -0.130754  -0.060017   -0.01976  
-2   0.896614  -0.580401  -0.277274  -0.130754  -0.060017   -0.01976  
-3   1.835036   0.998617   3.860649  -0.130754  -0.060017   -0.01976  
-4   0.621420  -0.580401  -0.277274  -0.130754  -0.060017   -0.01976  
+0   0.428042   0.457423   0.000000        0.0        0.0        0.0  
+1   0.432766   0.419802   0.000000        0.0        0.0        0.0  
+2   0.462739   0.000000   0.000000        0.0        0.0        0.0  
+3   0.662386   0.293259   0.469108        0.0        0.0        0.0  
+4   0.404192   0.000000   0.000000        0.0        0.0        0.0  
 
 [5 rows x 32 columns]</code></pre>
 </div>
 </div>
-<div id="cell-66" class="cell" data-execution_count="73">
+<div id="cell-66" class="cell" data-execution_count="79">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>transformed.to_csv(<span class="st">"../../data/processed-data/pitstop.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-67" class="cell" data-execution_count="74">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add position and grid columns to "transformed" by merging with race_info csv</span></span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>race_data_df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/race_info.csv"</span>)</span>
-<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> transformed.merge(</span>
-<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>    race_data_df[[<span class="st">"season"</span>, <span class="st">"raceName"</span>, <span class="st">"driverId"</span>, <span class="st">"constructorName"</span>, <span class="st">"position"</span>, <span class="st">"grid"</span>]],</span>
-<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>    how<span class="op">=</span><span class="st">"left"</span>,</span>
-<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>    left_on<span class="op">=</span>[<span class="st">"Year"</span>, <span class="st">"RaceName"</span>, <span class="st">"DriverID"</span>],</span>
-<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a>    right_on<span class="op">=</span>[<span class="st">"season"</span>, <span class="st">"raceName"</span>, <span class="st">"driverId"</span>]</span>
-<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop rows where position or grid is missing</span></span>
-<span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> merged_df.dropna(subset<span class="op">=</span>[<span class="st">"position"</span>, <span class="st">"grid"</span>])</span>
-<span id="cb71-12"><a href="#cb71-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-13"><a href="#cb71-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop duplicate columns resulting from the merge</span></span>
-<span id="cb71-14"><a href="#cb71-14" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> merged_df.drop(columns<span class="op">=</span>[<span class="st">"season"</span>, <span class="st">"raceName"</span>, <span class="st">"driverId"</span>])</span>
-<span id="cb71-15"><a href="#cb71-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-16"><a href="#cb71-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Save or display the resulting DataFrame</span></span>
-<span id="cb71-17"><a href="#cb71-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(merged_df.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   Year  Round               RaceName     DriverID      Lap1      Lap2  \
-0  2011      1  Australian Grand Prix  alguersuari -1.492522 -0.208201   
-1  2011      1  Australian Grand Prix       alonso -0.414215  0.355923   
-2  2011      1  Australian Grand Prix     ambrosio -0.218159  0.976458   
-3  2011      1  Australian Grand Prix  barrichello -0.316187  0.130273   
-4  2011      1  Australian Grand Prix        buemi -0.120131  0.468747   
-
-       Lap3      Lap4     Lap5      Lap6  ...  Duration1  Duration2  \
-0  1.339923 -0.281099 -0.15023 -0.074145  ...   0.471224   0.733521   
-1  1.723412 -0.281099 -0.15023 -0.074145  ...  -0.122753   0.755727   
-2 -0.577525 -0.281099 -0.15023 -0.074145  ...   0.204284   0.896614   
-3  0.956433  3.039918 -0.15023 -0.074145  ...  -0.058909   1.835036   
-4 -0.577525 -0.281099 -0.15023 -0.074145  ...   0.217802   0.621420   
-
-   Duration3  Duration4  Duration5  Duration6  Duration7  constructorName  \
-0   1.882538  -0.277274  -0.130754  -0.060017   -0.01976       AlphaTauri   
-1   1.679973  -0.277274  -0.130754  -0.060017   -0.01976          Ferrari   
-2  -0.580401  -0.277274  -0.130754  -0.060017   -0.01976         Marussia   
-3   0.998617   3.860649  -0.130754  -0.060017   -0.01976         Williams   
-4  -0.580401  -0.277274  -0.130754  -0.060017   -0.01976       AlphaTauri   
-
-   position  grid  
-0      11.0  12.0  
-1       4.0   5.0  
-2      14.0  22.0  
-3      16.0  17.0  
-4       8.0  10.0  
-
-[5 rows x 35 columns]</code></pre>
-</div>
-</div>
-<div id="cell-68" class="cell" data-execution_count="75">
-<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>merged_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-67" class="cell" data-execution_count="75">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>merged_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="75">
 <pre><code>(1206, 35)</code></pre>
 </div>
 </div>
-<div id="cell-69" class="cell" data-execution_count="76">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>merged_df.to_csv(<span class="st">"../../data/processed-data/pitstop_with_positions.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-68" class="cell" data-execution_count="76">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>merged_df.to_csv(<span class="st">"../../data/processed-data/pitstop_with_positions.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-69" class="cell" data-execution_count="89">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/raw-data/pitstop_data.csv"</span>)</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="89">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Round</th>
+<th data-quarto-table-cell-role="th">RaceName</th>
+<th data-quarto-table-cell-role="th">DriverID</th>
+<th data-quarto-table-cell-role="th">Lap</th>
+<th data-quarto-table-cell-role="th">Stop</th>
+<th data-quarto-table-cell-role="th">Time</th>
+<th data-quarto-table-cell-role="th">Duration</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>2011</td>
+<td>1</td>
+<td>Australian Grand Prix</td>
+<td>alguersuari</td>
+<td>1</td>
+<td>1</td>
+<td>17:05:23</td>
+<td>26.898</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2011</td>
+<td>1</td>
+<td>Australian Grand Prix</td>
+<td>michael_schumacher</td>
+<td>1</td>
+<td>1</td>
+<td>17:05:52</td>
+<td>25.021</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>2011</td>
+<td>1</td>
+<td>Australian Grand Prix</td>
+<td>webber</td>
+<td>11</td>
+<td>1</td>
+<td>17:20:48</td>
+<td>23.426</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>2011</td>
+<td>1</td>
+<td>Australian Grand Prix</td>
+<td>alonso</td>
+<td>12</td>
+<td>1</td>
+<td>17:22:34</td>
+<td>23.251</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>2011</td>
+<td>1</td>
+<td>Australian Grand Prix</td>
+<td>massa</td>
+<td>13</td>
+<td>1</td>
+<td>17:24:10</td>
+<td>23.842</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
 </div>
 
 

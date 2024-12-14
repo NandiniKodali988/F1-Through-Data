@@ -1,0 +1,72 @@
+# Introduction
+In this section, we focus on the methods and sources used to collect data that are relevant to the research questions of this project. The quality of the data collected determines the accuracy of insights and predictions. Poor data collection practices can lead to biased analysis, inaccurate results, and ineffective models. Therefore, careful planning and execution of data collection is essential for the success of any data-driven project.
+
+**Challenges in Data Collection**
+Some important points to be considered when collecting data are:
+
+- **Data quality**: Ensuring the data is accurate, complete, and relevant to the research questions is crucial.
+- **Inconsistencies**: Data form different sources may have different formats, structures, naming conventions, and units of measurement, requiring a thorough understanding of the data for pre-processing.
+- **Ethics and Privacy**: Data collection methods must adhere to ethical guidelines, ensuring that no sensitive or private information is collected or misused.
+- **Data Bias**: Collecting data from sources that introduces bias can lead to inaccurate results and models. 
+- **Technical Constraints**: Issues such as API rate limits, website restrictions, or incomplete data can hinder data collection.
+
+By addressing these challenges, it is ensured that the data collected was relevant, accurate, and reliable.  
+
+# Methods
+While there are various methods to collect data, `web scraping` and `APIs` are the two methods used in this project. 
+
+## Web Scraping
+Web Scraping is an automatic way to collect data from websites. It involves the use of automated scripts or tools to interact with the website's structure to retrieve information. The data is extracted using selectors like tags, classes, or IDs. While web scraping can be tailored to collect a variety od data types from multiple web pages, one should be aware of the website's terms of service and ethical scraping practices, and manage rate limits to avoid being blocked. \
+
+**In this Project**: Using Python libraries like `requests` and `BeautifulSoup`, weather information was extracted from infoboxes of each race's Wikipedia pages.\
+
+**Process**:\
+- The URLs for each race were obtained from the race data collected, these links were used to locate the Wikipedia pages of each race.\
+- HTTP requests were sent to the Wikipedia pages to retrieve the HTML content.\
+- Parsing the HTML using `BeautifulSoup` locate the infobox containing the race metadata.\
+- Locating and extracting the **Weather** field from the table. 
+
+![](../../data/images/weather_wiki.png)[^1]
+
+
+
+## APIs
+**APIs (Application Programming Interfaces)** are mechanisms that enable two software components to communicate with each other using a set of definitions and protocols. APIs enable developers to access data or functionality from a system without having to know the underlying implementation details, making it easier to integrate data from multiple sources. They act as intermediaries, providing a structured way for programs to request and retrieve information or services.[^2]
+
+**How do APIs Work?**[^3]\ 
+APIs facilitate communication between applications, systems, or devices through a structured **request-response cycle**
+
+1. **API Client**: The process begins with an API client, which sends a request to the API server, which can be triggered by user interaction or external events.
+2. **API Request**: An API request typically contains the following components:\ 
+   1. Endpoint: URL that provides access to a specific resource. 
+   2. Method: Indicates that action to be performed on the resource. 
+   3. Parameters: Variables that are passed along with the request to customize the response.
+   4. Headers: Key-value pairs that provide additional details about the request, such as authentication tokens or the content format. 
+   5. Request Body: Includes actual data required for operations like creating, updating, or deleting resources.
+3. **API Server**: Receives the request and performs actions such as authenticating the client, validating the input, and processing the request by retrieving or updating the requested data. 
+4. **API Response**: The API server returns a response to the client, this typically includes:\
+   1. Status Code: A numerical code indicating the result of the request (e.g., 200 for success, 201 for resource creation, or 404 for resource not found).
+   2. Headers: Additional metadata about the response. 
+   3. Response Body: The data requested by the client, or an error message. 
+
+**API Architectural Styles**:[^4]\ 
+
+1. **REST (Representational State of Resource)**: A widely used style for data exchange over the internet. In RESTful APIs, resources are accessed through endpoints, and standard HTTP methods such as GET, POST, PUT, and DELETE are used to perform operations on these resources. 
+2. **SOAP (Simple Object Access Protocol)**: Protocol that uses XML to facilitate the transfer of highly structured messages between client and sever. While it provides features for security and reliability, it can be slower compared to other architectural styles. 
+3. **GraphQL**: An open-source query language designed to allow clients fetch only the data they need via a single API endpoint. This eliminates the need for multiple requests, making it valuable for applications that operate over slower or less reliable network connections.
+
+**In this Project**:\ 
+
+The Ergast Developer API was used to collect race, driver standings, circuit information, and pitstop data. "The Ergast Developer API is an experimental web service which provides a historical record of motor racing data for non-commercial purposes"[^5].
+
+
+
+[^1]: [2010 Bahrain Grand Prix](https://en.wikipedia.org/wiki/2010_Bahrain_Grand_Prix)
+
+[^2]: [What are APIs](https://aws.amazon.com/what-is/api/#:~:text=APIs%20are%20mechanisms%20that%20enable,weather%20updates%20on%20your%20phone.)
+
+[^3]: [How do APIs work](https://www.postman.com/what-is-an-api/)
+
+[^4]: [Types of APIs](https://jfh.georgetown.domains/centralized-lecture-content/content/data-science/data-collection/APIs/notes.html)
+
+[^5]: [Ergast Developer API](https://ergast.com/mrd/)
