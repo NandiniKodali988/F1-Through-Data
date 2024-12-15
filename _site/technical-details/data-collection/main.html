@@ -323,7 +323,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># for parsing and extracting data from HTML and XML documents</span></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># for reading and writing to csv files</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> csv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> csv</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># for car telemetry and results</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> fastf1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="race-information" class="level2">
@@ -590,108 +592,120 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="cell-26" class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_weather_from_wikipedia(url):</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> requests.get(url)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    bs <span class="op">=</span> BeautifulSoup(response.text, <span class="st">'html.parser'</span>)  </span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># locate the infobox table</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    table <span class="op">=</span> bs.find(<span class="st">'table'</span>, {<span class="st">'class'</span>: <span class="st">'infobox infobox-table vevent'</span>})</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> table:</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"No infobox found on the page: </span><span class="sc">{</span>url<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Not Available"</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># search for the "Weather" row in the table</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> row <span class="kw">in</span> table.find_all(<span class="st">'tr'</span>):</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># find the header cell with class 'infobox-label'</span></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>        header <span class="op">=</span> row.find(<span class="st">'th'</span>, {<span class="st">'class'</span>: <span class="st">'infobox-label'</span>})  </span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># check if it contains "Weather"</span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> header <span class="kw">and</span> <span class="st">'Weather'</span> <span class="kw">in</span> header.text:  <span class="co"># Check if it contains "Weather"</span></span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>            <span class="co"># find the corresponding data cell with class 'infobox-data'</span></span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>            data <span class="op">=</span> row.find(<span class="st">'td'</span>, {<span class="st">'class'</span>: <span class="st">'infobox-data'</span>})  </span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> data:</span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> data.text.strip()  </span>
-<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>race_data[<span class="st">'weather'</span>] <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a><span class="co"># fetch weather information for each URL</span></span>
-<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> index, row <span class="kw">in</span> race_data.iterrows():</span>
-<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> row[<span class="st">'url'</span>]</span>
-<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># for debuggin purpose</span></span>
-<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>    <span class="co">#print(f"Fetching weather for: {url}")</span></span>
-<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># get the weather information</span></span>
-<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>    weather <span class="op">=</span> get_weather_from_wikipedia(url)</span>
-<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># update the weather column</span></span>
-<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>    race_data.at[index, <span class="st">'weather'</span>] <span class="op">=</span> weather</span>
-<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a><span class="co"># save to output file</span></span>
-<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>output_csv <span class="op">=</span> <span class="st">"../../data/raw-data/weather/race_data_with_weather.csv"</span></span>
-<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>race_data.to_csv(output_csv, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># GET request</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> requests.get(url)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># parse the HTML content</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    bs <span class="op">=</span> BeautifulSoup(response.text, <span class="st">'html.parser'</span>)  </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># locate the infobox table</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    table <span class="op">=</span> bs.find(<span class="st">'table'</span>, {<span class="st">'class'</span>: <span class="st">'infobox infobox-table vevent'</span>})</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> table:</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"No infobox found on the page: </span><span class="sc">{</span>url<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Not Available"</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># iterate through each row for the "Weather" field </span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> row <span class="kw">in</span> table.find_all(<span class="st">'tr'</span>):</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># find the header cell with class 'infobox-label'</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>        header <span class="op">=</span> row.find(<span class="st">'th'</span>, {<span class="st">'class'</span>: <span class="st">'infobox-label'</span>})  </span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># check if it contains "Weather"</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> header <span class="kw">and</span> <span class="st">'Weather'</span> <span class="kw">in</span> header.text: </span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>            <span class="co"># find the corresponding data cell with class 'infobox-data'</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>            data <span class="op">=</span> row.find(<span class="st">'td'</span>, {<span class="st">'class'</span>: <span class="st">'infobox-data'</span>})  </span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>            <span class="co"># remove any unnecessary spaces</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> data:</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> data.text.strip()  </span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="co"># column in the dataframe to store weather information   </span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>race_data[<span class="st">'weather'</span>] <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="co"># fetch weather information for each URL</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> index, row <span class="kw">in</span> race_data.iterrows():</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> row[<span class="st">'url'</span>]</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># for debugging purpose</span></span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>    <span class="co">#print(f"Fetching weather for: {url}")</span></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># get the weather information</span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>    weather <span class="op">=</span> get_weather_from_wikipedia(url)</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># update the weather column</span></span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>    race_data.at[index, <span class="st">'weather'</span>] <span class="op">=</span> weather</span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a><span class="co"># save to output file</span></span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>output_csv <span class="op">=</span> <span class="st">"../../data/raw-data/weather/race_data_with_weather.csv"</span></span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>race_data.to_csv(output_csv, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="circuit-features" class="level2">
 <h2 class="anchored" data-anchor-id="circuit-features">Circuit Features</h2>
+<p>Around the F1 season, circuits vary widely in their features—some are known for tight, technical corners, others for long, high-speed straights, and a few for their narrow and challenging layouts. These unique characteristics influence car and driver performance significantly, with certain drivers or car designs excelling on specific track types.</p>
+<p><strong>Importance</strong>: Analyzing racetrack features is crucial for understanding how different teams and drivers perform under varying conditions. This information can be used to classify tracks, which can further be studied to identify patterns and trends in race results.</p>
+<p><strong>Source</strong>: fastf1</p>
 <div id="cell-28" class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>os.makedirs(<span class="st">'cache'</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>fastf1.Cache.enable_cache(<span class="st">'cache'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#os.makedirs('cache', exist_ok=True)</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co">#fastf1.Cache.enable_cache('cache')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-29" class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>track_data <span class="op">=</span> []</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_track_features(year, race_name):</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    session <span class="op">=</span> fastf1.get_session(year, race_name, <span class="st">'Q'</span>) </span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    session.load()</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get the fastest lap</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    fastest_lap <span class="op">=</span> session.laps.pick_fastest()</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    telemetry <span class="op">=</span> fastest_lap.get_telemetry()</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Track Length</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    track_length <span class="op">=</span> telemetry[<span class="st">'Distance'</span>].iloc[<span class="op">-</span><span class="dv">1</span>]  <span class="co"># Distance of the fastest lap</span></span>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># initialize an empty list</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>track_data <span class="op">=</span> []</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># function to fetch data for specific year and race</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_track_features(year, race_name):</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># load session data for the qualifying session</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    session <span class="op">=</span> fastf1.get_session(year, race_name, <span class="st">'Q'</span>) </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    session.load()</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># fastest lap</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    fastest_lap <span class="op">=</span> session.laps.pick_fastest()</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    telemetry <span class="op">=</span> fastest_lap.get_telemetry()</span>
 <span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Max Speed</span></span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    max_speed <span class="op">=</span> telemetry[<span class="st">'Speed'</span>].<span class="bu">max</span>()</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># track Length</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    track_length <span class="op">=</span> telemetry[<span class="st">'Distance'</span>].iloc[<span class="op">-</span><span class="dv">1</span>]  <span class="co"># Distance of the fastest lap</span></span>
 <span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Average Speed</span></span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    avg_speed <span class="op">=</span> track_length <span class="op">/</span> fastest_lap[<span class="st">'LapTime'</span>].total_seconds()</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># max Speed</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    max_speed <span class="op">=</span> telemetry[<span class="st">'Speed'</span>].<span class="bu">max</span>()</span>
 <span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Percentage of Full Throttle</span></span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    full_throttle <span class="op">=</span> telemetry[telemetry[<span class="st">'Throttle'</span>] <span class="op">&gt;=</span> <span class="dv">95</span>]</span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    perc_full_throttle <span class="op">=</span> (<span class="bu">len</span>(full_throttle) <span class="op">/</span> <span class="bu">len</span>(telemetry)) <span class="op">*</span> <span class="dv">100</span></span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Number of Corners</span></span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>    telemetry[<span class="st">'is_corner'</span>] <span class="op">=</span> telemetry[<span class="st">'Speed'</span>] <span class="op">&lt;</span> <span class="dv">100</span></span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>    num_corners <span class="op">=</span> (telemetry[<span class="st">'is_corner'</span>] <span class="op">&amp;</span> <span class="op">~</span>telemetry[<span class="st">'is_corner'</span>].shift(<span class="dv">1</span>, fill_value<span class="op">=</span><span class="va">False</span>)).<span class="bu">sum</span>()</span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Number of Straights</span></span>
-<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    telemetry[<span class="st">'is_straight'</span>] <span class="op">=</span> telemetry[<span class="st">'Speed'</span>] <span class="op">&gt;</span> <span class="dv">150</span></span>
-<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    num_straights <span class="op">=</span> (telemetry[<span class="st">'is_straight'</span>] <span class="op">&amp;</span> <span class="op">~</span>telemetry[<span class="st">'is_straight'</span>].shift(<span class="dv">1</span>, fill_value<span class="op">=</span><span class="va">False</span>)).<span class="bu">sum</span>()</span>
-<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
-<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Year"</span>: year,</span>
-<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Grand Prix"</span>: race_name,</span>
-<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Track Length (m)"</span>: track_length,</span>
-<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Max Speed (km/h)"</span>: max_speed,</span>
-<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Full Throttle (%)"</span>: perc_full_throttle,</span>
-<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Number of Corners"</span>: num_corners,</span>
-<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Number of Straights"</span>: num_straights</span>
-<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>year <span class="op">=</span> <span class="dv">2023</span></span>
-<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>schedule <span class="op">=</span> fastf1.get_event_schedule(year)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># average Speed</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    avg_speed <span class="op">=</span> track_length <span class="op">/</span> fastest_lap[<span class="st">'LapTime'</span>].total_seconds()</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># percentage of Full Throttle (throttle &gt;= 95%)</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>    full_throttle <span class="op">=</span> telemetry[telemetry[<span class="st">'Throttle'</span>] <span class="op">&gt;=</span> <span class="dv">95</span>]</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>    perc_full_throttle <span class="op">=</span> (<span class="bu">len</span>(full_throttle) <span class="op">/</span> <span class="bu">len</span>(telemetry)) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calcute the number of corners based on telemetry speed (&lt; 100 km/h)</span></span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>    telemetry[<span class="st">'is_corner'</span>] <span class="op">=</span> telemetry[<span class="st">'Speed'</span>] <span class="op">&lt;</span> <span class="dv">100</span></span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    num_corners <span class="op">=</span> (telemetry[<span class="st">'is_corner'</span>] <span class="op">&amp;</span> <span class="op">~</span>telemetry[<span class="st">'is_corner'</span>].shift(<span class="dv">1</span>, fill_value<span class="op">=</span><span class="va">False</span>)).<span class="bu">sum</span>()</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate the number of straights based on telemetry speed (&gt; 150 km/h)</span></span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>    telemetry[<span class="st">'is_straight'</span>] <span class="op">=</span> telemetry[<span class="st">'Speed'</span>] <span class="op">&gt;</span> <span class="dv">150</span></span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>    num_straights <span class="op">=</span> (telemetry[<span class="st">'is_straight'</span>] <span class="op">&amp;</span> <span class="op">~</span>telemetry[<span class="st">'is_straight'</span>].shift(<span class="dv">1</span>, fill_value<span class="op">=</span><span class="va">False</span>)).<span class="bu">sum</span>()</span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Year"</span>: year,</span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Grand Prix"</span>: race_name,</span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Track Length (m)"</span>: track_length,</span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Max Speed (km/h)"</span>: max_speed,</span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Full Throttle (%)"</span>: perc_full_throttle,</span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Number of Corners"</span>: num_corners,</span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Number of Straights"</span>: num_straights</span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _, event <span class="kw">in</span> schedule.iterrows():  </span>
-<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> pd.isna(event[<span class="st">'Session1'</span>]):  </span>
-<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
-<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>            track_features <span class="op">=</span> extract_track_features(year, event[<span class="st">'EventName'</span>])</span>
-<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>            track_data.append(track_features)</span>
-<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"Failed for </span><span class="sc">{</span>event[<span class="st">'EventName'</span>]<span class="sc">}</span><span class="ss"> in </span><span class="sc">{</span>year<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a>df_tracks <span class="op">=</span> pd.DataFrame(track_data)</span>
-<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a><span class="co"># for test</span></span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a><span class="co"># data was extracted for seasons: 2018 - 2023</span></span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a><span class="co"># data is available from 2018 season onwards in fastf1</span></span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>year <span class="op">=</span> <span class="dv">2023</span></span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>schedule <span class="op">=</span> fastf1.get_event_schedule(year)</span>
+<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a><span class="co"># iterate through all races in the schedule</span></span>
+<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _, event <span class="kw">in</span> schedule.iterrows():  </span>
+<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> pd.isna(event[<span class="st">'Session1'</span>]):  </span>
+<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a>            track_features <span class="op">=</span> extract_track_features(year, event[<span class="st">'EventName'</span>])</span>
+<span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a>            track_data.append(track_features)</span>
+<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"Failed for </span><span class="sc">{</span>event[<span class="st">'EventName'</span>]<span class="sc">}</span><span class="ss"> in </span><span class="sc">{</span>year<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a>df_tracks <span class="op">=</span> pd.DataFrame(track_data)</span>
+<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-30" class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># merging all racetrack features into a single csv</span></span>
