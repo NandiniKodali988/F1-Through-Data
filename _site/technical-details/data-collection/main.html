@@ -200,9 +200,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#race-information" id="toc-race-information" class="nav-link" data-scroll-target="#race-information">Race Information</a></li>
   <li><a href="#driver-standings" id="toc-driver-standings" class="nav-link" data-scroll-target="#driver-standings">Driver Standings</a></li>
   <li><a href="#circuit-information" id="toc-circuit-information" class="nav-link" data-scroll-target="#circuit-information">Circuit Information</a></li>
-  <li><a href="#news-of-top-10-drivers" id="toc-news-of-top-10-drivers" class="nav-link" data-scroll-target="#news-of-top-10-drivers">News of Top 10 Drivers</a>
+  <li><a href="#news-of-top-10-drivers" id="toc-news-of-top-10-drivers" class="nav-link" data-scroll-target="#news-of-top-10-drivers">News of Top 10 Drivers</a></li>
+  <li><a href="#weather-data" id="toc-weather-data" class="nav-link" data-scroll-target="#weather-data">Weather Data</a>
   <ul class="collapse">
-  <li><a href="#fetch-weather-data-on-the-day-of-the-race" id="toc-fetch-weather-data-on-the-day-of-the-race" class="nav-link" data-scroll-target="#fetch-weather-data-on-the-day-of-the-race">Fetch Weather data on the day of the race</a></li>
   <li><a href="#pitstop-data" id="toc-pitstop-data" class="nav-link" data-scroll-target="#pitstop-data">Pitstop data</a></li>
   </ul></li>
   </ul></li>
@@ -519,9 +519,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>text_data <span class="op">=</span> news_data(<span class="st">'Nico Hulkenberg'</span>, API_KEY, total_requests<span class="op">=</span><span class="dv">1</span>, verbose<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="fetch-weather-data-on-the-day-of-the-race" class="level3">
-<h3 class="anchored" data-anchor-id="fetch-weather-data-on-the-day-of-the-race">Fetch Weather data on the day of the race</h3>
-<p>The weather data will be fetched from the wiki page of each race.</p>
+</section>
+<section id="weather-data" class="level2">
+<h2 class="anchored" data-anchor-id="weather-data">Weather Data</h2>
+<p><strong>Importance</strong>: Weather conditions play a crucial role in race strategy, tire choices, and driver performance.</p>
+<p><strong>Source</strong>: Wikipedia</p>
 <div id="cell-22" class="cell" data-execution_count="61">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the url for each race is in the race data collected using ergast API</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>race_df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/all_race_results_cleaned.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -707,7 +709,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>os.makedirs(os.path.dirname(output_file), exist_ok<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>merged_df.to_csv(output_file, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
 <section id="pitstop-data" class="level3">
 <h3 class="anchored" data-anchor-id="pitstop-data">Pitstop data</h3>
 <div id="cell-31" class="cell" data-execution_count="21">
