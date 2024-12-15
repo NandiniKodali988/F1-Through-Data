@@ -227,6 +227,8 @@ window.Quarto = {
   <li><a href="#circuit-information" id="toc-circuit-information" class="nav-link" data-scroll-target="#circuit-information">Circuit Information</a></li>
   <li><a href="#race-data" id="toc-race-data" class="nav-link" data-scroll-target="#race-data">Race data</a></li>
   <li><a href="#weather-data" id="toc-weather-data" class="nav-link" data-scroll-target="#weather-data">Weather Data</a></li>
+  <li><a href="#race-info-merged" id="toc-race-info-merged" class="nav-link" data-scroll-target="#race-info-merged">Race Info Merged</a></li>
+  <li><a href="#race-track-features" id="toc-race-track-features" class="nav-link" data-scroll-target="#race-track-features">Race Track Features</a></li>
   <li><a href="#pitstop-data" id="toc-pitstop-data" class="nav-link" data-scroll-target="#pitstop-data">Pitstop data</a></li>
   </ul></li>
   </ul>
@@ -1032,7 +1034,10 @@ Name: count, dtype: int64</code></pre>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>output_csv <span class="op">=</span> <span class="st">"../../data/processed-data/classified_weather_data.csv"</span></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>weather_df.to_csv(output_csv, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-40" class="cell" data-execution_count="75">
+</section>
+<section id="race-info-merged" class="level2">
+<h2 class="anchored" data-anchor-id="race-info-merged">Race Info Merged</h2>
+<div id="cell-41" class="cell" data-execution_count="75">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># merge race results and weather information</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>race_df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/all_race_results_cleaned.csv"</span>)</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>weather_df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/classified_weather_data.csv"</span>)</span>
@@ -1043,7 +1048,7 @@ Name: count, dtype: int64</code></pre>
 <span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>merged_df.to_csv(<span class="st">"../../data/processed-data/race_weather_merged.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-41" class="cell" data-execution_count="33">
+<div id="cell-42" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>main_df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/race_weather_merged.csv"</span>)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>main_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="33">
@@ -1205,7 +1210,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-42" class="cell" data-execution_count="34">
+<div id="cell-43" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>main_df.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="34">
 <pre><code>Index(['season', 'round', 'raceName', 'url', 'circuitName', 'locality',
@@ -1217,11 +1222,11 @@ Name: count, dtype: int64</code></pre>
       dtype='object')</code></pre>
 </div>
 </div>
-<div id="cell-43" class="cell" data-execution_count="35">
+<div id="cell-44" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># drop un-needed columns</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>main_df <span class="op">=</span> main_df.drop([<span class="st">'lat'</span>, <span class="st">'long'</span>, <span class="st">'number'</span>, <span class="st">'positionText'</span>, <span class="st">'Driver'</span>, <span class="st">'Constructor'</span>, <span class="st">'Time'</span>, <span class="st">'FastestLap'</span>], axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-44" class="cell" data-execution_count="36">
+<div id="cell-45" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>main_df.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="36">
 <pre><code>Index(['season', 'round', 'raceName', 'url', 'circuitName', 'locality',
@@ -1231,7 +1236,7 @@ Name: count, dtype: int64</code></pre>
       dtype='object')</code></pre>
 </div>
 </div>
-<div id="cell-45" class="cell" data-execution_count="37">
+<div id="cell-46" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>main_df.isnull().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="37">
 <pre><code>season                 0
@@ -1259,11 +1264,11 @@ dtype: int64</code></pre>
 </div>
 </div>
 <p>The missing values in ‘<code>timeMillis'</code> and’<code>time'</code> columns are of those drivers who did not finish the race. Therefore, we will drop these columns and try to analyse the performance based on other metrics.</p>
-<div id="cell-47" class="cell" data-execution_count="38">
+<div id="cell-48" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># drop un-needed columns</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>main_df <span class="op">=</span> main_df.drop([<span class="st">'timeMillis'</span>, <span class="st">'time'</span>], axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-48" class="cell" data-execution_count="39">
+<div id="cell-49" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>main_df[<span class="st">'constructorName'</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="39">
 <pre><code>constructorName
@@ -1306,7 +1311,7 @@ Spyker              8
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<div id="cell-49" class="cell" data-execution_count="40">
+<div id="cell-50" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>main_df <span class="op">=</span> main_df.drop([<span class="st">'constructorId'</span>], axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Some of the team names were changed in the process of rebranding or due to a change in ownership. For accurate analysis, we will replace the older versions of the constructors’ names with the current ones.</p>
@@ -1329,7 +1334,7 @@ Name: count, dtype: int64</code></pre>
 <li>HRT</li>
 <li>Prost</li>
 </ul>
-<div id="cell-51" class="cell" data-execution_count="41">
+<div id="cell-52" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>constructor_mapping<span class="op">=</span> {</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Jaguar"</span> : <span class="st">"Red Bull"</span>,</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BMW Sauber"</span> : <span class="st">"Sauber"</span>,</span>
@@ -1353,10 +1358,10 @@ Name: count, dtype: int64</code></pre>
 <span id="cb50-21"><a href="#cb50-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb50-22"><a href="#cb50-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-52" class="cell" data-execution_count="42">
+<div id="cell-53" class="cell" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>main_df[<span class="st">'constructorName'</span>] <span class="op">=</span> main_df[<span class="st">'constructorName'</span>].replace(constructor_mapping)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-53" class="cell" data-execution_count="43">
+<div id="cell-54" class="cell" data-execution_count="43">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>main_df[<span class="st">'constructorName'</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="43">
 <pre><code>constructorName
@@ -1380,13 +1385,13 @@ Prost              18
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<div id="cell-54" class="cell" data-execution_count="44">
+<div id="cell-55" class="cell" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>main_df[<span class="st">'driverName'</span>] <span class="op">=</span> main_df[<span class="st">'driverGivenName'</span>] <span class="op">+</span> <span class="st">" "</span> <span class="op">+</span> main_df[<span class="st">'driverFamilyName'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-55" class="cell" data-execution_count="45">
+<div id="cell-56" class="cell" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>main_df <span class="op">=</span> main_df.drop([<span class="st">'driverGivenName'</span>,<span class="st">'driverFamilyName'</span>], axis <span class="op">=</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-56" class="cell" data-execution_count="46">
+<div id="cell-57" class="cell" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>main_df.head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="46">
 <div>
@@ -1470,7 +1475,7 @@ Name: count, dtype: int64</code></pre>
 <li>Mechanical</li>
 </ul>
 <p>Grouping the data helps understand the major reasons for the race results without getting overwhelmed by the granular details.</p>
-<div id="cell-58" class="cell" data-execution_count="47">
+<div id="cell-59" class="cell" data-execution_count="47">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>main_df[<span class="st">'status'</span>].unique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="47">
 <pre><code>array(['Finished', '+1 Lap', '+2 Laps', 'Electrical', 'Hydraulics',
@@ -1491,7 +1496,7 @@ Name: count, dtype: int64</code></pre>
       dtype=object)</code></pre>
 </div>
 </div>
-<div id="cell-59" class="cell" data-execution_count="48">
+<div id="cell-60" class="cell" data-execution_count="48">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># classifying different categories under status</span></span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> classify_status(status):</span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> status <span class="op">==</span> <span class="st">'Finished'</span>:</span>
@@ -1507,7 +1512,7 @@ Name: count, dtype: int64</code></pre>
 <span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a>main_df[<span class="st">'status'</span>] <span class="op">=</span> main_df[<span class="st">'status'</span>].<span class="bu">apply</span>(classify_status)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-60" class="cell" data-execution_count="49">
+<div id="cell-61" class="cell" data-execution_count="49">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>main_df[<span class="st">'status'</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="49">
 <pre><code>status
@@ -1518,7 +1523,7 @@ Accident       190
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<div id="cell-61" class="cell" data-execution_count="50">
+<div id="cell-62" class="cell" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>main_df.to_csv(<span class="st">"../../data/processed-data/race_info.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finish category - new categorical variable</p>
@@ -1528,7 +1533,7 @@ Name: count, dtype: int64</code></pre>
 <li>All drivers who finish in top 10 earn championship points, ranging from 25 points for the winner, 18 for second place, and decreasing to 1 point for the 10th position.</li>
 <li>Drivers finishing outside the top 10 do not earn any championship points.</li>
 </ul>
-<div id="cell-63" class="cell">
+<div id="cell-64" class="cell">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/race_info.csv"</span>)</span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="co"># create a new categorical variable </span></span>
 <span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'FinishCategory'</span>] <span class="op">=</span> <span class="st">''</span></span>
@@ -1546,7 +1551,7 @@ Name: count, dtype: int64</code></pre>
 <span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
 <span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a>        data[<span class="st">'FinishCategory'</span>][i] <span class="op">=</span> <span class="st">"No Points"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-64" class="cell" data-execution_count="52">
+<div id="cell-65" class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="52">
 <div>
@@ -1688,10 +1693,13 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-65" class="cell" data-execution_count="53">
+<div id="cell-66" class="cell" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>data.to_csv(<span class="st">"../../data/processed-data/race_info.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-66" class="cell" data-execution_count="25">
+</section>
+<section id="race-track-features" class="level2">
+<h2 class="anchored" data-anchor-id="race-track-features">Race Track Features</h2>
+<div id="cell-68" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># race track features</span></span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../../data/raw-data/circuit_data/merged_circuit_features.csv"</span>)</span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1769,7 +1777,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-67" class="cell" data-execution_count="26">
+<div id="cell-69" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>data.isnull().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
 <pre><code>Year                   0
@@ -1782,14 +1790,23 @@ Number of Straights    0
 dtype: int64</code></pre>
 </div>
 </div>
-<div id="cell-68" class="cell" data-execution_count="27">
+<p><strong>Standardization</strong></p>
+<p>Standardization is a preprocessing step used to scale the features is a consistent scale for more accurate and stable modelling. Features with different scales can lead to one feature dominating others during model training, Standardization eliminates disparity.</p>
+<p>For the Race Track Features, <code>StandardScaler</code> is used, this standardizes the data by “removing the mean and scaling to unit variance”<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>Formula for Standardization: <span class="math display">\[ Z = \frac{X - \mu}{\sigma} \]</span> where:</p>
+<ul>
+<li><span class="math inline">\(X\)</span>: the original value</li>
+<li><span class="math inline">\(\mu\)</span>: mean</li>
+<li><span class="math inline">\(\sigma\)</span>: standard deviation of the feature</li>
+</ul>
+<div id="cell-71" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>req_cols <span class="op">=</span> [<span class="st">"Track Length (m)"</span>, <span class="st">"Max Speed (km/h)"</span>, <span class="st">"Full Throttle (%)"</span>,<span class="st">"Number of Corners"</span>, <span class="st">"Number of Straights"</span>]</span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the scaler to the dataframe</span></span>
 <span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>data[req_cols] <span class="op">=</span> scaler.fit_transform(data[req_cols])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-69" class="cell" data-execution_count="31">
+<div id="cell-72" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="31">
 <div>
@@ -1865,13 +1882,13 @@ dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-70" class="cell" data-execution_count="32">
+<div id="cell-73" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>data.to_csv(<span class="st">"../../data/processed-data/race_track_features.csv"</span>)    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="pitstop-data" class="level2">
 <h2 class="anchored" data-anchor-id="pitstop-data">Pitstop data</h2>
-<div id="cell-72" class="cell" data-execution_count="68">
+<div id="cell-75" class="cell" data-execution_count="68">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/raw-data/pitstop_data.csv"</span>)</span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="68">
@@ -1954,7 +1971,7 @@ dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-73" class="cell" data-execution_count="69">
+<div id="cell-76" class="cell" data-execution_count="69">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>transformed <span class="op">=</span> (</span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>    df.assign(PitStopNumber<span class="op">=</span><span class="kw">lambda</span> x: x.groupby([<span class="st">'Year'</span>, <span class="st">'Round'</span>, <span class="st">'RaceName'</span>, <span class="st">'DriverID'</span>]).cumcount() <span class="op">+</span> <span class="dv">1</span>)</span>
 <span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>    .pivot(index<span class="op">=</span>[<span class="st">'Year'</span>, <span class="st">'Round'</span>, <span class="st">'RaceName'</span>, <span class="st">'DriverID'</span>], columns<span class="op">=</span><span class="st">'PitStopNumber'</span>, values<span class="op">=</span>[<span class="st">'Lap'</span>, <span class="st">'Stop'</span>, <span class="st">'Time'</span>, <span class="st">'Duration'</span>])</span>
@@ -1985,13 +2002,13 @@ dtype: int64</code></pre>
 [2 rows x 32 columns]</code></pre>
 </div>
 </div>
-<div id="cell-74" class="cell" data-execution_count="70">
+<div id="cell-77" class="cell" data-execution_count="70">
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>transformed.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="70">
 <pre><code>(5118, 32)</code></pre>
 </div>
 </div>
-<div id="cell-75" class="cell" data-execution_count="78">
+<div id="cell-78" class="cell" data-execution_count="78">
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert relevant columns to minutes</span></span>
 <span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
 <span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_to_minutes(value):</span>
@@ -2052,19 +2069,19 @@ dtype: int64</code></pre>
 [5 rows x 32 columns]</code></pre>
 </div>
 </div>
-<div id="cell-76" class="cell" data-execution_count="79">
+<div id="cell-79" class="cell" data-execution_count="79">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>transformed.to_csv(<span class="st">"../../data/processed-data/pitstop.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-77" class="cell" data-execution_count="75">
+<div id="cell-80" class="cell" data-execution_count="75">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>merged_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="75">
 <pre><code>(1206, 35)</code></pre>
 </div>
 </div>
-<div id="cell-78" class="cell" data-execution_count="76">
+<div id="cell-81" class="cell" data-execution_count="76">
 <div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>merged_df.to_csv(<span class="st">"../../data/processed-data/pitstop_with_positions.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-79" class="cell" data-execution_count="89">
+<div id="cell-82" class="cell" data-execution_count="89">
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/raw-data/pitstop_data.csv"</span>)</span>
 <span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="89">
@@ -2152,7 +2169,13 @@ dtype: int64</code></pre>
 </section>
 </section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p><a href="https://scikit-learn.org/dev/modules/generated/sklearn.preprocessing.StandardScaler.html">StandardScaler</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
