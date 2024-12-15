@@ -201,7 +201,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#driver-standings" id="toc-driver-standings" class="nav-link" data-scroll-target="#driver-standings">Driver Standings</a></li>
   <li><a href="#circuit-information" id="toc-circuit-information" class="nav-link" data-scroll-target="#circuit-information">Circuit Information</a></li>
   <li><a href="#news-of-top-10-drivers" id="toc-news-of-top-10-drivers" class="nav-link" data-scroll-target="#news-of-top-10-drivers">News of Top 10 Drivers</a></li>
-  <li><a href="#weather-data" id="toc-weather-data" class="nav-link" data-scroll-target="#weather-data">Weather Data</a>
+  <li><a href="#weather-data" id="toc-weather-data" class="nav-link" data-scroll-target="#weather-data">Weather Data</a></li>
+  <li><a href="#circuit-features" id="toc-circuit-features" class="nav-link" data-scroll-target="#circuit-features">Circuit Features</a>
   <ul class="collapse">
   <li><a href="#pitstop-data" id="toc-pitstop-data" class="nav-link" data-scroll-target="#pitstop-data">Pitstop data</a></li>
   </ul></li>
@@ -617,7 +618,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> index, row <span class="kw">in</span> race_data.iterrows():</span>
 <span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> row[<span class="st">'url'</span>]</span>
 <span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># for debuggin purpose</span></span>
-<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Fetching weather for: </span><span class="sc">{</span>url<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>    <span class="co">#print(f"Fetching weather for: {url}")</span></span>
 <span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># get the weather information</span></span>
 <span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>    weather <span class="op">=</span> get_weather_from_wikipedia(url)</span>
@@ -627,15 +628,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a><span class="co"># save to output file</span></span>
 <span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>output_csv <span class="op">=</span> <span class="st">"../../data/raw-data/weather/race_data_with_weather.csv"</span></span>
-<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>race_data.to_csv(output_csv, index<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Updated race data saved to: </span><span class="sc">{</span>output_csv<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>race_data.to_csv(output_csv, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-27" class="cell">
+</section>
+<section id="circuit-features" class="level2">
+<h2 class="anchored" data-anchor-id="circuit-features">Circuit Features</h2>
+<div id="cell-28" class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>os.makedirs(<span class="st">'cache'</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>fastf1.Cache.enable_cache(<span class="st">'cache'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-28" class="cell">
+<div id="cell-29" class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>track_data <span class="op">=</span> []</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_track_features(year, race_name):</span>
@@ -691,7 +693,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a>df_tracks <span class="op">=</span> pd.DataFrame(track_data)</span>
 <span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-29" class="cell">
+<div id="cell-30" class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># merging all racetrack features into a single csv</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>folder_path <span class="op">=</span> <span class="st">"../../data/raw-data/circuit_data/"</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -711,7 +713,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="pitstop-data" class="level3">
 <h3 class="anchored" data-anchor-id="pitstop-data">Pitstop data</h3>
-<div id="cell-31" class="cell" data-execution_count="21">
+<div id="cell-32" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data available from 2011</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to fetch pitstop data for a specific race</span></span>
@@ -782,7 +784,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb21-68"><a href="#cb21-68" aria-hidden="true" tabindex="-1"></a>                        <span class="bu">print</span>(<span class="ss">f"No race data available for </span><span class="sc">{</span>race_name<span class="sc">}</span><span class="ss"> in </span><span class="sc">{</span>year<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb21-69"><a href="#cb21-69" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-32" class="cell">
+<div id="cell-33" class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>output_csv <span class="op">=</span> <span class="st">"../../data/raw-data/pitstop_data.csv"</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>fetch_and_save_pitstop_data(</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    start_year<span class="op">=</span><span class="dv">2000</span>,</span>
