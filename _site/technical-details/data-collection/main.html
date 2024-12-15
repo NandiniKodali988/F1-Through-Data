@@ -198,10 +198,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#required-libraries" id="toc-required-libraries" class="nav-link" data-scroll-target="#required-libraries">Required Libraries</a></li>
   <li><a href="#race-information" id="toc-race-information" class="nav-link" data-scroll-target="#race-information">Race Information</a></li>
-  <li><a href="#driver-standings" id="toc-driver-standings" class="nav-link" data-scroll-target="#driver-standings">Driver Standings</a>
+  <li><a href="#driver-standings" id="toc-driver-standings" class="nav-link" data-scroll-target="#driver-standings">Driver Standings</a></li>
+  <li><a href="#circuit-information" id="toc-circuit-information" class="nav-link" data-scroll-target="#circuit-information">Circuit Information</a></li>
+  <li><a href="#news-of-top-10-drivers" id="toc-news-of-top-10-drivers" class="nav-link" data-scroll-target="#news-of-top-10-drivers">News of Top 10 Drivers</a>
   <ul class="collapse">
-  <li><a href="#circuit-information-for-2000-2023-seasons" id="toc-circuit-information-for-2000-2023-seasons" class="nav-link" data-scroll-target="#circuit-information-for-2000-2023-seasons">Circuit Information for 2000-2023 Seasons</a></li>
-  <li><a href="#news-of-top-10-drivers-in-2024-season-so-far" id="toc-news-of-top-10-drivers-in-2024-season-so-far" class="nav-link" data-scroll-target="#news-of-top-10-drivers-in-2024-season-so-far">News of Top 10 drivers in 2024 season (so far)</a></li>
   <li><a href="#fetch-weather-data-on-the-day-of-the-race" id="toc-fetch-weather-data-on-the-day-of-the-race" class="nav-link" data-scroll-target="#fetch-weather-data-on-the-day-of-the-race">Fetch Weather data on the day of the race</a></li>
   <li><a href="#pitstop-data" id="toc-pitstop-data" class="nav-link" data-scroll-target="#pitstop-data">Pitstop data</a></li>
   </ul></li>
@@ -415,8 +415,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    output_file<span class="op">=</span><span class="st">"../../data/raw-data/driver_standings/driver_standings_2000_2023.json"</span></span>
 <span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="circuit-information-for-2000-2023-seasons" class="level3">
-<h3 class="anchored" data-anchor-id="circuit-information-for-2000-2023-seasons">Circuit Information for 2000-2023 Seasons</h3>
+</section>
+<section id="circuit-information" class="level2">
+<h2 class="anchored" data-anchor-id="circuit-information">Circuit Information</h2>
+<p>The race tracks are referred to as circuits.</p>
+<p><strong>Importance</strong>: This data includes the circuit name, locality, country as well as its longitude and latitude. These values can be used for collecting weather information on the race day.</p>
+<p><strong>Source</strong>: ERGAST API</p>
 <div id="cell-13" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> circuit_info(output_file, url):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> requests.get(url)</span>
@@ -430,59 +434,61 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>circuit_info(output_file<span class="op">=</span><span class="st">'../../data/raw-data/circuit_data.json'</span>, url <span class="op">=</span> <span class="st">"http://ergast.com/api/f1/circuits.json"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="news-of-top-10-drivers-in-2024-season-so-far" class="level3">
-<h3 class="anchored" data-anchor-id="news-of-top-10-drivers-in-2024-season-so-far">News of Top 10 drivers in 2024 season (so far)</h3>
-<ul>
-<li>Using News-API</li>
-<li>Resources: https://jfh.georgetown.domains/centralized-lecture-content/content/data-science/data-collection/share/API-newapi/news-api.html</li>
-</ul>
-<section id="set-credentials" class="level4">
-<h4 class="anchored" data-anchor-id="set-credentials">Set Credentials</h4>
-<div id="cell-17" class="cell" data-execution_count="50">
+<section id="news-of-top-10-drivers" class="level2">
+<h2 class="anchored" data-anchor-id="news-of-top-10-drivers">News of Top 10 Drivers</h2>
+<p>Standings in 2024 season as on 11-24-2024</p>
+<p><strong>Silly Season</strong> in F1 refers to the period of speculation, rumors, and announcements surrounding driver lineups for the next season. This period typically begins during the latter half of the season, as drivers, teams, and sponsors negotiate deals for the future. Headlines during the silly season often speculate on whether drivers will extend their contract, switch teams, or retire from the sport, creating a buzz that fuels media interest.</p>
+<p><strong>Importance</strong>: Analyzing news coverage about drivers can provide insights into their career trajectories, and potential moves in the upcoming season.</p>
+<p><strong>Source</strong>: NEWS API</p>
+<p><strong>Resources</strong>: <a href="https://jfh.georgetown.domains/centralized-lecture-content/content/data-science/data-collection/share/API-newapi/news-api.html">NEWS-API DSAN 5000 Lecture Content</a></p>
+<div id="cell-16" class="cell" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>baseURL <span class="op">=</span> <span class="st">"https://newsapi.org/v2/everything?"</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>total_requests<span class="op">=</span><span class="dv">2</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>verbose<span class="op">=</span><span class="va">True</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>API_KEY<span class="op">=</span><span class="st">'86d4dac5a4864ece92da90bc31277e53'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-18" class="cell" data-execution_count="55">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> news_data(topic, API_KEY, total_requests<span class="op">=</span><span class="dv">1</span>, verbose<span class="op">=</span><span class="va">True</span>):</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    baseURL <span class="op">=</span> <span class="st">"https://newsapi.org/v2/everything?"</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># API parameters</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    URLpost <span class="op">=</span> {</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">'apiKey'</span>: API_KEY,</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'q'</span>: <span class="st">'+'</span><span class="op">+</span>topic,</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">'sotBy'</span>: <span class="st">'relevancy'</span>,</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'pageSize'</span>: <span class="dv">100</span>,</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">'page'</span>: <span class="dv">1</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># last name of the drives to avoid spaces in the file names</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    file_name <span class="op">=</span> topic.split()[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    all_articles <span class="op">=</span> []</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># make an API request </span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> request_num <span class="kw">in</span> <span class="bu">range</span>(total_requests):</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> requests.get(baseURL, params<span class="op">=</span>URLpost)</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>        response_data <span class="op">=</span> response.json()</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>        articles <span class="op">=</span> response_data.get(<span class="st">'articles'</span>, [])</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>        all_articles.extend(articles)</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>        URLpost[<span class="st">'page'</span>] <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<div id="cell-17" class="cell" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># function to fetch news articles for a given topic</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> news_data(topic, API_KEY, total_requests<span class="op">=</span><span class="dv">1</span>, verbose<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    baseURL <span class="op">=</span> <span class="st">"https://newsapi.org/v2/everything?"</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># API parameters</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    URLpost <span class="op">=</span> {</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'apiKey'</span>: API_KEY,      <span class="co"># API key</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">'q'</span>: <span class="st">'+'</span><span class="op">+</span>topic,         <span class="co"># topic</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'sotBy'</span>: <span class="st">'relevancy'</span>,   <span class="co"># sort by relevance</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">'pageSize'</span>: <span class="dv">100</span>,        <span class="co"># maximum articles per pages = 100</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'page'</span>: <span class="dv">1</span>               <span class="co"># start with page 1</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># last name of the drives to avoid spaces in the file names</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    file_name <span class="op">=</span> topic.split()[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># initialize a list to store all articles</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    all_articles <span class="op">=</span> []</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># loop through the number of API requests</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> request_num <span class="kw">in</span> <span class="bu">range</span>(total_requests):</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># make the API request</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> requests.get(baseURL, params<span class="op">=</span>URLpost)</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>        response_data <span class="op">=</span> response.json()</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># extract artivles from the response</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>        articles <span class="op">=</span> response_data.get(<span class="st">'articles'</span>, [])</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>        all_articles.extend(articles)</span>
 <span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># output file path</span></span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    output_dr <span class="op">=</span> <span class="st">"../../data/raw-data/News_Drivers"</span></span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    output_file <span class="op">=</span> os.path.join(output_dr, <span class="ss">f"</span><span class="sc">{</span>file_name<span class="sc">}</span><span class="ss">_raw_text.json"</span>)</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># increment the page number for next request</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>        URLpost[<span class="st">'page'</span>] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># save to output file</span></span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(output_file, <span class="st">'w'</span>) <span class="im">as</span> f:</span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>        json.dump(all_articles, f, indent<span class="op">=</span><span class="dv">4</span>)</span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> all_articles</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># output file path</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    output_dr <span class="op">=</span> <span class="st">"../../data/raw-data/News_Drivers"</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    output_file <span class="op">=</span> os.path.join(output_dr, <span class="ss">f"</span><span class="sc">{</span>file_name<span class="sc">}</span><span class="ss">_raw_text.json"</span>)</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># save to output file</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(output_file, <span class="st">'w'</span>) <span class="im">as</span> f:</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>        json.dump(all_articles, f, indent<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> all_articles</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
 <section id="top-10-drivers-as-of-round-22-las-vegas-grand-prix" class="level4">
 <h4 class="anchored" data-anchor-id="top-10-drivers-as-of-round-22-las-vegas-grand-prix">Top 10 Drivers as of Round 22 (Las Vegas Grand Prix)</h4>
 <ol type="1">
@@ -497,11 +503,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Fernando Alonso</li>
 <li>Nico Hulkenberg</li>
 </ol>
-<div id="cell-20" class="cell" data-execution_count="56">
+<div id="cell-19" class="cell" data-execution_count="56">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># testing </span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>text_data <span class="op">=</span> news_data(<span class="st">'Max Verstappen'</span>, API_KEY, total_requests<span class="op">=</span><span class="dv">1</span>, verbose<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-21" class="cell" data-execution_count="57">
+<div id="cell-20" class="cell" data-execution_count="57">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>text_data <span class="op">=</span> news_data(<span class="st">'Lando Norris'</span>, API_KEY, total_requests<span class="op">=</span><span class="dv">1</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>text_data <span class="op">=</span> news_data(<span class="st">'Charles Leclerc'</span>, API_KEY, total_requests<span class="op">=</span><span class="dv">1</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>text_data <span class="op">=</span> news_data(<span class="st">'Oscar Piastri'</span>, API_KEY, total_requests<span class="op">=</span><span class="dv">1</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
@@ -513,21 +519,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>text_data <span class="op">=</span> news_data(<span class="st">'Nico Hulkenberg'</span>, API_KEY, total_requests<span class="op">=</span><span class="dv">1</span>, verbose<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-</section>
 <section id="fetch-weather-data-on-the-day-of-the-race" class="level3">
 <h3 class="anchored" data-anchor-id="fetch-weather-data-on-the-day-of-the-race">Fetch Weather data on the day of the race</h3>
 <p>The weather data will be fetched from the wiki page of each race.</p>
-<div id="cell-23" class="cell" data-execution_count="61">
+<div id="cell-22" class="cell" data-execution_count="61">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the url for each race is in the race data collected using ergast API</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>race_df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/all_race_results_cleaned.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-24" class="cell" data-execution_count="62">
+<div id="cell-23" class="cell" data-execution_count="62">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>race_data <span class="op">=</span> race_df[[<span class="st">'season'</span>, <span class="st">'raceName'</span>, <span class="st">'url'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-25" class="cell" data-execution_count="63">
+<div id="cell-24" class="cell" data-execution_count="63">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>race_data <span class="op">=</span> race_data.drop_duplicates()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-26" class="cell" data-execution_count="64">
+<div id="cell-25" class="cell" data-execution_count="64">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>race_data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="64">
 <div>
@@ -579,7 +584,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="cell-27" class="cell">
+<div id="cell-26" class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_weather_from_wikipedia(url):</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> requests.get(url)</span>
@@ -624,11 +629,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Updated race data saved to: </span><span class="sc">{</span>output_csv<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-28" class="cell">
+<div id="cell-27" class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>os.makedirs(<span class="st">'cache'</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>fastf1.Cache.enable_cache(<span class="st">'cache'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-29" class="cell">
+<div id="cell-28" class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>track_data <span class="op">=</span> []</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_track_features(year, race_name):</span>
@@ -684,7 +689,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a>df_tracks <span class="op">=</span> pd.DataFrame(track_data)</span>
 <span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-30" class="cell">
+<div id="cell-29" class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># merging all racetrack features into a single csv</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>folder_path <span class="op">=</span> <span class="st">"../../data/raw-data/circuit_data/"</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -705,7 +710,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="pitstop-data" class="level3">
 <h3 class="anchored" data-anchor-id="pitstop-data">Pitstop data</h3>
-<div id="cell-32" class="cell" data-execution_count="21">
+<div id="cell-31" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data available from 2011</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to fetch pitstop data for a specific race</span></span>
@@ -776,7 +781,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb21-68"><a href="#cb21-68" aria-hidden="true" tabindex="-1"></a>                        <span class="bu">print</span>(<span class="ss">f"No race data available for </span><span class="sc">{</span>race_name<span class="sc">}</span><span class="ss"> in </span><span class="sc">{</span>year<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb21-69"><a href="#cb21-69" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-33" class="cell">
+<div id="cell-32" class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>output_csv <span class="op">=</span> <span class="st">"../../data/raw-data/pitstop_data.csv"</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>fetch_and_save_pitstop_data(</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    start_year<span class="op">=</span><span class="dv">2000</span>,</span>

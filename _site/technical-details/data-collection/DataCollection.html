@@ -155,6 +155,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
   <ul class="collapse">
   <li><a href="#web-scraping" id="toc-web-scraping" class="nav-link" data-scroll-target="#web-scraping">Web Scraping</a></li>
+  <li><a href="#apis" id="toc-apis" class="nav-link" data-scroll-target="#apis">APIs</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -167,8 +168,15 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>In this section, we focus on the methods and sources used to collect data that are relevant to the research questions of this project. The quality of the data collected determines the accuracy of insights and predictions. Poor data collection practices can lead to biased analysis, inaccurate resutls, and ineffective models. Therefore, carful planning and execution of data collection are essential for the success of any data-driven project.</p>
-<p><strong>Challenges in Data Collection</strong> We might not always find the data we need from a single source. Some important points to be considered when collecting data: - <strong>Data quality</strong>: Ensuring the data is accurate, complete, and relevant to the research questions is crucial. - <strong>inconistencies</strong>: Data form different sources may have different formats, structures, naming conventions, and units of measurement, requring thorough understanding of the data for preprocessing. - <strong>Ethics and Privacy</strong>: Data collection methods must adheere to ethical guidelines, ensuring that no sensitive or private information is collected or misused. - <strong>Data Bias</strong>: Collecting data from sources that introduces bias can lead to inaccurate results and models. - <strong>Technical Constraints</strong>: Issues such as API rate limits, website restrctions, or incomplete data can hinder data collection.</p>
+<p>In this section, we focus on the methods and sources used to collect data that are relevant to the research questions of this project. The quality of the data collected determines the accuracy of insights and predictions. Poor data collection practices can lead to biased analysis, inaccurate results, and ineffective models. Therefore, careful planning and execution of data collection is essential for the success of any data-driven project.</p>
+<p><strong>Challenges in Data Collection</strong> Some important points to be considered when collecting data are:</p>
+<ul>
+<li><strong>Data quality</strong>: Ensuring the data is accurate, complete, and relevant to the research questions is crucial.</li>
+<li><strong>Inconsistencies</strong>: Data form different sources may have different formats, structures, naming conventions, and units of measurement, requiring a thorough understanding of the data for pre-processing.</li>
+<li><strong>Ethics and Privacy</strong>: Data collection methods must adhere to ethical guidelines, ensuring that no sensitive or private information is collected or misused.</li>
+<li><strong>Data Bias</strong>: Collecting data from sources that introduces bias can lead to inaccurate results and models.</li>
+<li><strong>Technical Constraints</strong>: Issues such as API rate limits, website restrictions, or incomplete data can hinder data collection.</li>
+</ul>
 <p>By addressing these challenges, it is ensured that the data collected was relevant, accurate, and reliable.</p>
 </section>
 <section id="methods" class="level1">
@@ -176,12 +184,64 @@ ul.task-list li input[type="checkbox"] {
 <p>While there are various methods to collect data, <code>web scraping</code> and <code>APIs</code> are the two methods used in this project.</p>
 <section id="web-scraping" class="level2">
 <h2 class="anchored" data-anchor-id="web-scraping">Web Scraping</h2>
+<p>Web Scraping is an automatic way to collect data from websites. It involves the use of automated scripts or tools to interact with the website’s structure to retrieve information. The data is extracted using selectors like tags, classes, or IDs. While web scraping can be tailored to collect a variety od data types from multiple web pages, one should be aware of the website’s terms of service and ethical scraping practices, and manage rate limits to avoid being blocked.<br>
+</p>
+<p><strong>In this Project</strong>: Using Python libraries like <code>requests</code> and <code>BeautifulSoup</code>, weather information was extracted from infoboxes of each race’s Wikipedia pages.<br>
+</p>
+<p><strong>Process</strong>:<br>
+- The URLs for each race were obtained from the race data collected, these links were used to locate the Wikipedia pages of each race.<br>
+- HTTP requests were sent to the Wikipedia pages to retrieve the HTML content.<br>
+- Parsing the HTML using <code>BeautifulSoup</code> locate the infobox containing the race metadata.<br>
+- Locating and extracting the <strong>Weather</strong> field from the table.</p>
+<p><img src="../../data/images/weather_wiki.png" class="img-fluid"><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+</section>
+<section id="apis" class="level2">
+<h2 class="anchored" data-anchor-id="apis">APIs</h2>
+<p><strong>APIs (Application Programming Interfaces)</strong> are mechanisms that enable two software components to communicate with each other using a set of definitions and protocols. APIs enable developers to access data or functionality from a system without having to know the underlying implementation details, making it easier to integrate data from multiple sources. They act as intermediaries, providing a structured way for programs to request and retrieve information or services.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p><strong>How do APIs Work?</strong><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>&nbsp; APIs facilitate communication between applications, systems, or devices through a structured <strong>request-response cycle</strong></p>
+<ol type="1">
+<li><strong>API Client</strong>: The process begins with an API client, which sends a request to the API server, which can be triggered by user interaction or external events.</li>
+<li><strong>API Request</strong>: An API request typically contains the following components:&nbsp;
+<ol type="1">
+<li>Endpoint: URL that provides access to a specific resource.</li>
+<li>Method: Indicates that action to be performed on the resource.</li>
+<li>Parameters: Variables that are passed along with the request to customize the response.</li>
+<li>Headers: Key-value pairs that provide additional details about the request, such as authentication tokens or the content format.</li>
+<li>Request Body: Includes actual data required for operations like creating, updating, or deleting resources.</li>
+</ol></li>
+<li><strong>API Server</strong>: Receives the request and performs actions such as authenticating the client, validating the input, and processing the request by retrieving or updating the requested data.</li>
+<li><strong>API Response</strong>: The API server returns a response to the client, this typically includes:<br>
+
+<ol type="1">
+<li>Status Code: A numerical code indicating the result of the request (e.g., 200 for success, 201 for resource creation, or 404 for resource not found).</li>
+<li>Headers: Additional metadata about the response.</li>
+<li>Response Body: The data requested by the client, or an error message.</li>
+</ol></li>
+</ol>
+<p><strong>API Architectural Styles</strong>:<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>&nbsp;</p>
+<ol type="1">
+<li><strong>REST (Representational State of Resource)</strong>: A widely used style for data exchange over the internet. In RESTful APIs, resources are accessed through endpoints, and standard HTTP methods such as GET, POST, PUT, and DELETE are used to perform operations on these resources.</li>
+<li><strong>SOAP (Simple Object Access Protocol)</strong>: Protocol that uses XML to facilitate the transfer of highly structured messages between client and sever. While it provides features for security and reliability, it can be slower compared to other architectural styles.</li>
+<li><strong>GraphQL</strong>: An open-source query language designed to allow clients fetch only the data they need via a single API endpoint. This eliminates the need for multiple requests, making it valuable for applications that operate over slower or less reliable network connections.</li>
+</ol>
+<p><strong>In this Project</strong>:&nbsp;</p>
+<p>The Ergast Developer API was used to collect race, driver standings, circuit information, and pitstop data. “The Ergast Developer API is an experimental web service which provides a historical record of motor racing data for non-commercial purposes”<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>.<span class="citation" data-cites="chat"><sup><a href="#ref-chat" role="doc-biblioref"><strong>chat?</strong></a></sup></span></p>
 
 
 </section>
 </section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p><a href="https://en.wikipedia.org/wiki/2010_Bahrain_Grand_Prix">2010 Bahrain Grand Prix</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><a href="https://aws.amazon.com/what-is/api/#:~:text=APIs%20are%20mechanisms%20that%20enable,weather%20updates%20on%20your%20phone.">What are APIs</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p><a href="https://www.postman.com/what-is-an-api/">How do APIs work</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p><a href="https://jfh.georgetown.domains/centralized-lecture-content/content/data-science/data-collection/APIs/notes.html">Types of APIs</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p><a href="https://ergast.com/mrd/">Ergast Developer API</a><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
