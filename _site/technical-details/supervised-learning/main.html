@@ -105,6 +105,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -188,20 +217,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#instructions" id="toc-instructions" class="nav-link active" data-scroll-target="#instructions">Instructions</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#required-libraries" id="toc-required-libraries" class="nav-link" data-scroll-target="#required-libraries">Required Libraries</a></li>
+  <li><a href="#feature-selection" id="toc-feature-selection" class="nav-link" data-scroll-target="#feature-selection">Feature Selection</a>
   <ul class="collapse">
-  <li><a href="#suggested-page-structure" id="toc-suggested-page-structure" class="nav-link" data-scroll-target="#suggested-page-structure">Suggested page structure</a></li>
-  <li><a href="#what-to-address" id="toc-what-to-address" class="nav-link" data-scroll-target="#what-to-address">What to address</a></li>
-  <li><a href="#data-preprocessing" id="toc-data-preprocessing" class="nav-link" data-scroll-target="#data-preprocessing">Data Preprocessing</a></li>
-  <li><a href="#model-selection" id="toc-model-selection" class="nav-link" data-scroll-target="#model-selection">Model Selection</a></li>
-  <li><a href="#training-and-testing-strategy" id="toc-training-and-testing-strategy" class="nav-link" data-scroll-target="#training-and-testing-strategy">Training and Testing Strategy</a></li>
-  <li><a href="#model-evaluation-metrics" id="toc-model-evaluation-metrics" class="nav-link" data-scroll-target="#model-evaluation-metrics">Model Evaluation Metrics</a></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
-  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
+  <li><a href="#correlation-analysis" id="toc-correlation-analysis" class="nav-link" data-scroll-target="#correlation-analysis">Correlation Analysis</a></li>
+  <li><a href="#recursive-feature-elimination" id="toc-recursive-feature-elimination" class="nav-link" data-scroll-target="#recursive-feature-elimination">Recursive Feature Elimination</a></li>
+  <li><a href="#mutual-information" id="toc-mutual-information" class="nav-link" data-scroll-target="#mutual-information">Mutual Information</a></li>
   </ul></li>
-  <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code">Code</a>
-  <ul class="collapse">
-  <li><a href="#feature-selection" id="toc-feature-selection" class="nav-link" data-scroll-target="#feature-selection">Feature Selection</a></li>
   <li><a href="#binary-classification" id="toc-binary-classification" class="nav-link" data-scroll-target="#binary-classification">Binary Classification</a>
   <ul class="collapse">
   <li><a href="#decision-trees" id="toc-decision-trees" class="nav-link" data-scroll-target="#decision-trees">Decision Trees</a></li>
@@ -210,10 +233,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#multiclass-classification" id="toc-multiclass-classification" class="nav-link" data-scroll-target="#multiclass-classification">Multiclass Classification</a>
   <ul class="collapse">
   <li><a href="#random-forest-classifier" id="toc-random-forest-classifier" class="nav-link" data-scroll-target="#random-forest-classifier">Random Forest Classifier</a></li>
-  <li><a href="#knn" id="toc-knn" class="nav-link" data-scroll-target="#knn">KNN</a></li>
+  <li><a href="#k-nearest-neighbors-knn" id="toc-k-nearest-neighbors-knn" class="nav-link" data-scroll-target="#k-nearest-neighbors-knn">K-Nearest Neighbors (KNN)</a></li>
   </ul></li>
   <li><a href="#regression" id="toc-regression" class="nav-link" data-scroll-target="#regression">Regression</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -239,111 +261,83 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<!-- After digesting the instructions, you can delete this cell, these are assignment instructions and do not need to be included in your final submission.  -->
-<section id="instructions" class="level1">
-<h1>Instructions</h1>
-<p><code>Note</code>: You should remove these instruction once you have read and understood them. They should not be included in your final submission.</p>
-<p><code>Remember:</code> Exactly what do you put on this page will be specific you your project and data. Some things might “make more sense” on one page rather than another, depending on your workflow. Organize your project in a logical way that makes the most sense to you.</p>
-<section id="suggested-page-structure" class="level2">
-<h2 class="anchored" data-anchor-id="suggested-page-structure">Suggested page structure</h2>
-<p>Here’s one suggested structure for organizing your technical pages. You can adjust this as needed:</p>
-<p><code>Audience</code>:Remember that these are written for a technical audience. Assume they have completed the DSAN program, but would appreciate refreshers of the important concepts.</p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Supervised Learning is a branch of Machine Learning where models are trained on labeled data. The primary goal of supervised learning is to learn a mapping function that can predict outputs for unseen data accurately. This approach relies on historical data to identify patterns and relationships, enabling it to generalize well on new, unseen data.</p>
+<p><strong>Process</strong>:</p>
 <ul>
-<li><strong>Introduction and Motivation:</strong> Briefly outline your plan. What are you doing on this page, and why? Provide context and explain the goals of your analysis.</li>
-<li><strong>Overview of Methods:</strong> Give a concise explanation of the methods used. For example, if using K-Means clustering, describe what it is, how it works, the inputs and outputs, and key hyperparameters.</li>
-<li><strong>Code:</strong> Include the code you used to implement your workflow.</li>
-<li><strong>Summary and Interpretation of Results:</strong> Summarize your findings, interpret the results, and discuss their technical implications.</li>
+<li>The model is provided with input-output pairs from historical data. Each data point consists of:
+<ul>
+<li>Features (X): Independent variables or predictors.</li>
+<li>Labels (Y): Target outputs or dependent variables.</li>
+</ul></li>
+<li>The model learns the relationship between the input features and corresponding outputs using a loss function that measures prediction error. The goal is to minimize this error.</li>
+<li>Once trained, the model can predict outputs for new inputs.</li>
+<li>Performance is evaluated using metrics like accuracy, precision, recall, F1-score for classification tasks, or RMSE, MAE for regression tasks.</li>
 </ul>
-</section>
-<section id="what-to-address" class="level2">
-<h2 class="anchored" data-anchor-id="what-to-address">What to address</h2>
-<p>The following is a list of some of the things you should address on this page. This list is not exhaustive, and you should use your judgment to decide what is most relevant to your project.</p>
-<p>Please do some form of “Feature selection” in your project and include a section on it. Discuss the process you went through to select the features that you used in your model, this should be done for both classification models and regression models. What did you include and why? What did you exclude? What was the reasoning behind your decisions? This section can be included here, or you can make a new page in the dropdown menu for it.</p>
-<p>Please break this page into a “regression” section, “binary classification” section, and a “Multi-class classification” section. For each case you should try multiple methods, including those discussed in class, and compare and contrast their preformance and results.</p>
-</section>
-<section id="data-preprocessing" class="level2">
-<h2 class="anchored" data-anchor-id="data-preprocessing">Data Preprocessing</h2>
+<p><strong>Types of Supervised Learning</strong></p>
 <ol type="1">
-<li><strong>Normalization or Standardization</strong>: Apply techniques to scale the data appropriately.</li>
-<li><strong>Feature Selection or Extraction</strong>: Identify and select the most relevant features for your analysis.</li>
-<li><strong>Encoding Categorical Variables</strong>: Convert categorical variables into a suitable format for modeling.</li>
+<li>Classification:</li>
 </ol>
-</section>
-<section id="model-selection" class="level2">
-<h2 class="anchored" data-anchor-id="model-selection">Model Selection</h2>
-<ol type="1">
-<li><strong>Model Rationale</strong>: Explain the reasons for selecting specific models or algorithms.</li>
-<li><strong>Overview of Algorithms</strong>: Provide a brief overview of the algorithms used</li>
+<ul>
+<li>The goal is to categorize inputs into discrete classes or categories.</li>
+<li>Algorithms: Logistic Regression, Support Vector Machines (SVM), Decision Trees, Random Forest, Naive Bayes, K-Nearest Neighbors (KNN).</li>
+</ul>
+<ol start="2" type="1">
+<li>Regression:</li>
 </ol>
+<ul>
+<li>The goal is to predict a continuous output based on input features.</li>
+<li>Algorithms: Linear Regression, Polynomial Regression, Ridge and Lasso Regression, Support Vector Regression (SVR).</li>
+</ul>
+<p><strong>Challenges</strong>:</p>
+<ul>
+<li>Supervised learning requires large volumes of labeled data, which can be expensive and time-consuming to obtain.</li>
+<li>Models may memorize training data instead of generalizing to new inputs. Regularization and cross-validation techniques help mitigate this.</li>
+<li>In classification problems, imbalanced classes can affect performance.</li>
+</ul>
+<p><strong>In this project</strong>:</p>
+<p>Supervised Learning Algorithms are applied to classify race results and predict pit stop duration.</p>
 </section>
-<section id="training-and-testing-strategy" class="level2">
-<h2 class="anchored" data-anchor-id="training-and-testing-strategy">Training and Testing Strategy</h2>
-<ol type="1">
-<li><strong>Split Methods</strong>: Detail the splitting methods used (e.g., train-test split, cross-validation).</li>
-<li><strong>Dataset Proportions</strong>: Specify the proportions used for splitting the dataset.</li>
-</ol>
-</section>
-<section id="model-evaluation-metrics" class="level2">
-<h2 class="anchored" data-anchor-id="model-evaluation-metrics">Model Evaluation Metrics</h2>
-<ol type="1">
-<li><strong>Binary Classification Metrics</strong>: Discuss metrics such as accuracy, precision, recall, F1 score, and ROC-AUC.</li>
-<li><strong>Multiclass Classification Metrics</strong>: Include metrics such as confusion matrix and macro/micro F1 score.</li>
-<li><strong>Regression Metrics</strong>: Explain metrics such as RMSE, MAE, and R-squared, parity plots, etc.</li>
-</ol>
-</section>
-<section id="results" class="level2">
-<h2 class="anchored" data-anchor-id="results">Results</h2>
-<ol type="1">
-<li><strong>Model Performance Summary</strong>: Provide a summary of the model’s performance.</li>
-<li><strong>Visualizations</strong>: Include visualizations of results (e.g., ROC curves, feature importance plots).</li>
-</ol>
-</section>
-<section id="discussion" class="level2">
-<h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
-<ol type="1">
-<li><strong>Result Interpretation</strong>: Interpret the results obtained from the analysis.</li>
-<li><strong>Model Performance Comparison</strong>: Compare the performance of different models.</li>
-<li><strong>Insights Gained</strong>: Share insights learned from the analysis.</li>
-</ol>
-</section>
-</section>
-<section id="code" class="level1">
-<h1>Code</h1>
-<p>Provide the source code used for this section of the project here.</p>
-<p>If you’re using a package for code organization, you can import it at this point. However, make sure that the <strong>actual workflow steps</strong>—including data processing, analysis, and other key tasks—are conducted and clearly demonstrated on this page. The goal is to show the technical flow of your project, highlighting how the code is executed to achieve your results.</p>
-<p>If relevant, link to additional documentation or external references that explain any complex components. This section should give readers a clear view of how the project is implemented from a technical perspective.</p>
-<p>Remember, this page is a technical narrative, NOT just a notebook with a collection of code cells, include in-line Prose, to describe what is going on.</p>
-<section id="feature-selection" class="level2">
-<h2 class="anchored" data-anchor-id="feature-selection">Feature Selection</h2>
-<div id="cell-4" class="cell" data-execution_count="105">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import required libraries</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_selection <span class="im">import</span> RFE, mutual_info_classif</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> classification_report, ConfusionMatrixDisplay, accuracy_score</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier, plot_tree</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> roc_curve, auc</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> label_binarize</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestRegressor</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error, mean_absolute_error, r2_score</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="required-libraries" class="level1">
+<h1>Required Libraries</h1>
+<div id="cell-3" class="cell" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_selection <span class="im">import</span> RFE, mutual_info_classif</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> recall_score, classification_report, ConfusionMatrixDisplay, accuracy_score</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier, plot_tree</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> roc_curve, auc</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> label_binarize</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestRegressor</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error, mean_absolute_error, r2_score</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.svm <span class="im">import</span> SVR</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-5" class="cell" data-execution_count="83">
+</section>
+<section id="feature-selection" class="level1">
+<h1>Feature Selection</h1>
+<p><strong>Feature Selection</strong> is the process of identifying the most relevant features from a dataset that contribute significantly to predicting the target variable. By reducing the number of features, it improves computational efficiency during training, minimizes the risk of overfitting, and enhances model performance. Additionally, reducing feature complexity simplifies models, making them easier to interpret and explain, which is crucial for understanding the underlying data relationships.</p>
+<div id="cell-5" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the binary target variable</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/pitstop_with_positions.csv"</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'points_category'</span>] <span class="op">=</span> df[<span class="st">'position'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="dv">1</span> <span class="cf">if</span> x <span class="op">&lt;=</span> <span class="dv">10</span> <span class="cf">else</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df.drop(columns<span class="op">=</span>[<span class="st">'Unnamed: 0'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'points_category'</span>] <span class="op">=</span> df[<span class="st">'position'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="dv">1</span> <span class="cf">if</span> x <span class="op">&lt;=</span> <span class="dv">10</span> <span class="cf">else</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-6" class="cell" data-execution_count="84">
+<div id="cell-6" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="84">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
 
@@ -351,7 +345,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Unnamed: 0</th>
 <th data-quarto-table-cell-role="th">Year</th>
 <th data-quarto-table-cell-role="th">Round</th>
 <th data-quarto-table-cell-role="th">RaceName</th>
@@ -361,6 +354,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <th data-quarto-table-cell-role="th">Lap3</th>
 <th data-quarto-table-cell-role="th">Lap4</th>
 <th data-quarto-table-cell-role="th">Lap5</th>
+<th data-quarto-table-cell-role="th">Lap6</th>
 <th data-quarto-table-cell-role="th">...</th>
 <th data-quarto-table-cell-role="th">Duration2</th>
 <th data-quarto-table-cell-role="th">Duration3</th>
@@ -377,7 +371,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>0</td>
 <td>2011</td>
 <td>1</td>
 <td>Australian Grand Prix</td>
@@ -387,6 +380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>1.339923</td>
 <td>-0.281099</td>
 <td>-0.15023</td>
+<td>-0.074145</td>
 <td>...</td>
 <td>0.733521</td>
 <td>1.882538</td>
@@ -401,7 +395,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>1</td>
 <td>2011</td>
 <td>1</td>
 <td>Australian Grand Prix</td>
@@ -411,6 +404,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>1.723412</td>
 <td>-0.281099</td>
 <td>-0.15023</td>
+<td>-0.074145</td>
 <td>...</td>
 <td>0.755727</td>
 <td>1.679973</td>
@@ -425,7 +419,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>2</td>
 <td>2011</td>
 <td>1</td>
 <td>Australian Grand Prix</td>
@@ -435,6 +428,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>-0.577525</td>
 <td>-0.281099</td>
 <td>-0.15023</td>
+<td>-0.074145</td>
 <td>...</td>
 <td>0.896614</td>
 <td>-0.580401</td>
@@ -449,7 +443,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>3</td>
 <td>2011</td>
 <td>1</td>
 <td>Australian Grand Prix</td>
@@ -459,6 +452,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>0.956433</td>
 <td>3.039918</td>
 <td>-0.15023</td>
+<td>-0.074145</td>
 <td>...</td>
 <td>1.835036</td>
 <td>0.998617</td>
@@ -473,7 +467,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>4</td>
 <td>2011</td>
 <td>1</td>
 <td>Australian Grand Prix</td>
@@ -483,6 +476,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>-0.577525</td>
 <td>-0.281099</td>
 <td>-0.15023</td>
+<td>-0.074145</td>
 <td>...</td>
 <td>0.621420</td>
 <td>-0.580401</td>
@@ -498,11 +492,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 
-<p>5 rows × 37 columns</p>
+<p>5 rows × 36 columns</p>
 </div>
 </div>
 </div>
-<div id="cell-7" class="cell" data-execution_count="85">
+<div id="cell-7" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define features and target</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> [</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Year"</span>,</span>
@@ -514,18 +508,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[features]</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df[<span class="st">"points_category"</span>]  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-8" class="cell" data-execution_count="86">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Correlation Analysis</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>correlations <span class="op">=</span> X.corrwith(y)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>correlations.sort_values().plot(kind<span class="op">=</span><span class="st">'barh'</span>, color<span class="op">=</span><span class="st">'deepskyblue'</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Correlation Between Features and Target"</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plt.yticks(fontsize<span class="op">=</span><span class="dv">14</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>plt.xticks(fontsize<span class="op">=</span><span class="dv">14</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Correlation Coefficient"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Feature"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>plt.grid(axis<span class="op">=</span><span class="st">'x'</span>)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="correlation-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="correlation-analysis">Correlation Analysis</h2>
+<p>Correlation analysis helps identify features that are strongly correlated with the target variable.</p>
+<div id="cell-9" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>correlations <span class="op">=</span> X.corrwith(y)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>correlations.sort_values().plot(kind<span class="op">=</span><span class="st">'barh'</span>, color<span class="op">=</span><span class="st">'deepskyblue'</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Correlation Between Features and Target"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>plt.yticks(fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plt.xticks(fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Correlation Coefficient"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Feature"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>plt.grid(axis<span class="op">=</span><span class="st">'x'</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -534,22 +530,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="cell-9" class="cell" data-execution_count="87">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Recursive Feature Elimination (RFE)</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>rfe <span class="op">=</span> RFE(model, n_features_to_select<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>rfe.fit(X, y)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>rfe_ranking <span class="op">=</span> pd.Series(rfe.ranking_, index<span class="op">=</span>features).sort_values()</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>rfe_ranking.plot(kind<span class="op">=</span><span class="st">'barh'</span>, color<span class="op">=</span><span class="st">'deepskyblue'</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Feature Importance by Recursive Feature Elimination (RFE)"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>plt.yticks(fontsize<span class="op">=</span><span class="dv">14</span>)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>plt.xticks(fontsize<span class="op">=</span><span class="dv">14</span>)</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"RFE Ranking (Lower is Better)"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Feature"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>plt.grid(axis<span class="op">=</span><span class="st">'x'</span>)</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="recursive-feature-elimination" class="level2">
+<h2 class="anchored" data-anchor-id="recursive-feature-elimination">Recursive Feature Elimination</h2>
+<p>RFE is a wrapper method that iteratively removes the least important features based on a model’s performance.</p>
+<p><strong>Process</strong>:</p>
+<ol type="1">
+<li>Train a machine learning model.</li>
+<li>Rank features based on their importance or weights.</li>
+<li>Recursively eliminate the least significant feature(s) and retrain the model.</li>
+<li>Stop when the desired number of features is selected.</li>
+</ol>
+<div id="cell-11" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># inititlize logistic regression model</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>, random_state<span class="op">=</span><span class="dv">123</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># initialize RFE with the logistic regression model </span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>rfe <span class="op">=</span> RFE(model, n_features_to_select<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># fit RFE on data</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>rfe.fit(X, y)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># generate rankings for the features</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 = most important </span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># higher ranks indicate lower importance</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>rfe_ranking <span class="op">=</span> pd.Series(rfe.ranking_, index<span class="op">=</span>features).sort_values()</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>rfe_ranking.plot(kind<span class="op">=</span><span class="st">'barh'</span>, color<span class="op">=</span><span class="st">'deepskyblue'</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Feature Importance by Recursive Feature Elimination (RFE)"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>plt.yticks(fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>plt.xticks(fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"RFE Ranking (Lower is Better)"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Feature"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>plt.grid(axis<span class="op">=</span><span class="st">'x'</span>)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -558,9 +570,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="cell-10" class="cell" data-execution_count="88">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Mutual Information</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>mutual_info <span class="op">=</span> mutual_info_classif(X, y, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+</section>
+<section id="mutual-information" class="level2">
+<h2 class="anchored" data-anchor-id="mutual-information">Mutual Information</h2>
+<p>Mutual information measures the dependency between two variables. It identifies the most informative features by quantifying how much knowing one variable reduces uncertainty about the other</p>
+<div id="cell-13" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute MI between each features and y</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>mutual_info <span class="op">=</span> mutual_info_classif(X, y, random_state<span class="op">=</span><span class="dv">123</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>mutual_info_series <span class="op">=</span> pd.Series(mutual_info, index<span class="op">=</span>features).sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
@@ -580,57 +596,97 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>features: grid, Year, Duration1, Duration2, Duration3, Duration4, Lap1, Lap2, Lap3, Stop2</p>
+<p>Selected Features: <code>grid</code>,<code>Duration1</code>, <code>Duration2</code>, <code>Lap1</code>, <code>Lap2</code>, <code>Lap3</code>,<code>Stop2</code>, <code>Stop3</code></p>
+<p>These features have been consistenly selected as important by the Feature Selection Algorithms.</p>
 </section>
-<section id="binary-classification" class="level2">
-<h2 class="anchored" data-anchor-id="binary-classification">Binary Classification</h2>
-<section id="decision-trees" class="level3">
-<h3 class="anchored" data-anchor-id="decision-trees">Decision Trees</h3>
-<div id="cell-14" class="cell" data-execution_count="95">
+</section>
+<section id="binary-classification" class="level1">
+<h1>Binary Classification</h1>
+<section id="decision-trees" class="level2">
+<h2 class="anchored" data-anchor-id="decision-trees">Decision Trees</h2>
+<p>A Decision Tree is a supervised machine learning algorithm used for both classification and regression tasks. It operates by recursively splitting the dataset based on the most informative features, represented as a tree-like structure of decisions. Each node in the tree represents a feature, branches represent decisions or splits, and the leaves represent the final outcome.</p>
+<p><strong>Process</strong>:</p>
+<ul>
+<li>Decision Trees identify the best feature for splitting the data at each step. Splits are made to maximize homogeneity within the resulting subsets.
+<ul>
+<li>For classification, splitting is often based on measures like Gini Impurity or Entropy (Information Gain)</li>
+<li>For regression, the split minimizes the Mean Squared Error (MSE).</li>
+</ul></li>
+<li>Recursive Partitioning: The algorithm continues to split the data until a stopping condition is met, such as reaching a maximum depth, minimum samples in a node, or no further gain from splitting.</li>
+<li>Prediction:
+<ul>
+<li>In classification, predictions are based on the majority class in the leaf node.</li>
+<li>In regression, predictions are based on the average value in the leaf node.</li>
+</ul></li>
+</ul>
+<p><strong>Hyperparameters</strong>:</p>
+<ol type="1">
+<li><code>max_depth</code>: Limits the depth of the tree. A smaller depth reduces overfitting but may underfit the data.</li>
+<li><code>min_samples_split</code>: The minimum number of samples required to split a node. Increasing this value reduces overfitting by preventing small, irrelevant splits.</li>
+<li><code>min_samples_leaf</code>: Specifies the minimum number of samples a leaf node must contain. Larger values result in smoother decision boundaries.</li>
+<li><code>criterion</code>: Determines the measure of impurity.</li>
+<li><code>max_features</code>: Limits the number of features considered at each split, reducing overfitting and computational cost.</li>
+<li><code>max_leaf_nodes</code>: Limits the number of leaf nodes in the tree</li>
+</ol>
+<p><strong>Evaluation Metrics</strong>:</p>
+<ul>
+<li>Accuracy: Measures the percentage of correctly predicted instances.</li>
+<li>Precision: Fraction of true positive predictions out of all positive predictions. <span class="math display">\[ Precision = \frac{TP}{TP + FP}\]</span></li>
+<li>Recall (Sensitivity): Fraction of actual positives correctly identified. <span class="math display">\[ Recall = \frac{TP}{TP + FN}\]</span></li>
+<li>F1-Score: Harmonic mean of precision and recall, useful when dealing with imbalanced classes. <span class="math display">\[ F1 = 2 \times \frac{Precision \times Recall}{Precision + Recall}\]</span></li>
+<li>Confusion Matrix: Provides a matrix of predicted vs.&nbsp;actual class labels, offering insights into false positives, false negatives, etc.</li>
+<li>ROC-AUC Score: Evaluates the trade-off between true positive rate and false positive rate.</li>
+</ul>
+<p><strong>Challenges</strong></p>
+<ul>
+<li>Trees tend to overfit when they grow too deep, capturing noise in the data.</li>
+<li>Bias to Greedy Splits: Decision Trees use a greedy approach, which may lead to suboptimal splits.</li>
+<li>Instability: Small changes in the data can result in significant changes in the tree structure</li>
+</ul>
+<div id="cell-17" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df_transformed <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/pitstop_with_positions.csv"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df_transformed[<span class="st">'points_category'</span>] <span class="op">=</span> df_transformed[<span class="st">'position'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="dv">1</span> <span class="cf">if</span> x <span class="op">&lt;=</span> <span class="dv">10</span> <span class="cf">else</span> <span class="dv">0</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df_transformed[[<span class="st">'grid'</span>, <span class="st">'Year'</span>, <span class="st">'Duration1'</span>, <span class="st">'Duration2'</span>, <span class="st">'Duration3'</span>, <span class="st">'Duration4'</span>, <span class="st">'Lap1'</span>, <span class="st">'Lap2'</span>, <span class="st">'Lap3'</span>, <span class="st">'Stop2'</span>, <span class="st">'Stop3'</span>, <span class="st">'Stop4'</span>]]</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df_transformed[<span class="st">'points_category'</span>]  </span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Train-test split</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">123</span>, stratify<span class="op">=</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># create a new categortical variable - 1 if its a points finish</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#                                    - 0, otherwise</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>df_transformed[<span class="st">'points_category'</span>] <span class="op">=</span> df_transformed[<span class="st">'position'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="dv">1</span> <span class="cf">if</span> x <span class="op">&lt;=</span> <span class="dv">10</span> <span class="cf">else</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-15" class="cell" data-execution_count="96">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># decision tree</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df_transformed[[<span class="st">'grid'</span>, <span class="st">'Year'</span>, <span class="st">'Duration1'</span>, <span class="st">'Duration2'</span>, <span class="st">'Duration3'</span>, <span class="st">'Duration4'</span>, <span class="st">'Lap1'</span>, <span class="st">'Lap2'</span>, <span class="st">'Lap3'</span>, <span class="st">'Stop2'</span>, <span class="st">'Stop3'</span>, <span class="st">'Stop4'</span>]]</span>
+<div id="cell-18" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Selected features</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df_transformed[[<span class="st">'grid'</span>, <span class="st">'Duration1'</span>, <span class="st">'Duration2'</span>, <span class="st">'Lap1'</span>, <span class="st">'Lap2'</span>, <span class="st">'Lap3'</span>, <span class="st">'Stop2'</span>, <span class="st">'Stop3'</span>]]</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df_transformed[<span class="st">'points_category'</span>]  </span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Train-test split</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">123</span>, stratify<span class="op">=</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># splitting the data into training and testing sets (80% train, 20% test)</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">123</span>, stratify<span class="op">=</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-16" class="cell" data-execution_count="97">
+<div id="cell-19" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the Decision Tree Classifier</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>dt.fit(X_train, y_train)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict on test set</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> dt.predict(X_test)</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluation Metrics</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Report - Decision Tree:"</span>)</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, y_pred))</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Confusion Matrix</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>ConfusionMatrixDisplay.from_estimator(dt, X_test, y_test, cmap<span class="op">=</span><span class="st">"Blues"</span>)</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Confusion Matrix - Decision Tree"</span>)</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># training with default values</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>dt.fit(X_train, y_train)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict on test set</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> dt.predict(X_test)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluation Metrics</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Report - Decision Tree:"</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, y_pred))</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Confusion Matrix</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>ConfusionMatrixDisplay.from_estimator(dt, X_test, y_test, cmap<span class="op">=</span><span class="st">"Blues"</span>)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Confusion Matrix - Decision Tree"</span>)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Classification Report - Decision Tree:
               precision    recall  f1-score   support
 
-           0       0.68      0.75      0.72       114
-           1       0.76      0.69      0.72       128
+           0       0.64      0.69      0.67       114
+           1       0.71      0.66      0.68       128
 
-    accuracy                           0.72       242
-   macro avg       0.72      0.72      0.72       242
-weighted avg       0.72      0.72      0.72       242
+    accuracy                           0.67       242
+   macro avg       0.67      0.67      0.67       242
+weighted avg       0.68      0.67      0.67       242
 </code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -641,79 +697,85 @@ weighted avg       0.72      0.72      0.72       242
 </div>
 </div>
 </div>
-<div id="cell-17" class="cell" data-execution_count="99">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define max_depth range</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>max_depth_range <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">25</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Store metrics for each max_depth</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>train_accuracies_y1 <span class="op">=</span> []  <span class="co"># Accuracy for y=1</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>test_accuracies_y1 <span class="op">=</span> []</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>train_recalls_y0 <span class="op">=</span> []     <span class="co"># Recall for y=0</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>test_recalls_y0 <span class="op">=</span> []</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>train_accuracies <span class="op">=</span> []     <span class="co"># Overall accuracy</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>test_accuracies <span class="op">=</span> []</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>train_recalls <span class="op">=</span> []        <span class="co"># Overall recall for y=1</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>test_recalls <span class="op">=</span> []</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> max_depth <span class="kw">in</span> max_depth_range:</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize Decision Tree Classifier</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    dt <span class="op">=</span> DecisionTreeClassifier(max_depth<span class="op">=</span>max_depth, random_state<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    dt.fit(X_train, y_train)</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Predictions on training and test data</span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    y_train_pred <span class="op">=</span> dt.predict(X_train)</span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    y_test_pred <span class="op">=</span> dt.predict(X_test)</span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate overall accuracy</span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    train_accuracies.append(accuracy_score(y_train, y_train_pred))</span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    test_accuracies.append(accuracy_score(y_test, y_test_pred))</span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate recall for y=1</span></span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    train_recalls.append(recall_score(y_train, y_train_pred, pos_label<span class="op">=</span><span class="dv">1</span>))</span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    test_recalls.append(recall_score(y_test, y_test_pred, pos_label<span class="op">=</span><span class="dv">1</span>))</span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Accuracy for y=1</span></span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    train_accuracies_y1.append(accuracy_score(y_train[y_train <span class="op">==</span> <span class="dv">1</span>], y_train_pred[y_train <span class="op">==</span> <span class="dv">1</span>]))</span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>    test_accuracies_y1.append(accuracy_score(y_test[y_test <span class="op">==</span> <span class="dv">1</span>], y_test_pred[y_test <span class="op">==</span> <span class="dv">1</span>]))</span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Recall for y=0</span></span>
-<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>    train_recalls_y0.append(recall_score(y_train, y_train_pred, pos_label<span class="op">=</span><span class="dv">0</span>))</span>
-<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>    test_recalls_y0.append(recall_score(y_test, y_test_pred, pos_label<span class="op">=</span><span class="dv">0</span>))</span>
-<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting all metrics in a (2, 2) grid</span></span>
-<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">10</span>))</span>
-<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Subplot 1: Overall Accuracy</span></span>
-<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].plot(max_depth_range, train_accuracies, <span class="st">'o-'</span>, label<span class="op">=</span><span class="st">'Training'</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
-<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].plot(max_depth_range, test_accuracies, <span class="st">'o-'</span>, label<span class="op">=</span><span class="st">'Test'</span>, color<span class="op">=</span><span class="st">'deepskyblue'</span>)</span>
-<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_title(<span class="st">"Accuracy"</span>)</span>
-<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_xlabel(<span class="st">"Max Depth"</span>)</span>
-<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_ylabel(<span class="st">"Accuracy"</span>)</span>
-<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].legend()</span>
-<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].grid(<span class="va">True</span>)</span>
-<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Subplot 2: Recall for y=1</span></span>
-<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].plot(max_depth_range, train_recalls, <span class="st">'o-'</span>, label<span class="op">=</span><span class="st">'Training'</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
-<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].plot(max_depth_range, test_recalls, <span class="st">'o-'</span>, label<span class="op">=</span><span class="st">'Test'</span>, color<span class="op">=</span><span class="st">'deepskyblue'</span>)</span>
-<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_title(<span class="st">"Recall for y=1"</span>)</span>
-<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_xlabel(<span class="st">"Max Depth"</span>)</span>
-<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_ylabel(<span class="st">"Recall"</span>)</span>
-<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].legend()</span>
-<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].grid(<span class="va">True</span>)</span>
-<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Subplot 3: Recall for y=0</span></span>
-<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].plot(max_depth_range, train_recalls_y0, <span class="st">'o-'</span>, label<span class="op">=</span><span class="st">'Training'</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
-<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].plot(max_depth_range, test_recalls_y0, <span class="st">'o-'</span>, label<span class="op">=</span><span class="st">'Test'</span>, color<span class="op">=</span><span class="st">'deepskyblue'</span>)</span>
-<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_title(<span class="st">"Recall for y=0"</span>)</span>
-<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_xlabel(<span class="st">"Max Depth"</span>)</span>
-<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_ylabel(<span class="st">"Recall"</span>)</span>
-<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].legend()</span>
-<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].grid(<span class="va">True</span>)</span>
-<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>fig.delaxes(axes[<span class="dv">0</span>, <span class="dv">1</span>])</span>
-<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>The model performs similarly for both classes, indicated by similar recall, and f-1 scores.</li>
+<li>67% accuracy indcates that the model can be imporoved further with hyperparameter tuning.</li>
+<li>There is no significant class imbalance.</li>
+</ul>
+<div id="cell-21" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hyperparameter Tuning</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Define max_depth range</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>max_depth_range <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">25</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Store metrics for each max_depth</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>train_accuracies_y1 <span class="op">=</span> []  <span class="co"># Accuracy for y=1</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>test_accuracies_y1 <span class="op">=</span> []</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>train_recalls_y0 <span class="op">=</span> []     <span class="co"># Recall for y=0</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>test_recalls_y0 <span class="op">=</span> []</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>train_accuracies <span class="op">=</span> []     <span class="co"># Overall accuracy</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>test_accuracies <span class="op">=</span> []</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>train_recalls <span class="op">=</span> []        <span class="co"># Overall recall for y=1</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>test_recalls <span class="op">=</span> []</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> max_depth <span class="kw">in</span> max_depth_range:</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize Decision Tree Classifier</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    dt <span class="op">=</span> DecisionTreeClassifier(max_depth<span class="op">=</span>max_depth, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    dt.fit(X_train, y_train)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Predictions on training and test data</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    y_train_pred <span class="op">=</span> dt.predict(X_train)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    y_test_pred <span class="op">=</span> dt.predict(X_test)</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate overall accuracy</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    train_accuracies.append(accuracy_score(y_train, y_train_pred))</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    test_accuracies.append(accuracy_score(y_test, y_test_pred))</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate recall for y=1</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    train_recalls.append(recall_score(y_train, y_train_pred, pos_label<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    test_recalls.append(recall_score(y_test, y_test_pred, pos_label<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Accuracy for y=1</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>    train_accuracies_y1.append(accuracy_score(y_train[y_train <span class="op">==</span> <span class="dv">1</span>], y_train_pred[y_train <span class="op">==</span> <span class="dv">1</span>]))</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>    test_accuracies_y1.append(accuracy_score(y_test[y_test <span class="op">==</span> <span class="dv">1</span>], y_test_pred[y_test <span class="op">==</span> <span class="dv">1</span>]))</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Recall for y=0</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>    train_recalls_y0.append(recall_score(y_train, y_train_pred, pos_label<span class="op">=</span><span class="dv">0</span>))</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>    test_recalls_y0.append(recall_score(y_test, y_test_pred, pos_label<span class="op">=</span><span class="dv">0</span>))</span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting all metrics in a (2, 2) grid</span></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">10</span>))</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Subplot 1: Overall Accuracy</span></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].plot(max_depth_range, train_accuracies, <span class="st">'o-'</span>, label<span class="op">=</span><span class="st">'Training'</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].plot(max_depth_range, test_accuracies, <span class="st">'o-'</span>, label<span class="op">=</span><span class="st">'Test'</span>, color<span class="op">=</span><span class="st">'deepskyblue'</span>)</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_title(<span class="st">"Accuracy"</span>)</span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_xlabel(<span class="st">"Max Depth"</span>)</span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_ylabel(<span class="st">"Accuracy"</span>)</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].legend()</span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].grid(<span class="va">True</span>)</span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Subplot 2: Recall for y=1</span></span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].plot(max_depth_range, train_recalls, <span class="st">'o-'</span>, label<span class="op">=</span><span class="st">'Training'</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].plot(max_depth_range, test_recalls, <span class="st">'o-'</span>, label<span class="op">=</span><span class="st">'Test'</span>, color<span class="op">=</span><span class="st">'deepskyblue'</span>)</span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_title(<span class="st">"Recall for y=1"</span>)</span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_xlabel(<span class="st">"Max Depth"</span>)</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_ylabel(<span class="st">"Recall"</span>)</span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].legend()</span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].grid(<span class="va">True</span>)</span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Subplot 3: Recall for y=0</span></span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].plot(max_depth_range, train_recalls_y0, <span class="st">'o-'</span>, label<span class="op">=</span><span class="st">'Training'</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].plot(max_depth_range, test_recalls_y0, <span class="st">'o-'</span>, label<span class="op">=</span><span class="st">'Test'</span>, color<span class="op">=</span><span class="st">'deepskyblue'</span>)</span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_title(<span class="st">"Recall for y=0"</span>)</span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_xlabel(<span class="st">"Max Depth"</span>)</span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_ylabel(<span class="st">"Recall"</span>)</span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].legend()</span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].grid(<span class="va">True</span>)</span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a>fig.delaxes(axes[<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -722,44 +784,48 @@ weighted avg       0.72      0.72      0.72       242
 </div>
 </div>
 </div>
-<div id="cell-18" class="cell" data-execution_count="103">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the parameter grid with max_depth fixed as 5</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_split'</span>: [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>],</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_leaf'</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>]</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform Grid Search with max_depth fixed as 5</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>grid_search <span class="op">=</span> GridSearchCV(DecisionTreeClassifier(max_depth<span class="op">=</span><span class="dv">5</span>, random_state<span class="op">=</span><span class="dv">123</span>), </span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>                           param_grid, cv<span class="op">=</span><span class="dv">5</span>, scoring<span class="op">=</span><span class="st">'accuracy'</span>)</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>grid_search.fit(X_train, y_train)</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Best parameters</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best Parameters:"</span>, grid_search.best_params_)</span>
+<p>As the depth of the tree increases, the training accuracy of the model increases and the test accuracy of the model decreases. This is because the model starts to overfit the training data. To avoid overfitting of the model, we select the optimal number of layers when the test and training accuracy are high. In this case, we select the <strong>max depth to be 5</strong>. Beyond 5, the test accruacy significantly drops.</p>
+<div id="cell-23" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hyper parameter tuning</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># fix max_depth = 5</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># define the parameter grid </span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_split'</span>: [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>],</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_leaf'</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>]</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform Grid Search with max_depth fixed as 5 </span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>grid_search <span class="op">=</span> GridSearchCV(DecisionTreeClassifier(max_depth<span class="op">=</span><span class="dv">5</span>, random_state<span class="op">=</span><span class="dv">123</span>), </span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>                           param_grid, cv<span class="op">=</span><span class="dv">5</span>, scoring<span class="op">=</span><span class="st">'accuracy'</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co"># fit the model to the training data</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>grid_search.fit(X_train, y_train)</span>
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate the best model</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>best_dt <span class="op">=</span> grid_search.best_estimator_</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>y_pred_best <span class="op">=</span> best_dt.predict(X_test)</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluation Metrics for Best Model</span></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Report - Optimized Decision Tree with max_depth=5:"</span>)</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, y_pred_best))</span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Confusion Matrix</span></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>ConfusionMatrixDisplay.from_estimator(best_dt, X_test, y_test, cmap<span class="op">=</span><span class="st">"Blues"</span>)</span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Confusion Matrix - Optimized Decision Tree with max_depth=5"</span>)</span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co"># results</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best Parameters:"</span>, grid_search.best_params_)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co"># evaluate the best model</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>best_dt <span class="op">=</span> grid_search.best_estimator_</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>y_pred_best <span class="op">=</span> best_dt.predict(X_test)</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co"># evaluation metrics</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Report - Optimized Decision Tree with max_depth=5:"</span>)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, y_pred_best))</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Confusion Matrix</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>ConfusionMatrixDisplay.from_estimator(best_dt, X_test, y_test, cmap<span class="op">=</span><span class="st">"Blues"</span>)</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Confusion Matrix - Optimized Decision Tree with max_depth=5"</span>)</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best Parameters: {'min_samples_leaf': 2, 'min_samples_split': 2}
+<pre><code>Best Parameters: {'min_samples_leaf': 2, 'min_samples_split': 5}
 Classification Report - Optimized Decision Tree with max_depth=5:
               precision    recall  f1-score   support
 
-           0       0.79      0.77      0.78       114
-           1       0.80      0.81      0.81       128
+           0       0.81      0.75      0.78       114
+           1       0.79      0.84      0.82       128
 
-    accuracy                           0.79       242
-   macro avg       0.79      0.79      0.79       242
-weighted avg       0.79      0.79      0.79       242
+    accuracy                           0.80       242
+   macro avg       0.80      0.79      0.80       242
+weighted avg       0.80      0.80      0.80       242
 </code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -770,7 +836,11 @@ weighted avg       0.79      0.79      0.79       242
 </div>
 </div>
 </div>
-<div id="cell-19" class="cell" data-execution_count="104">
+<ul>
+<li>After hyperparameter tuning, we observe a significant increase in accuracy.</li>
+<li>The precision for the turned model is also more balanced than the original model.</li>
+</ul>
+<div id="cell-25" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ROC Curve for the Initial Decision Tree</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>y_proba_initial <span class="op">=</span> dt.predict_proba(X_test)[:, <span class="dv">1</span>]  <span class="co"># Probability for the positive class</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>fpr_initial, tpr_initial, _ <span class="op">=</span> roc_curve(y_test, y_proba_initial)</span>
@@ -799,19 +869,34 @@ weighted avg       0.79      0.79      0.79       242
 </div>
 </div>
 </div>
+<ul>
+<li><strong>The Receiver Operating Characteristic (ROC)</strong> curve is used to evaluate the trade-off between True Positive Rate (TPR) (sensitivity/recall) and False Positive Rate (FPR) across different threshold values.</li>
+<li><strong>Area Under The Curve (AUC)</strong> represents the measure of separability. Higher the AUC, the better is the model at predicting the classes.</li>
+<li>The optimized Decision Tree outperforms the initial model, as evidenced by the higher AUC (0.84 vs.&nbsp;0.79). Hyperparameter tuning has led to improvements in the model’s performance.</li>
+</ul>
 </section>
-<section id="random-forest" class="level3">
-<h3 class="anchored" data-anchor-id="random-forest">Random Forest</h3>
-<div id="cell-21" class="cell" data-execution_count="14">
+<section id="random-forest" class="level2">
+<h2 class="anchored" data-anchor-id="random-forest">Random Forest</h2>
+<p>Random Forests combine the strengths of multiple decision trees to deliver a robust, versatile, and high-performing model for classification and regression tasks.</p>
+<p><strong>Process</strong>:</p>
+<ul>
+<li>Random Forest builds multiple decision trees using bootstrap aggregation, where each tree is trained on a bootstrapped subset of the data.</li>
+<li>At each node, a random subset of features is considered for splitting, introducing diversity among the trees and reducing overfitting.</li>
+<li>Each tree is grown independently to its maximum depth or based on stopping criteria like max_depth or min_samples_split.</li>
+<li>For classification tasks, the final prediction is determined through a majority vote from all trees. For regression tasks, the final output is obtained by averaging the predictions of all trees.</li>
+<li>By combining outputs from multiple decision trees, Random Forest reduces variance, improves generalization, and enhances model robustness.</li>
+</ul>
+<div id="cell-28" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df_transformed <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/pitstop_with_positions.csv"</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>df_transformed[<span class="st">'points_category'</span>] <span class="op">=</span> df_transformed[<span class="st">'position'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="dv">1</span> <span class="cf">if</span> x <span class="op">&lt;=</span> <span class="dv">10</span> <span class="cf">else</span> <span class="dv">0</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df_transformed[[<span class="st">'grid'</span>, <span class="st">'Year'</span>, <span class="st">'Duration1'</span>, <span class="st">'Duration2'</span>, <span class="st">'Duration3'</span>, <span class="st">'Duration4'</span>, <span class="st">'Lap1'</span>, <span class="st">'Lap2'</span>, <span class="st">'Lap3'</span>, <span class="st">'Stop2'</span>, <span class="st">'Stop3'</span>, <span class="st">'Stop4'</span>]]</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df_transformed[[<span class="st">'grid'</span>, <span class="st">'Duration1'</span>, <span class="st">'Duration2'</span>, <span class="st">'Lap1'</span>, <span class="st">'Lap2'</span>, <span class="st">'Lap3'</span>, <span class="st">'Stop2'</span>, <span class="st">'Stop3'</span>]]</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df_transformed[<span class="st">'points_category'</span>]  </span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Train-test split</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">123</span>, stratify<span class="op">=</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># splitting the data into training and testing sets (80% train, 20% test)</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">123</span>, stratify<span class="op">=</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-22" class="cell" data-execution_count="23">
+<div id="cell-29" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize Random Forest Classifier</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>rf <span class="op">=</span> RandomForestClassifier(random_state<span class="op">=</span><span class="dv">123</span>)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -836,8 +921,8 @@ weighted avg       0.79      0.79      0.79       242
 <pre><code>Classification Report:
               precision    recall  f1-score   support
 
-           0       0.77      0.79      0.78       114
-           1       0.81      0.79      0.80       128
+           0       0.79      0.76      0.78       114
+           1       0.80      0.82      0.81       128
 
     accuracy                           0.79       242
    macro avg       0.79      0.79      0.79       242
@@ -852,26 +937,27 @@ weighted avg       0.79      0.79      0.79       242
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Accuracy: 0.7892561983471075</code></pre>
+<pre><code>Accuracy: 0.7933884297520661</code></pre>
 </div>
 </div>
-<div id="cell-23" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define hyperparameters</span></span>
+<p>The Random Forest Classifier, using its default hyperparameters, achieved an accuracy of approximately 0.80. Comparable to a Decision Tree after hyperparameter tuning, this highlights the superior performance and robustness of Random Forests, especially when handling large datasets, as they effectively reduce overfitting compared to a single decision tree.</p>
+<div id="cell-31" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># hyperparameter tuning</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'n_estimators'</span>: [<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>],</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'max_depth'</span>: [<span class="va">None</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>],</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'max_depth'</span>: [<span class="va">None</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>],    </span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_split'</span>: [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>]</span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform Grid Search</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># grid search</span></span>
 <span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>grid_search <span class="op">=</span> GridSearchCV(estimator<span class="op">=</span>RandomForestClassifier(random_state<span class="op">=</span><span class="dv">123</span>),</span>
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>                           param_grid<span class="op">=</span>param_grid, cv<span class="op">=</span><span class="dv">5</span>, scoring<span class="op">=</span><span class="st">'accuracy'</span>)</span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>grid_search.fit(X_train, y_train)</span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Best parameters</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co"># results</span></span>
 <span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best Parameters:"</span>, grid_search.best_params_)</span>
 <span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate with best parameters</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="co"># evaluate with best parameters</span></span>
 <span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>best_rf <span class="op">=</span> grid_search.best_estimator_</span>
 <span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>y_pred_best <span class="op">=</span> best_rf.predict(X_test)</span>
 <span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a></span>
@@ -879,20 +965,20 @@ weighted avg       0.79      0.79      0.79       242
 <span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Report - Optimized Random Forest:"</span>)</span>
 <span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, y_pred_best))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best Parameters: {'max_depth': 20, 'min_samples_split': 2, 'n_estimators': 100}
+<pre><code>Best Parameters: {'max_depth': 10, 'min_samples_split': 10, 'n_estimators': 200}
 Classification Report - Optimized Random Forest:
               precision    recall  f1-score   support
 
-           0       0.77      0.78      0.78       114
-           1       0.80      0.80      0.80       128
+           0       0.80      0.78      0.79       114
+           1       0.81      0.83      0.82       128
 
-    accuracy                           0.79       242
-   macro avg       0.79      0.79      0.79       242
-weighted avg       0.79      0.79      0.79       242
+    accuracy                           0.81       242
+   macro avg       0.81      0.80      0.80       242
+weighted avg       0.81      0.81      0.81       242
 </code></pre>
 </div>
 </div>
-<div id="cell-24" class="cell" data-execution_count="25">
+<div id="cell-32" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Confusion Matrix for Optimized Random Forest</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>ConfusionMatrixDisplay.from_estimator(best_rf, X_test, y_test, cmap<span class="op">=</span><span class="st">"Blues"</span>)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Confusion Matrix - Optimized Random Forest"</span>)</span>
@@ -905,7 +991,7 @@ weighted avg       0.79      0.79      0.79       242
 </div>
 </div>
 </div>
-<div id="cell-25" class="cell" data-execution_count="26">
+<div id="cell-33" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ROC Curve for the Initial Random Forest</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>y_proba_initial <span class="op">=</span> rf.predict_proba(X_test)[:, <span class="dv">1</span>]  <span class="co"># Probability for the positive class</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>fpr_initial, tpr_initial, _ <span class="op">=</span> roc_curve(y_test, y_proba_initial)</span>
@@ -934,41 +1020,47 @@ weighted avg       0.79      0.79      0.79       242
 </div>
 </div>
 </div>
+<ul>
+<li>The Random Forest Classifier has outperformed the Decision Tree in terms of accuracy, demonstrating a higher capability to classify race outcomes more effectively using the pit stop data.</li>
+<li>This also suggests that race outcomes are significantly influenced by pit stop strategies, highlighting an important insight that can help predict potential race winners.</li>
+</ul>
 </section>
 </section>
-<section id="multiclass-classification" class="level2">
-<h2 class="anchored" data-anchor-id="multiclass-classification">Multiclass Classification</h2>
-<section id="random-forest-classifier" class="level3">
-<h3 class="anchored" data-anchor-id="random-forest-classifier">Random Forest Classifier</h3>
-<div id="cell-28" class="cell" data-execution_count="27">
+<section id="multiclass-classification" class="level1">
+<h1>Multiclass Classification</h1>
+<section id="random-forest-classifier" class="level2">
+<h2 class="anchored" data-anchor-id="random-forest-classifier">Random Forest Classifier</h2>
+<div id="cell-37" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new column with binned classes based on 'position'</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> position_to_class(position):</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="dv">1</span> <span class="op">&lt;=</span> position <span class="op">&lt;=</span> <span class="dv">5</span>:</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="dv">6</span> <span class="op">&lt;=</span> position <span class="op">&lt;=</span> <span class="dv">10</span>:</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">2</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="dv">11</span> <span class="op">&lt;=</span> position <span class="op">&lt;=</span> <span class="dv">15</span>:</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">3</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="dv">16</span> <span class="op">&lt;=</span> position <span class="op">&lt;=</span> <span class="dv">20</span>:</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">4</span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span>  </span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>df_transformed[<span class="st">'position_class'</span>] <span class="op">=</span> df_transformed[<span class="st">'position'</span>].<span class="bu">apply</span>(position_to_class)</span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>df_transformed <span class="op">=</span> df_transformed.dropna(subset<span class="op">=</span>[<span class="st">'position_class'</span>])</span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Define features and target</span></span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df_transformed[[<span class="st">'grid'</span>, <span class="st">'Year'</span>, <span class="st">'Duration1'</span>, <span class="st">'Duration2'</span>, <span class="st">'Duration3'</span>, <span class="st">'Duration4'</span>, <span class="st">'Lap1'</span>, <span class="st">'Lap2'</span>, <span class="st">'Lap3'</span>, <span class="st">'Stop2'</span>, <span class="st">'Stop3'</span>, <span class="st">'Stop4'</span>]]</span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df_transformed[<span class="st">'position_class'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># multiclass categorical variable</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> position_to_class(position):</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="dv">1</span> <span class="op">&lt;=</span> position <span class="op">&lt;=</span> <span class="dv">5</span>:</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="dv">6</span> <span class="op">&lt;=</span> position <span class="op">&lt;=</span> <span class="dv">10</span>:</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">2</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="dv">11</span> <span class="op">&lt;=</span> position <span class="op">&lt;=</span> <span class="dv">15</span>:</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">3</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="dv">16</span> <span class="op">&lt;=</span> position <span class="op">&lt;=</span> <span class="dv">20</span>:</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">4</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span>  </span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>df_transformed[<span class="st">'position_class'</span>] <span class="op">=</span> df_transformed[<span class="st">'position'</span>].<span class="bu">apply</span>(position_to_class)</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>df_transformed <span class="op">=</span> df_transformed.dropna(subset<span class="op">=</span>[<span class="st">'position_class'</span>])</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Define features and target</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df_transformed[[<span class="st">'grid'</span>, <span class="st">'Duration1'</span>, <span class="st">'Duration2'</span>, <span class="st">'Lap1'</span>, <span class="st">'Lap2'</span>, <span class="st">'Lap3'</span>, <span class="st">'Stop2'</span>, <span class="st">'Stop3'</span>]]</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df_transformed[<span class="st">'position_class'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-29" class="cell" data-execution_count="29">
+<div id="cell-38" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train-test split</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">123</span>, stratify<span class="op">=</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># splitting the data into training and testing sets (80% train, 20% test)</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">123</span>, stratify<span class="op">=</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-30" class="cell" data-execution_count="30">
+<div id="cell-39" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize Random Forest Classifier</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>rf_multi <span class="op">=</span> RandomForestClassifier(random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>rf_multi <span class="op">=</span> RandomForestClassifier(random_state<span class="op">=</span><span class="dv">123</span>)</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Train the model</span></span>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>rf_multi.fit(X_train, y_train)</span>
@@ -988,14 +1080,14 @@ weighted avg       0.79      0.79      0.79       242
 <pre><code>Classification Report - Multi-class Random Forest:
               precision    recall  f1-score   support
 
-         1.0       0.67      0.77      0.71        65
-         2.0       0.38      0.41      0.40        63
-         3.0       0.40      0.38      0.39        61
-         4.0       0.50      0.37      0.42        46
+           1       0.65      0.80      0.72        65
+           2       0.39      0.41      0.40        63
+           3       0.43      0.46      0.44        61
+           4       0.57      0.28      0.38        46
 
-    accuracy                           0.49       235
-   macro avg       0.49      0.48      0.48       235
-weighted avg       0.49      0.49      0.49       235
+    accuracy                           0.51       235
+   macro avg       0.51      0.49      0.48       235
+weighted avg       0.51      0.51      0.49       235
 </code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -1006,27 +1098,27 @@ weighted avg       0.49      0.49      0.49       235
 </div>
 </div>
 </div>
-<div id="cell-31" class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define hyperparameters</span></span>
+<div id="cell-40" class="cell" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hyperparameter tuning</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>param_grid_multi <span class="op">=</span> {</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'n_estimators'</span>: [<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>],</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'max_depth'</span>: [<span class="va">None</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>],</span>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_split'</span>: [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>]</span>
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform Grid Search</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co"># perform Grid Search</span></span>
 <span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>grid_search_multi <span class="op">=</span> GridSearchCV(estimator<span class="op">=</span>RandomForestClassifier(random_state<span class="op">=</span><span class="dv">42</span>),</span>
 <span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>                                 param_grid<span class="op">=</span>param_grid_multi, cv<span class="op">=</span><span class="dv">5</span>, scoring<span class="op">=</span><span class="st">'accuracy'</span>)</span>
 <span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>grid_search_multi.fit(X_train, y_train)</span>
 <span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Best parameters</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="co"># results</span></span>
 <span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best Parameters:"</span>, grid_search_multi.best_params_)</span>
 <span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate with best parameters</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="co"># evaluate with best parameters</span></span>
 <span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>best_rf_multi <span class="op">=</span> grid_search_multi.best_estimator_</span>
 <span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>y_pred_best_multi <span class="op">=</span> best_rf_multi.predict(X_test)</span>
 <span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Classification Report</span></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="co"># classification report</span></span>
 <span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Report - Optimized Multi-class Random Forest:"</span>)</span>
 <span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, y_pred_best_multi))</span>
 <span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a></span>
@@ -1035,18 +1127,18 @@ weighted avg       0.49      0.49      0.49       235
 <span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Confusion Matrix - Optimized Multi-class Random Forest"</span>)</span>
 <span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best Parameters: {'max_depth': None, 'min_samples_split': 10, 'n_estimators': 200}
+<pre><code>Best Parameters: {'max_depth': 10, 'min_samples_split': 5, 'n_estimators': 200}
 Classification Report - Optimized Multi-class Random Forest:
               precision    recall  f1-score   support
 
-         1.0       0.66      0.74      0.70        65
-         2.0       0.37      0.40      0.38        63
-         3.0       0.41      0.46      0.43        61
-         4.0       0.50      0.28      0.36        46
+           1       0.66      0.75      0.71        65
+           2       0.38      0.40      0.39        63
+           3       0.44      0.51      0.47        61
+           4       0.58      0.30      0.40        46
 
-    accuracy                           0.49       235
-   macro avg       0.48      0.47      0.47       235
-weighted avg       0.49      0.49      0.48       235
+    accuracy                           0.51       235
+   macro avg       0.52      0.49      0.49       235
+weighted avg       0.51      0.51      0.50       235
 </code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -1058,9 +1150,21 @@ weighted avg       0.49      0.49      0.48       235
 </div>
 </div>
 </section>
-<section id="knn" class="level3">
-<h3 class="anchored" data-anchor-id="knn">KNN</h3>
-<div id="cell-33" class="cell" data-execution_count="46">
+<section id="k-nearest-neighbors-knn" class="level2">
+<h2 class="anchored" data-anchor-id="k-nearest-neighbors-knn">K-Nearest Neighbors (KNN)</h2>
+<p>KNN is a non-parametric and instance-based learning algorithm, meaning it makes no assumptions about the underlying data distribution and makes predictions based on the similarity of the input data to its neighbors.</p>
+<p><strong>Process</strong>:</p>
+<ul>
+<li>The algorithm calculates the distance between the input (test) data point and all training data points.</li>
+<li>Based on the distance metric, KNN identifies the k-nearest neighbors to the test data point.</li>
+<li>Prediction:
+<ul>
+<li>Classification: The algorithm assigns the class label that is the majority among the k-nearest neighbors (majority voting).</li>
+<li>Regression: The algorithm averages the values of the k-nearest neighbors to predict the outcome.</li>
+<li><strong>Hyperparameters</strong>: K – number of neighbors.</li>
+</ul></li>
+</ul>
+<div id="cell-42" class="cell" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Range of k values to test</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>k_values <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">25</span>)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1102,7 +1206,8 @@ weighted avg       0.49      0.49      0.48       235
 </div>
 </div>
 </div>
-<div id="cell-34" class="cell" data-execution_count="47">
+<p>Optimal number for k is 19. Beyond 19, the test accuracy starts to drop.</p>
+<div id="cell-44" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize KNN with k=19</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>knn <span class="op">=</span> KNeighborsClassifier(n_neighbors<span class="op">=</span><span class="dv">19</span>)</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1124,14 +1229,14 @@ weighted avg       0.49      0.49      0.48       235
 <pre><code>Classification Report - KNN (k=19):
               precision    recall  f1-score   support
 
-         1.0       0.72      0.83      0.77        65
-         2.0       0.46      0.59      0.52        63
-         3.0       0.45      0.36      0.40        61
-         4.0       0.48      0.33      0.39        46
+           1       0.68      0.80      0.74        65
+           2       0.41      0.52      0.46        63
+           3       0.44      0.39      0.42        61
+           4       0.40      0.22      0.28        46
 
-    accuracy                           0.54       235
-   macro avg       0.53      0.53      0.52       235
-weighted avg       0.53      0.54      0.53       235
+    accuracy                           0.51       235
+   macro avg       0.49      0.48      0.47       235
+weighted avg       0.49      0.51      0.49       235
 </code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -1142,15 +1247,46 @@ weighted avg       0.53      0.54      0.53       235
 </div>
 </div>
 </div>
+<p>Across models, the first class is consistently classified with the highest accuracy. This indicates that as the granularity of race results increases, classifying exact outcomes based solely on pit stop data becomes more challenging. While it is relatively easier to determine whether a driver will score points or not, accurately predicting the precise finishing position proves to be much more difficult.</p>
 </section>
 </section>
-<section id="regression" class="level2">
-<h2 class="anchored" data-anchor-id="regression">Regression</h2>
-<div id="cell-36" class="cell" data-execution_count="106">
+<section id="regression" class="level1">
+<h1>Regression</h1>
+<p><strong>Regression</strong> is a class of supervised learning algorithms used to predict continuous target variables by modelling the relationship between the input variables and the target variable.</p>
+<p><strong>Algorithms used in this project</strong></p>
+<ol type="1">
+<li>Linear Regression: It is one of the most fundamental and widely used regression algorithms. It models the relationships between the dependent variables and the independent variables using a straight line.</li>
+<li>Support Vector Regression (SVR): SVR is an extension of support vector machines for regression tasks. It tries to find a hyperplane that fits the data within a specified margin of tolerance.</li>
+<li>Polynomial Regression: Polynomial regression extends linear regression by including polynomial terms (e.g., x2,x3x^2, x^3x2,x3) to capture non-linear relationships.</li>
+<li>Random Forest Regressor: Random forest is an ensemble learning method that aggregates predictions from multiple decision trees to improve accuracy and robustness.</li>
+</ol>
+<p><strong>Reasons for choosing these algorithms</strong></p>
+<ul>
+<li>Linear Regression: Provided a baseline model to understand the data’s linear trends and evaluate other methods against.</li>
+<li>SVR: Captured non-linear relationships between features and outcomes, offering insights into more complex patterns.</li>
+<li>Polynomial Regression: Enhanced the ability to model curvature and non-linear interactions while maintaining interpretability.</li>
+<li>Random Forest Regressor: Leveraged its robustness and flexibility to handle complex interactions between features, offering strong predictive performance.</li>
+</ul>
+<p><strong>Regularization</strong></p>
+<p>To prevent overfitting, regularization techniques are applied.</p>
+<ul>
+<li>Ridge Regression: This technique adds an L2 penalty (squared magnitude of coefficients) to the loss function. It shrinks coefficients, effectively preventing overfitting by reducing the model’s complexity while retaining all features.</li>
+<li>Lasso Regression: This method incorporates an L1 penalty (absolute magnitude of coefficients), which not only prevents overfitting but also performs feature selection by forcing some coefficients to become exactly zero. This helps in identifying the most relevant features for the prediction task.</li>
+</ul>
+<p><strong>Evaluation Metrics</strong>:</p>
+<ul>
+<li>Mean Absolute Error (MAE): Measures the average absolute difference between predicted and actual values, offering a straightforward interpretation of prediction errors.</li>
+<li>Mean Squared Error (MSE): Computes the average of squared differences between predictions and actual values, penalizing larger errors more heavily than MAE.</li>
+<li>Root Mean Squared Error (RMSE): The square root of MSE, providing error estimates in the same units as the target variable for easier interpretability.</li>
+<li>R-squared (R²): Represents the proportion of variance in the target variable explained by the model, with higher values indicating better performance.</li>
+<li>Adjusted R-squared: Enhances R² by accounting for the number of predictors, discouraging the inclusion of irrelevant features.</li>
+<li>Mean Absolute Percentage Error (MAPE): Expresses prediction errors as a percentage of actual values, making it useful for comparing across datasets with varying scales.</li>
+</ul>
+<div id="cell-47" class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/pitstop_long.csv"</span>)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>data.drop(columns<span class="op">=</span>[<span class="st">'Unnamed: 0'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="106">
+<div class="cell-output cell-output-display" data-execution_count="52">
 <div>
 
 
@@ -1230,78 +1366,87 @@ weighted avg       0.53      0.54      0.53       235
 </div>
 </div>
 </div>
-<div id="cell-37" class="cell" data-execution_count="108">
+<div id="cell-48" class="cell" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dropping non-numeric columns (RaceName and DriverID) for regression</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.drop(columns<span class="op">=</span>[<span class="st">"RaceName"</span>, <span class="st">"DriverID"</span>])</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Features and Target</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> data.drop(columns<span class="op">=</span>[<span class="st">"Duration"</span>])  <span class="co"># Features</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> data[<span class="st">"Duration"</span>]  <span class="co"># Target</span></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Train-Test Split</span></span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Linear Regression</span></span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>linear_reg <span class="op">=</span> LinearRegression()</span>
-<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>linear_reg.fit(X_train, y_train)</span>
-<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>y_pred_lr <span class="op">=</span> linear_reg.predict(X_test)</span>
-<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Linear Regression Metrics:"</span>)</span>
-<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean Absolute Error: </span><span class="sc">{</span>mean_absolute_error(y_test, y_pred_lr)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean Squared Error: </span><span class="sc">{</span>mean_squared_error(y_test, y_pred_lr)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R-squared: </span><span class="sc">{</span>r2_score(y_test, y_pred_lr)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Support Vector Regression (SVR)</span></span>
-<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>svr <span class="op">=</span> make_pipeline(StandardScaler(), SVR(kernel<span class="op">=</span><span class="st">'rbf'</span>, C<span class="op">=</span><span class="fl">1.0</span>, epsilon<span class="op">=</span><span class="fl">0.1</span>))</span>
-<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>svr.fit(X_train, y_train)</span>
-<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>y_pred_svr <span class="op">=</span> svr.predict(X_test)</span>
-<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Support Vector Regression Metrics:"</span>)</span>
-<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean Absolute Error: </span><span class="sc">{</span>mean_absolute_error(y_test, y_pred_svr)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean Squared Error: </span><span class="sc">{</span>mean_squared_error(y_test, y_pred_svr)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R-squared: </span><span class="sc">{</span>r2_score(y_test, y_pred_svr)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb34-30"><a href="#cb34-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-31"><a href="#cb34-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Polynomial Regression</span></span>
-<span id="cb34-32"><a href="#cb34-32" aria-hidden="true" tabindex="-1"></a>poly_model <span class="op">=</span> make_pipeline(PolynomialFeatures(degree<span class="op">=</span><span class="dv">2</span>), LinearRegression())</span>
-<span id="cb34-33"><a href="#cb34-33" aria-hidden="true" tabindex="-1"></a>poly_model.fit(X_train, y_train)</span>
-<span id="cb34-34"><a href="#cb34-34" aria-hidden="true" tabindex="-1"></a>y_pred_poly <span class="op">=</span> poly_model.predict(X_test)</span>
-<span id="cb34-35"><a href="#cb34-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-36"><a href="#cb34-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Polynomial Regression Metrics:"</span>)</span>
-<span id="cb34-37"><a href="#cb34-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean Absolute Error: </span><span class="sc">{</span>mean_absolute_error(y_test, y_pred_poly)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb34-38"><a href="#cb34-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean Squared Error: </span><span class="sc">{</span>mean_squared_error(y_test, y_pred_poly)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb34-39"><a href="#cb34-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R-squared: </span><span class="sc">{</span>r2_score(y_test, y_pred_poly)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb34-40"><a href="#cb34-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># defining feature matri </span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> data.drop(columns<span class="op">=</span>[<span class="st">"Duration"</span>])  </span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="co"># defining target variable</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> data[<span class="st">"Duration"</span>]  </span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="co"># splitting the data into training and testing sets (80% train, 20% test)</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">123</span>)</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Linear Regression</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>linear_reg <span class="op">=</span> LinearRegression()</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>linear_reg.fit(X_train, y_train)</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>y_pred_lr <span class="op">=</span> linear_reg.predict(X_test)</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a><span class="co"># evaluation metrics for linear regression</span></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Linear Regression Metrics:"</span>)</span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean Absolute Error: </span><span class="sc">{</span>mean_absolute_error(y_test, y_pred_lr)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean Squared Error: </span><span class="sc">{</span>mean_squared_error(y_test, y_pred_lr)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R-squared: </span><span class="sc">{</span>r2_score(y_test, y_pred_lr)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Support Vector Regression (SVR)</span></span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>svr <span class="op">=</span> make_pipeline(StandardScaler(), SVR(kernel<span class="op">=</span><span class="st">'rbf'</span>, C<span class="op">=</span><span class="fl">1.0</span>, epsilon<span class="op">=</span><span class="fl">0.1</span>))</span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>svr.fit(X_train, y_train)</span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a>y_pred_svr <span class="op">=</span> svr.predict(X_test)</span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a><span class="co"># evaluation metrics</span></span>
+<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Support Vector Regression Metrics:"</span>)</span>
+<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean Absolute Error: </span><span class="sc">{</span>mean_absolute_error(y_test, y_pred_svr)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean Squared Error: </span><span class="sc">{</span>mean_squared_error(y_test, y_pred_svr)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb34-30"><a href="#cb34-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R-squared: </span><span class="sc">{</span>r2_score(y_test, y_pred_svr)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb34-31"><a href="#cb34-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-32"><a href="#cb34-32" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Polynomial Regression</span></span>
+<span id="cb34-33"><a href="#cb34-33" aria-hidden="true" tabindex="-1"></a>poly_model <span class="op">=</span> make_pipeline(PolynomialFeatures(degree<span class="op">=</span><span class="dv">2</span>), LinearRegression())</span>
+<span id="cb34-34"><a href="#cb34-34" aria-hidden="true" tabindex="-1"></a>poly_model.fit(X_train, y_train)</span>
+<span id="cb34-35"><a href="#cb34-35" aria-hidden="true" tabindex="-1"></a>y_pred_poly <span class="op">=</span> poly_model.predict(X_test)</span>
+<span id="cb34-36"><a href="#cb34-36" aria-hidden="true" tabindex="-1"></a><span class="co"># evaluation metrics</span></span>
+<span id="cb34-37"><a href="#cb34-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Polynomial Regression Metrics:"</span>)</span>
+<span id="cb34-38"><a href="#cb34-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean Absolute Error: </span><span class="sc">{</span>mean_absolute_error(y_test, y_pred_poly)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb34-39"><a href="#cb34-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean Squared Error: </span><span class="sc">{</span>mean_squared_error(y_test, y_pred_poly)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb34-40"><a href="#cb34-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R-squared: </span><span class="sc">{</span>r2_score(y_test, y_pred_poly)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
 <span id="cb34-41"><a href="#cb34-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-42"><a href="#cb34-42" aria-hidden="true" tabindex="-1"></a>random_forest <span class="op">=</span> RandomForestRegressor(random_state<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb34-43"><a href="#cb34-43" aria-hidden="true" tabindex="-1"></a>random_forest.fit(X_train, y_train)</span>
-<span id="cb34-44"><a href="#cb34-44" aria-hidden="true" tabindex="-1"></a>y_pred_rf <span class="op">=</span> random_forest.predict(X_test)</span>
-<span id="cb34-45"><a href="#cb34-45" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Random Forest Regressor Metrics:"</span>)</span>
-<span id="cb34-46"><a href="#cb34-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean Absolute Error: </span><span class="sc">{</span>mean_absolute_error(y_test, y_pred_rf)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb34-47"><a href="#cb34-47" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean Squared Error: </span><span class="sc">{</span>mean_squared_error(y_test, y_pred_rf)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb34-48"><a href="#cb34-48" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R-squared: </span><span class="sc">{</span>r2_score(y_test, y_pred_rf)<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-42"><a href="#cb34-42" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Random Forest Regressor</span></span>
+<span id="cb34-43"><a href="#cb34-43" aria-hidden="true" tabindex="-1"></a>random_forest <span class="op">=</span> RandomForestRegressor(random_state<span class="op">=</span><span class="dv">123</span>)</span>
+<span id="cb34-44"><a href="#cb34-44" aria-hidden="true" tabindex="-1"></a>random_forest.fit(X_train, y_train)</span>
+<span id="cb34-45"><a href="#cb34-45" aria-hidden="true" tabindex="-1"></a>y_pred_rf <span class="op">=</span> random_forest.predict(X_test)</span>
+<span id="cb34-46"><a href="#cb34-46" aria-hidden="true" tabindex="-1"></a><span class="co"># evaluation metrics</span></span>
+<span id="cb34-47"><a href="#cb34-47" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Random Forest Regressor Metrics:"</span>)</span>
+<span id="cb34-48"><a href="#cb34-48" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean Absolute Error: </span><span class="sc">{</span>mean_absolute_error(y_test, y_pred_rf)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb34-49"><a href="#cb34-49" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean Squared Error: </span><span class="sc">{</span>mean_squared_error(y_test, y_pred_rf)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb34-50"><a href="#cb34-50" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R-squared: </span><span class="sc">{</span>r2_score(y_test, y_pred_rf)<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear Regression Metrics:
-Mean Absolute Error: 0.0699
-Mean Squared Error: 0.0136
-R-squared: 0.0240
+Mean Absolute Error: 0.0654
+Mean Squared Error: 0.0118
+R-squared: 0.0268
 
 Support Vector Regression Metrics:
-Mean Absolute Error: 0.0731
-Mean Squared Error: 0.0121
-R-squared: 0.1340
+Mean Absolute Error: 0.0683
+Mean Squared Error: 0.0104
+R-squared: 0.1385
 
 Polynomial Regression Metrics:
-Mean Absolute Error: 0.0696
-Mean Squared Error: 0.0133
-R-squared: 0.0453
+Mean Absolute Error: 0.0654
+Mean Squared Error: 0.0116
+R-squared: 0.0444
 
 Random Forest Regressor Metrics:
-Mean Absolute Error: 0.0355
-Mean Squared Error: 0.0054
-R-squared: 0.6126</code></pre>
+Mean Absolute Error: 0.0341
+Mean Squared Error: 0.0043
+R-squared: 0.6408</code></pre>
 </div>
 </div>
-<div id="cell-38" class="cell" data-execution_count="111">
+<ul>
+<li>Random Forest Regressor significantly outperforms other models in terms of MAE, MSE, and R-Squared metrics.</li>
+<li>Linear and Polynomial Regression models seem to struggle due to inherent complexity and non-linearity in the data.</li>
+<li>SVR performs better than Linear Regression but still underperforms compared to Random Forest Regressor.</li>
+<li>The results show that non-linear models are better suited for out data.</li>
+</ul>
+<p>Well be tune the Random Forest Regressor to imporve its accuracy further.</p>
+<div id="cell-50" class="cell" data-execution_count="111">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting function for parity plots</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_parity(y_actual, y_pred, title):</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
@@ -1354,26 +1499,27 @@ R-squared: 0.6126</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-39" class="cell" data-execution_count="112">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameter grid for tuning</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'n_estimators'</span>: [<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>],</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'max_depth'</span>: [<span class="va">None</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>],</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_split'</span>: [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>],</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_leaf'</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>]</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="co"># GridSearchCV for RandomForestRegressor</span></span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>grid_search <span class="op">=</span> GridSearchCV(</span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>    RandomForestRegressor(random_state<span class="op">=</span><span class="dv">42</span>),</span>
-<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>    param_grid,</span>
-<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>    cv<span class="op">=</span><span class="dv">5</span>,</span>
-<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>    scoring<span class="op">=</span><span class="st">'neg_mean_squared_error'</span>,</span>
-<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=-</span><span class="dv">1</span></span>
-<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-51" class="cell" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># optimizing random forest regressor</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameter grid for tuning</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'n_estimators'</span>: [<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>],</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'max_depth'</span>: [<span class="va">None</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>],</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_split'</span>: [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>],</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_leaf'</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>]</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="co"># grid search </span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>grid_search <span class="op">=</span> GridSearchCV(</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>    RandomForestRegressor(random_state<span class="op">=</span><span class="dv">123</span>),</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>    param_grid,</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>    cv<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>    scoring<span class="op">=</span><span class="st">'neg_mean_squared_error'</span>,</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=-</span><span class="dv">1</span></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-40" class="cell">
+<div id="cell-52" class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>grid_search.fit(X_train, y_train)</span>
@@ -1385,7 +1531,7 @@ R-squared: 0.6126</code></pre>
 <span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>y_pred_rf <span class="op">=</span> best_rf.predict(X_test)</span>
 <span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-41" class="cell" data-execution_count="119">
+<div id="cell-53" class="cell" data-execution_count="56">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluation Metrics</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>mae <span class="op">=</span> mean_absolute_error(y_test, y_pred_rf)</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>mse <span class="op">=</span> mean_squared_error(y_test, y_pred_rf)</span>
@@ -1398,12 +1544,12 @@ R-squared: 0.6126</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Optimized Random Forest Regressor Metrics:
-Mean Absolute Error: 0.0348
-Mean Squared Error: 0.0051
-R-squared: 0.6367</code></pre>
+Mean Absolute Error: 0.0343
+Mean Squared Error: 0.0043
+R-squared: 0.6439</code></pre>
 </div>
 </div>
-<div id="cell-42" class="cell" data-execution_count="120">
+<div id="cell-54" class="cell" data-execution_count="57">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(y_test, y_pred_rf, alpha<span class="op">=</span><span class="fl">0.7</span>, label<span class="op">=</span><span class="st">"Predicted vs Actual"</span>, color<span class="op">=</span><span class="st">"steelblue"</span>)</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>plt.plot([y_test.<span class="bu">min</span>(), y_test.<span class="bu">max</span>()], [y_test.<span class="bu">min</span>(), y_test.<span class="bu">max</span>()], <span class="st">'b--'</span>, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Perfect Parity Line"</span>)  <span class="co"># Red dashed line for perfect prediction</span></span>
@@ -1421,9 +1567,14 @@ R-squared: 0.6367</code></pre>
 </div>
 </div>
 </div>
+<p>The Parity Plot compares the predicted values of “Duration” (on the y-axis) with the actual values (on the x-axis) for the optimized Random Forest Regressor. The blue dashed line represents the perfect parity line, where predicted values are equal to actual values.</p>
+<ul>
+<li>Most of the points are concentrated near the parity line, indicating that the Random Forest model performs well in predicting the “Duration”, this suggests a good agreement between predicted and actual values.</li>
+<li>There are some outliers where the predicted durations deviate significantly from the actual values, especially for very low or very high durations.</li>
+<li>While the model performs well overall, further refinements, such as handling outliers or incorporating additional features, could improve accuracy, especially for extreme values.</li>
+</ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
