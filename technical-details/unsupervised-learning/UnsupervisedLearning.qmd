@@ -1,0 +1,38 @@
+# Introduction
+Unsupervised Learning is a branch of Machine Learning that involves using algorithms to analyze unlabeled data. Unlike supervised learning, which relies on input-output pairs, unsupervised learning does not have a predefined outcomes to predict. Instead, it focuses on discovering hidden patterns, clusters, or structures within the data without explicit instructions.
+
+**Unsupervised Learning Algorithms**:
+
+-	Clustering: Grouping data based on their similarity
+-	Dimensionality Reduction: reducing the number of features in the dataset while preserving key information.
+-	Association Rule Learning: Identifying relationships between variables in a dataset.
+In this project, Dimensionality reduction and Clustering algorithms are used, which will be explored in detail in their respective section. 
+
+**Importance**
+
+-	Unsupervised learning algorithms can identify natural groupings in the data, revealing insights that might not be obvious to humans.
+-	Techniques like dimensionality reduction simplify data by reducing its features while retaining important information, making it easier to visualize and analyze. 
+-	Labeling data could be a costly process, unsupervised learning provides a scalable approach to uncover patterns without requiring human intervention.
+
+**In this project**:\
+
+-	Dimensionality reduction is applied to pit stop data to simplify the dataset and enhance the interpretability of subsequent analysis.
+-	Clustering is employed to:
+o	Analyze pit stop strategies and uncover potential groupings.
+o	Group circuits based on their features. 
+
+# Dimensionality Reduction
+
+**Dimensionality reduction** is a method used to reduce the number of features of a dataset while retaining the essential information. Reducing dimensionality improves computational efficiency and enable better interpretability of data. 
+
+## Principal Component Analysis (PCA)
+
+**PCA** transforms the data into a set of orthogonal components that capture the maximum variance in the data. 
+
+**Process**:\
+
+-	The data is standardized to ensure a consistent scale for all variables. 
+-	Covariance matrix is computed to explore the dependencies between relationships.
+-	The eigenvectors determine the directions (Principal Components), and the eigen values indicate the amount of variance captured. 
+-	Based on the dimension, we want to reduce the data to, we select the eigenvectors that capture the most information. 
+
