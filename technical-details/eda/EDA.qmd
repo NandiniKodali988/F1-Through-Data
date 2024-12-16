@@ -1,0 +1,34 @@
+## Introduction
+The primary goal of **Exploratory Data Analysis (EDA)** is to gain a comprehensive understanding of the data, its quality, identify any underlying trends or relationships that may influence the analysis and modeling process.
+
+**Importance**:
+
+-	EDA helps detect outliers, and inconsistencies in the data, addressing these issues ensures that the analysis is based on accurate and clean data. 
+-	Through visualizations and statistical analysis, EDA identifies which features are most relevant to the questions and should be included in the model. 
+-	EDA reveals relationships between variables, such as correlations, and trends, which can help discard certain features or create new derived features. 
+-	By analyzing the distribution of variables, we can identify central tendencies and variations. This helps us understand how the data is spread out and it it meets assumptions required by certain algorithms. 
+
+**Techniques**:
+
+-	Univariate Analysis: 
+    - To understand the distribution, and central tendency of a variable.
+    - Visualizations: Histograms, Box Plots, kernel Density plots.
+    - Statistical measures: Mean, Median, Mode, Variance, Standard Deviation.
+-	Bivariate Analysis:
+    - To understand the relationship between two variables
+    - Categorical-Categorical: Heatmaps.
+    - Numerical-Categorical: Box plots, Bar Graphs.
+    - Numerical-Numerical: Scatter plots, correlation coefficients.
+-	Multivariate Analysis: 
+    - To explore relationships between three or more variables simultaneously.
+    - Visualizations: Heatmaps, Scatter plots.
+    - Dimensionality Reduction: PCA, t-SNE.
+-	Data Distribution:
+    - Histograms and density plots are useful to detect skewness or multimodal distributions.
+-	Statistical Analysis: 
+    - Hypothesis Testing: t-tests, chi-square tests, ANOVA.
+    - Correlation: Pearson, Spearman correlation coefficients
+    - Summary Statistics: Mean, variance, Quartiles.
+
+**In this project**:\
+There are various datasets, and mutiple independent features such as: Driver Performance, Pit stop durations, race track features, overall performance of the car, which play an important role in determining the outcome of the race. Therefore, EDA is crucial to understand ow these factors influence race results.

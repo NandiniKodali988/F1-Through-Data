@@ -1,0 +1,19 @@
+Analysis 
+
+**Max Verstappen**
+
+::: columns 
+
+::: {.column width="60%"}
+![](../../data/eda/WordClouds/Verstappen_clean_news_wordcloud.png){fig-align="center"}
+::: 
+
+::: {.column width="40%"}
+::: {style="font-size: 70%; line-height: 1.5;"}
+- Leading airlines in terms of flight volume are Southwest Airlines, Skywest Airlines, and Delta Airlines. \
+- Hawaiian Airlines, Forntier Airlines, and Allegiant Air have a smaller footprint. \
+- Since the analysis is on data collected from December 2020, the pandemic could have influenced these numbers, specifically the smaller airlines.
+:::
+::: 
+
+:::
