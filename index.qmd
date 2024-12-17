@@ -2,103 +2,15 @@
 title: "Introduction"
 author: "Nandini Kodali"
 ---
-##
-**Audio instructions:**
 
-If you want, you can listen to the instructions:
+Formula 1 (F1) is widely regarded as the pinnacle of motorsport, where cutting-edge technology, driver expertise, and strategic decision-making converge to create one of the most intricate and competitive sports globally. Spanning diverse circuits across the world, each Grand Prix epitomizes engineering excellence, precise strategy execution, and split-second decisions that often determine success or failure. The ultimate goal for teams and drivers each season is to secure the World Drivers' Championship (WDC) and World Constructors' Championship (WCC), where fractions of a second can be the difference between winning and losing.
+A team or driver's success in F1 is influenced by several interdependent factors:
 
-<audio controls><source src="audio/landing-page-instructions.mp3" type="audio/mpeg"></audio>
+- Driver Skill and Adaptability: A driver's ability to adjust to changing race conditions, car dynamics, and strategic demands is vital.
+- Constructor Performance: The technical prowess of the car, including aerodynamics, power unit optimization, and tire management, plays a significant role in determining outcomes.
+- Circuit Features: Each track is unique, defined by characteristics like track length, number of corners, straights, and the percentage of time drivers spend at full throttle, all of which affect race strategy.
+- Pit Stop Strategy: Fast and efficient pit stops are critical for success, helping drivers maintain competitive positions or gain an edge over rivals through well-timed stops.
+  
+In F1, data analysis is just as vital as the skill of the driver or the technological advancements of the car. During a race, teams collect vast amounts of data, monitoring key parameters such as tire wear, fuel consumption, aerodynamic efficiency, lap times, and pit stop durations. These data points offer opportunities to optimize car setups, refine race strategies, and predict future outcomes. However, integrating and analyzing these factors collectively remains a complex challenge, providing a rich foundation for data-driven research.
 
-<sup> **Source**: Text-to-speech conversion done with Amazon Polly on AWS </sup>
-
-`Note`: These audio instructions should not be included in your final submission or repository, once you are done wiht them, please delete the files and remove them from the website. 
-
-## Getting Started
-
-To begin the project, first read the instruction document ([click here](instructions/overview.qmd)). This document is also accessible from the navigation bar.
-
-Once you’ve completed that, you can proceed with the instructions found throughout the website.
-
-## What to Include on This Page
-
-This is the landing page for your project. Content from this page can be reused in sections of your final report.
-
-### Create an "About You" Page  
-
-- Develop your "About You" page. You can reuse content from previous assignments.
-- You can include the content here or on a separate page.
-   - It’s recommended to create one "About You" page for all DSAN projects, with links to your various class projects.
-
-### Create a Landing Page for Your Project  
-
-- Summarize your topic, its significance, related work, and the questions you plan to explore.
-- Draft an introduction with at least **5 research questions**. These may evolve as your project progresses, since data science is an iterative process.
-- Include your data science questions on this page.
-
-### Literature review
-
-Once you decide on a topic, you should `ALWAYS START WITH A LITERATURE REVIEW`, this is particularly important for academic projects.
-
-The literature review is the most important part of most projects. 
-
-It allows you to; 
-
-* 1. Determine what is already known and what has already been tried, so that you `don't re-invent the wheel`.
-* 2. It makes you more of a subject matter expert, allowing you to `ask the right questions`, `target impactful projects`, and `communicate with other professionals`.
-
-> Doing a project that you think will change the world, only to find at the end that a very similar version of your project was already done in the 1980's, isn't a great use of time.
-
-In this section, please do a literature review and cite at least **3 academic publications** per group member, and include **internal academic citations**.
-
-**Optional**: Consider using LLM tools to 10X your literature review, e.g. instead of focusing on 3 papers, aim for 30 or more
-
-By following these steps, you can 10X the efficiency of your literature review process, gaining more insights while minimizing the time spent on manual reading.
-
-1. **Expand Your Literature Search**  
-   Aim to gather a larger pool of papers. Use academic databases (Google Scholar, arXiv, etc.) to find relevant studies and ensure a broad scope.
-
-2. **Skim the Abstracts**  
-   Read the abstracts of each paper to quickly understand their focus and identify those most relevant to your topic. Prioritize these papers for deeper analysis.
-
-3. **Use LLM Tools for Summarization**  
-   Upload the selected papers to an LLM tool capable of text summarization. Have it condense the main points of each paper into a concise, manageable summary (e.g., condense hundreds of pages into a 10-page summary). Carefully review this summary to absorb the key insights.
-
-4. **Leverage Interactive LLM Tools**  
-   Use tools like NotebookLM or other AI-based text digesters to ask specific, targeted questions about the papers:
-   - Example questions:
-     - "In the papers uploaded, did any of them explore XYZ?"
-     - "Which paper is most closely related to the following project idea: [explain idea]?"
-   These tools will help you quickly extract relevant information without re-reading entire papers.
-
-
-## Additional Ideas for things to include 
-
-- **Audience**: Who is this for? Data professionals, businesses, researchers, or curious readers.
-- **Headline**: A captivating title introducing the data science theme (e.g., "Unlocking Insights Through Data Stories").
-- **Introduction**: A brief, engaging overview of what the website offers (e.g., data-driven stories, insights, or case studies).
-- **Questions You Are Addressing**: What do you hope to learn?
-- **Motivation**: Explain why this topic matters, highlighting the importance of data in solving real-world problems.
-- **Key Topics**: List the main focus areas (e.g., machine learning, data visualization, predictive modeling).
-- **Use Cases/Examples**: A brief teaser of compelling stories or case studies you’ve worked on.
-- **Call to Action**: Invite visitors to explore the content, follow along, or contact you for more information.
-- **Visual/Infographic**: Add a simple graphic or visual element to make the page more dynamic.
-
-
-
-## Introduction
-On an average, an astounding 4.7 million businesses are started every year [^1], fueling innovation and economic growth. However, up to 90% of the startups fail. The average failure rate in the first year is 10%, but this increases dramatically to 70% within the next 5 years [^2]. \
-In the United States alone, the venture capital investments exceeded $150 billion in 2023 [^3], reflecting the significant financial stakes involved. \
-These statistics underscore the crucial need for entrepreneurs, investors, and policy makers to make informed decisions. \
-By leveraging data science techniques, this project aims to predict whether a startup will succeed or fail, providing actionable insights to stakeholders. This will not only help investors mitigate risks but also empowers entrepreneurs to focus on strategies that maximize their chances of success.
-
-## Research Questions
-1. How are startups distributed across different domains in the United States, and what patterns or trends emerge from this distributions. 
-2. What percentage of startups succeed in each domain, and what distribinguishes high-performing doomains from others?
-3. What are the key dfferences in financial, and operational factors between startups that have closed down, and those that are acquired?
-4. Are there specific terminologies in the new that drive the sentiment of articles on startups, and can these terms be leveraged to analyze success rates further?
-5. What Machine Learning algortihms can be used to predict the success of a startup based on the data collected, and what are the key features that drive the predictions?
-
-## Resources
-[^1]: https://www.commerceinstitute.com/new-businesses-started-every-year/ - data
-[^2]: https://explodingtopics.com/blog/startup-failure-stats
-[^3]: https://news.crunchbase.com/venture/q3-2024-funding-recap-charts/
+This project harnesses Exploratory Data Analysis (EDA) and machine learning techniques to identify relationships hidden within F1 racing data. By exploring driver performance, constructor success, pit stop efficiency, and circuit characteristics, this research seeks to uncover insights into how strategy, engineering decisions, and team execution collectively influence race results.
