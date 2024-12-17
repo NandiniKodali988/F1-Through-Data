@@ -49,7 +49,7 @@ APIs facilitate communication between applications, systems, or devices through 
    2. Headers: Additional metadata about the response. 
    3. Response Body: The data requested by the client, or an error message. 
 
-**API Architectural Styles**:[^4]\ 
+**API Architectural Styles**:[@lecutre_content]\ 
 
 1. **REST (Representational State of Resource)**: A widely used style for data exchange over the internet. In RESTful APIs, resources are accessed through endpoints, and standard HTTP methods such as GET, POST, PUT, and DELETE are used to perform operations on these resources. 
 2. **SOAP (Simple Object Access Protocol)**: Protocol that uses XML to facilitate the transfer of highly structured messages between client and sever. While it provides features for security and reliability, it can be slower compared to other architectural styles. 
@@ -67,6 +67,5 @@ The Ergast Developer API was used to collect race, driver standings, circuit inf
 
 [^3]: [How do APIs work](https://www.postman.com/what-is-an-api/)
 
-[^4]: [Types of APIs](https://jfh.georgetown.domains/centralized-lecture-content/content/data-science/data-collection/APIs/notes.html)
 
 [^5]: [Ergast Developer API](https://ergast.com/mrd/)

@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -93,12 +113,12 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../instructions/overview.html"> 
-<span class="menu-text">Instructions</span></a>
-  </li>  
-  <li class="nav-item">
     <a class="nav-link" href="../../report/report.html"> 
 <span class="menu-text">Report</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../aboutme/aboutme.html"> 
+<span class="menu-text">About Me</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-technical-details" role="link" data-bs-toggle="dropdown" aria-expanded="false">
@@ -218,28 +238,32 @@ ul.task-list li input[type="checkbox"] {
 <li>Response Body: The data requested by the client, or an error message.</li>
 </ol></li>
 </ol>
-<p><strong>API Architectural Styles</strong>:<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>&nbsp;</p>
+<p><strong>API Architectural Styles</strong>:<span class="citation" data-cites="lecutre_content"><sup><a href="#ref-lecutre_content" role="doc-biblioref">1</a></sup></span>&nbsp;</p>
 <ol type="1">
 <li><strong>REST (Representational State of Resource)</strong>: A widely used style for data exchange over the internet. In RESTful APIs, resources are accessed through endpoints, and standard HTTP methods such as GET, POST, PUT, and DELETE are used to perform operations on these resources.</li>
 <li><strong>SOAP (Simple Object Access Protocol)</strong>: Protocol that uses XML to facilitate the transfer of highly structured messages between client and sever. While it provides features for security and reliability, it can be slower compared to other architectural styles.</li>
 <li><strong>GraphQL</strong>: An open-source query language designed to allow clients fetch only the data they need via a single API endpoint. This eliminates the need for multiple requests, making it valuable for applications that operate over slower or less reliable network connections.</li>
 </ol>
 <p><strong>In this Project</strong>:&nbsp;</p>
-<p>The Ergast Developer API was used to collect race, driver standings, circuit information, and pitstop data. “The Ergast Developer API is an experimental web service which provides a historical record of motor racing data for non-commercial purposes”<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>.</p>
+<p>The Ergast Developer API was used to collect race, driver standings, circuit information, and pitstop data. “The Ergast Developer API is an experimental web service which provides a historical record of motor racing data for non-commercial purposes”<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
+
 
 
 </section>
 </section>
 
 
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-lecutre_content" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">DSAN 5000 lecture content, https://jfh.georgetown.domains/centralized-lecture-content/course-timelines/dsan-5000.html.</div>
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
 <li id="fn1"><p><a href="https://en.wikipedia.org/wiki/2010_Bahrain_Grand_Prix">2010 Bahrain Grand Prix</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p><a href="https://aws.amazon.com/what-is/api/#:~:text=APIs%20are%20mechanisms%20that%20enable,weather%20updates%20on%20your%20phone.">What are APIs</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p><a href="https://www.postman.com/what-is-an-api/">How do APIs work</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p><a href="https://jfh.georgetown.domains/centralized-lecture-content/content/data-science/data-collection/APIs/notes.html">Types of APIs</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p><a href="https://ergast.com/mrd/">Ergast Developer API</a><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p><a href="https://ergast.com/mrd/">Ergast Developer API</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -156,12 +156,12 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html"> 
-<span class="menu-text">Home</span></a>
+    <a class="nav-link" href="../../aboutme/aboutme.html"> 
+<span class="menu-text">About Me</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../instructions/overview.html"> 
-<span class="menu-text">Instructions</span></a>
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../report/report.html"> 
@@ -284,6 +284,8 @@ Data was collected from a variety of sources, Data Cleaning was an essential ste
 <section id="required-libraries" class="level2">
 <h2 class="anchored" data-anchor-id="required-libraries">Required Libraries</h2>
 <div id="cell-4" class="cell" data-execution_count="17">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
@@ -295,6 +297,7 @@ Data was collected from a variety of sources, Data Cleaning was an essential ste
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>[nltk_data] Downloading package stopwords to
 [nltk_data]     /Users/nandinikodali/nltk_data...
@@ -305,6 +308,8 @@ Data was collected from a variety of sources, Data Cleaning was an essential ste
 <section id="news-data" class="level2">
 <h2 class="anchored" data-anchor-id="news-data">News Data</h2>
 <div id="cell-6" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load English stop words</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>stop_words <span class="op">=</span> <span class="bu">set</span>(stopwords.words(<span class="st">'english'</span>))</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -335,8 +340,11 @@ Data was collected from a variety of sources, Data Cleaning was an essential ste
 <span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        out <span class="op">=</span> <span class="st">''</span></span>
 <span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-7" class="cell" data-execution_count="45">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to clean news data</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> clean_news_data(raw_data_dir, clean_data_dir):</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -372,8 +380,11 @@ Data was collected from a variety of sources, Data Cleaning was an essential ste
 <span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>            clean_file_path <span class="op">=</span> os.path.join(clean_data_dir, clean_file_name)</span>
 <span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>            <span class="cf">with</span> <span class="bu">open</span>(clean_file_path, <span class="st">'w'</span>) <span class="im">as</span> clean_file:</span>
 <span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>                json.dump(clean_data, clean_file, indent<span class="op">=</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-8" class="cell" data-execution_count="46">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># define directories</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># directory with raw data files</span></span>
@@ -381,12 +392,18 @@ Data was collected from a variety of sources, Data Cleaning was an essential ste
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># directory for cleaned data files</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>clean_data_dir <span class="op">=</span> <span class="st">"../../data/processed-data/News_drivers"</span>  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-9" class="cell" data-execution_count="47">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># call the function to process the clean data</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>clean_news_data(raw_data_dir, clean_data_dir)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-10" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># raw data</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"RAW DATA---"</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>raw <span class="op">=</span> <span class="st">"../../data/raw-data/News_drivers/Alonso_raw_text.json"</span></span>
@@ -407,6 +424,7 @@ Data was collected from a variety of sources, Data Cleaning was an essential ste
 <span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> key, value <span class="kw">in</span> <span class="bu">list</span>(data.items())[:<span class="dv">2</span>]: </span>
 <span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(key,<span class="st">":"</span>, value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>RAW DATA---
 Norris calls Verstappen 'dangerous' as Sainz wins in Mexico : Lando Norris cuts Max Verstappen’s lead to 47 points and labels his rival “dangerous” as the championship battle reaches boiling point at the Mexico City Grand Prix.
@@ -422,10 +440,15 @@ well know fernando alonso : prepares grand prix mexico city weekend find much kn
 <section id="drivers-standings" class="level2">
 <h2 class="anchored" data-anchor-id="drivers-standings">Drivers Standings</h2>
 <div id="cell-12" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>input_file <span class="op">=</span> <span class="st">"../../data/raw-data/Driver_standings/driver_standings_2000_2023.json"</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>output_file <span class="op">=</span> <span class="st">"../../data/processed-data/driver_standings_2000_2023.csv"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-13" class="cell" data-execution_count="13">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(input_file, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> json.load(f)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -468,11 +491,15 @@ well know fernando alonso : prepares grand prix mexico city weekend find much kn
 <span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Points"</span>: points,</span>
 <span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Wins"</span>: wins</span>
 <span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>            })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-14" class="cell" data-execution_count="15">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># convert the cleaned data into a dataframe for easier manipulation</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(cleaned_data)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <div>
 
@@ -554,8 +581,11 @@ well know fernando alonso : prepares grand prix mexico city weekend find much kn
 </div>
 </div>
 <div id="cell-15" class="cell" data-execution_count="16">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check for missing values</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df.isnull().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>Season              0
 Position            0
@@ -569,21 +599,29 @@ dtype: int64</code></pre>
 </div>
 </div>
 <div id="cell-16" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># concat FirstName and LastName</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'driverName'</span>] <span class="op">=</span> df[<span class="st">'FirstName'</span>] <span class="op">+</span> <span class="st">" "</span> <span class="op">+</span> df[<span class="st">'LastName'</span>]</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop([<span class="st">'FirstName'</span>, <span class="st">'LastName'</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># write the clean data to a new csv file</span></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>df.to_csv(output_file, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="circuit-information" class="level2">
 <h2 class="anchored" data-anchor-id="circuit-information">Circuit Information</h2>
 <div id="cell-18" class="cell" data-execution_count="21">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>input_file <span class="op">=</span> <span class="st">"../../data/raw-data/circuit_data/circuit_data.json"</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>output_file <span class="op">=</span> <span class="st">"../../data/processed-data/circuit_data_clean.csv"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-19" class="cell" data-execution_count="22">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>os.makedirs(os.path.dirname(output_file), exist_ok<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># read the JSON file</span></span>
@@ -615,9 +653,13 @@ dtype: int64</code></pre>
 <span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="co"># convert the list to a Pandas DataFrame</span></span>
 <span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(cleaned_data)</span>
 <span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-20" class="cell" data-execution_count="23">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="23">
 <div>
 
@@ -681,8 +723,11 @@ dtype: int64</code></pre>
 </div>
 </div>
 <div id="cell-21" class="cell" data-execution_count="24">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check for null values</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>df.isnull().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="24">
 <pre><code>Circuit_ID      0
 Circuit_Name    0
@@ -693,13 +738,18 @@ dtype: int64</code></pre>
 </div>
 </div>
 <div id="cell-22" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the DataFrame to a CSV file</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>df.to_csv(output_file, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="race-data" class="level2">
 <h2 class="anchored" data-anchor-id="race-data">Race data</h2>
 <div id="cell-24" class="cell" data-execution_count="25">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Cleaning all the race_data and appending them in to a single csv file </span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># input output directory</span></span>
@@ -770,9 +820,13 @@ dtype: int64</code></pre>
 <span id="cb21-68"><a href="#cb21-68" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-69"><a href="#cb21-69" aria-hidden="true" tabindex="-1"></a><span class="co"># aonvert the combined results to a Pandas DataFrame</span></span>
 <span id="cb21-70"><a href="#cb21-70" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(all_combined_results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-25" class="cell" data-execution_count="26">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="26">
 <div>
 
@@ -933,17 +987,26 @@ dtype: int64</code></pre>
 </div>
 </div>
 <div id="cell-26" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save the combined DataFrame to a CSV file</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>df.to_csv(output_file, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="weather-data" class="level2">
 <h2 class="anchored" data-anchor-id="weather-data">Weather Data</h2>
 <div id="cell-28" class="cell" data-execution_count="37">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>weather_df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/raw-data/weather/race_data_with_weather.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-29" class="cell" data-execution_count="38">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>weather_df.isnull().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="38">
 <pre><code>season      0
 raceName    0
@@ -953,7 +1016,10 @@ dtype: int64</code></pre>
 </div>
 </div>
 <div id="cell-30" class="cell" data-execution_count="39">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>weather_df[<span class="st">'weather'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="39">
 <pre><code>0                                                  Sunny
 1                      Overcast with light rain at start
@@ -977,6 +1043,8 @@ Name: weather, Length: 122, dtype: object</code></pre>
 <li>Windy</li>
 </ol>
 <div id="cell-32" class="cell" data-execution_count="40">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> classify_weather(weather_description):</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    weather_description <span class="op">=</span> weather_description.lower()</span>
@@ -992,13 +1060,20 @@ Name: weather, Length: 122, dtype: object</code></pre>
 <span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If no match, classify as "Not Available"</span></span>
 <span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
 <span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Not Available"</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-33" class="cell" data-execution_count="41">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># call classify_weather()</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>weather_df[<span class="st">'weather_class'</span>] <span class="op">=</span> weather_df[<span class="st">'weather'</span>].<span class="bu">apply</span>(classify_weather)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-34" class="cell" data-execution_count="42">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>weather_df[<span class="st">'weather_class'</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="42">
 <pre><code>weather_class
 Sunny            95
@@ -1010,7 +1085,10 @@ Name: count, dtype: int64</code></pre>
 </div>
 <p>Due to severe class imbalance, <code>weather_class</code> feature is not a suitable candidate for effective analysis or model training.</p>
 <div id="cell-36" class="cell" data-execution_count="43">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(weather_df[weather_df[<span class="st">'weather_class'</span>] <span class="op">==</span> <span class="st">"Not Available"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>   season             raceName  \
 9    2006  European Grand Prix   
@@ -1027,17 +1105,25 @@ Name: count, dtype: int64</code></pre>
 <li>Using longitude, latitude and the date: The weather was <code>Sunny</code></li>
 </ul>
 <div id="cell-38" class="cell" data-execution_count="44">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>weather_df[<span class="st">'weather_class'</span>] <span class="op">=</span> weather_df[<span class="st">'weather_class'</span>].replace(<span class="st">'Not Available'</span>, <span class="st">'Sunny'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-39" class="cell" data-execution_count="73">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the updated DataFrame to a CSV file</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>output_csv <span class="op">=</span> <span class="st">"../../data/processed-data/classified_weather_data.csv"</span></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>weather_df.to_csv(output_csv, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="race-info-merged" class="level2">
 <h2 class="anchored" data-anchor-id="race-info-merged">Race Info Merged</h2>
 <div id="cell-41" class="cell" data-execution_count="75">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># merge race results and weather information</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>race_df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/all_race_results_cleaned.csv"</span>)</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>weather_df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/classified_weather_data.csv"</span>)</span>
@@ -1047,10 +1133,14 @@ Name: count, dtype: int64</code></pre>
 <span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> race_df.merge(weather_df[[<span class="st">'url'</span>,<span class="st">'weather_class'</span>]], on<span class="op">=</span><span class="st">'url'</span>, how<span class="op">=</span><span class="st">'left'</span>)</span>
 <span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>merged_df.to_csv(<span class="st">"../../data/processed-data/race_weather_merged.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-42" class="cell" data-execution_count="33">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>main_df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/race_weather_merged.csv"</span>)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>main_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="33">
 <div>
 
@@ -1211,7 +1301,10 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <div id="cell-43" class="cell" data-execution_count="34">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>main_df.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="34">
 <pre><code>Index(['season', 'round', 'raceName', 'url', 'circuitName', 'locality',
        'country', 'lat', 'long', 'date', 'number', 'position', 'positionText',
@@ -1223,11 +1316,17 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <div id="cell-44" class="cell" data-execution_count="35">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># drop un-needed columns</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>main_df <span class="op">=</span> main_df.drop([<span class="st">'lat'</span>, <span class="st">'long'</span>, <span class="st">'number'</span>, <span class="st">'positionText'</span>, <span class="st">'Driver'</span>, <span class="st">'Constructor'</span>, <span class="st">'Time'</span>, <span class="st">'FastestLap'</span>], axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-45" class="cell" data-execution_count="36">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>main_df.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="36">
 <pre><code>Index(['season', 'round', 'raceName', 'url', 'circuitName', 'locality',
        'country', 'date', 'position', 'points', 'grid', 'laps', 'status',
@@ -1237,7 +1336,10 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <div id="cell-46" class="cell" data-execution_count="37">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>main_df.isnull().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="37">
 <pre><code>season                 0
 round                  0
@@ -1265,11 +1367,17 @@ dtype: int64</code></pre>
 </div>
 <p>The missing values in ‘<code>timeMillis'</code> and’<code>time'</code> columns are of those drivers who did not finish the race. Therefore, we will drop these columns and try to analyse the performance based on other metrics.</p>
 <div id="cell-48" class="cell" data-execution_count="38">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># drop un-needed columns</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>main_df <span class="op">=</span> main_df.drop([<span class="st">'timeMillis'</span>, <span class="st">'time'</span>], axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-49" class="cell" data-execution_count="39">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>main_df[<span class="st">'constructorName'</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="39">
 <pre><code>constructorName
 Ferrari           235
@@ -1312,7 +1420,10 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <div id="cell-50" class="cell" data-execution_count="40">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>main_df <span class="op">=</span> main_df.drop([<span class="st">'constructorId'</span>], axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <p>Some of the team names were changed in the process of rebranding or due to a change in ownership. For accurate analysis, we will replace the older versions of the constructors’ names with the current ones.</p>
 <ul>
@@ -1335,6 +1446,8 @@ Name: count, dtype: int64</code></pre>
 <li>Prost</li>
 </ul>
 <div id="cell-52" class="cell" data-execution_count="41">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>constructor_mapping<span class="op">=</span> {</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Jaguar"</span> : <span class="st">"Red Bull"</span>,</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BMW Sauber"</span> : <span class="st">"Sauber"</span>,</span>
@@ -1357,12 +1470,19 @@ Name: count, dtype: int64</code></pre>
 <span id="cb50-20"><a href="#cb50-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Lotus"</span> : <span class="st">"Caterham"</span>,</span>
 <span id="cb50-21"><a href="#cb50-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb50-22"><a href="#cb50-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-53" class="cell" data-execution_count="42">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>main_df[<span class="st">'constructorName'</span>] <span class="op">=</span> main_df[<span class="st">'constructorName'</span>].replace(constructor_mapping)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-54" class="cell" data-execution_count="43">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>main_df[<span class="st">'constructorName'</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="43">
 <pre><code>constructorName
 Ferrari           235
@@ -1386,13 +1506,22 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <div id="cell-55" class="cell" data-execution_count="44">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>main_df[<span class="st">'driverName'</span>] <span class="op">=</span> main_df[<span class="st">'driverGivenName'</span>] <span class="op">+</span> <span class="st">" "</span> <span class="op">+</span> main_df[<span class="st">'driverFamilyName'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-56" class="cell" data-execution_count="45">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>main_df <span class="op">=</span> main_df.drop([<span class="st">'driverGivenName'</span>,<span class="st">'driverFamilyName'</span>], axis <span class="op">=</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-57" class="cell" data-execution_count="46">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>main_df.head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="46">
 <div>
 
@@ -1476,7 +1605,10 @@ Name: count, dtype: int64</code></pre>
 </ul>
 <p>Grouping the data helps understand the major reasons for the race results without getting overwhelmed by the granular details.</p>
 <div id="cell-59" class="cell" data-execution_count="47">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>main_df[<span class="st">'status'</span>].unique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="47">
 <pre><code>array(['Finished', '+1 Lap', '+2 Laps', 'Electrical', 'Hydraulics',
        'Overheating', 'Gearbox', 'Suspension', 'Accident', '+5 Laps',
@@ -1497,6 +1629,8 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <div id="cell-60" class="cell" data-execution_count="48">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># classifying different categories under status</span></span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> classify_status(status):</span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> status <span class="op">==</span> <span class="st">'Finished'</span>:</span>
@@ -1511,9 +1645,13 @@ Name: count, dtype: int64</code></pre>
 <span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Mechanical'</span></span>
 <span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a>main_df[<span class="st">'status'</span>] <span class="op">=</span> main_df[<span class="st">'status'</span>].<span class="bu">apply</span>(classify_status)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-61" class="cell" data-execution_count="49">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>main_df[<span class="st">'status'</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="49">
 <pre><code>status
 Finished      1105
@@ -1524,7 +1662,10 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <div id="cell-62" class="cell" data-execution_count="50">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>main_df.to_csv(<span class="st">"../../data/processed-data/race_info.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <p>Finish category - new categorical variable</p>
 <p>In F1, race outcomes are categorized based on finishing positions:</p>
@@ -1534,6 +1675,8 @@ Name: count, dtype: int64</code></pre>
 <li>Drivers finishing outside the top 10 do not earn any championship points.</li>
 </ul>
 <div id="cell-64" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/race_info.csv"</span>)</span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="co"># create a new categorical variable </span></span>
 <span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'FinishCategory'</span>] <span class="op">=</span> <span class="st">''</span></span>
@@ -1550,9 +1693,13 @@ Name: count, dtype: int64</code></pre>
 <span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># assign no points for poistions outside top 10</span></span>
 <span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
 <span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a>        data[<span class="st">'FinishCategory'</span>][i] <span class="op">=</span> <span class="st">"No Points"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-65" class="cell" data-execution_count="52">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="52">
 <div>
 
@@ -1694,15 +1841,21 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <div id="cell-66" class="cell" data-execution_count="53">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>data.to_csv(<span class="st">"../../data/processed-data/race_info.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="race-track-features" class="level2">
 <h2 class="anchored" data-anchor-id="race-track-features">Race Track Features</h2>
 <div id="cell-68" class="cell" data-execution_count="25">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># race track features</span></span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../../data/raw-data/circuit_data/merged_circuit_features.csv"</span>)</span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="25">
 <div>
 
@@ -1778,7 +1931,10 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <div id="cell-69" class="cell" data-execution_count="26">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>data.isnull().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="26">
 <pre><code>Year                   0
 Grand Prix             0
@@ -1800,14 +1956,20 @@ dtype: int64</code></pre>
 <li><span class="math inline">\(\sigma\)</span>: standard deviation of the feature</li>
 </ul>
 <div id="cell-71" class="cell" data-execution_count="27">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>req_cols <span class="op">=</span> [<span class="st">"Track Length (m)"</span>, <span class="st">"Max Speed (km/h)"</span>, <span class="st">"Full Throttle (%)"</span>,<span class="st">"Number of Corners"</span>, <span class="st">"Number of Straights"</span>]</span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the scaler to the dataframe</span></span>
 <span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>data[req_cols] <span class="op">=</span> scaler.fit_transform(data[req_cols])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-72" class="cell" data-execution_count="31">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="31">
 <div>
 
@@ -1883,14 +2045,20 @@ dtype: int64</code></pre>
 </div>
 </div>
 <div id="cell-73" class="cell" data-execution_count="32">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>data.to_csv(<span class="st">"../../data/processed-data/race_track_features.csv"</span>)    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="pitstop-data" class="level2">
 <h2 class="anchored" data-anchor-id="pitstop-data">Pitstop data</h2>
 <div id="cell-75" class="cell" data-execution_count="45">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/raw-data/pitstop_data.csv"</span>)</span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="45">
 <div>
 
@@ -1974,6 +2142,8 @@ dtype: int64</code></pre>
 <p><strong>Pivoting</strong> involves reshaping data by rearranging rows into columns. It is used to transform long-format data (many rows for each entity) to wide-format (one row per entity with multiple columns).</p>
 <p>Here, each <code>Stop</code> Number becomes a seperate set of columns, Lap1, Lap2, Duration1, Duration2 and so on.</p>
 <div id="cell-77" class="cell" data-execution_count="46">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>transformed <span class="op">=</span> (</span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># group the data by year, round, race name and driver</span></span>
 <span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># create Pit stop number for each pitstop of a driver in the data</span></span>
@@ -1996,6 +2166,7 @@ dtype: int64</code></pre>
 <span id="cb73-20"><a href="#cb73-20" aria-hidden="true" tabindex="-1"></a>transformed <span class="op">=</span> transformed.fillna(<span class="dv">0</span>)</span>
 <span id="cb73-21"><a href="#cb73-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb73-22"><a href="#cb73-22" aria-hidden="true" tabindex="-1"></a>transformed.head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="46">
 <div>
 
@@ -2084,7 +2255,10 @@ dtype: int64</code></pre>
 </div>
 </div>
 <div id="cell-78" class="cell" data-execution_count="70">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>transformed.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="70">
 <pre><code>(5118, 32)</code></pre>
 </div>
@@ -2092,6 +2266,8 @@ dtype: int64</code></pre>
 <p><strong>MinMaxx Scaling</strong>: Transforms the fature range by scaling its min and max values.</p>
 <p>Formula: <span class="math display">\[X_{scaled} = \frac{X - X_{min}}{X_{max} - X_{min}}\]</span></p>
 <div id="cell-80" class="cell" data-execution_count="78">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># convert relevant columns to minutes</span></span>
 <span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
 <span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_to_minutes(value):</span>
@@ -2123,6 +2299,7 @@ dtype: int64</code></pre>
 <span id="cb76-29"><a href="#cb76-29" aria-hidden="true" tabindex="-1"></a>transformed[scalable_columns] <span class="op">=</span> scaler.fit_transform(transformed[scalable_columns])</span>
 <span id="cb76-30"><a href="#cb76-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb76-31"><a href="#cb76-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(transformed.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Year  Round               RaceName     DriverID      Lap1      Lap2  \
 0  2011      1  Australian Grand Prix  alguersuari  0.000000  0.229730   
@@ -2149,7 +2326,10 @@ dtype: int64</code></pre>
 </div>
 </div>
 <div id="cell-81" class="cell" data-execution_count="79">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>transformed.to_csv(<span class="st">"../../data/processed-data/pitstop.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 
 

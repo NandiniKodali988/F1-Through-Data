@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Nandini Kodali">
 
 <title>DSAN-5000: Project – Supervised Learning</title>
 <style>
@@ -155,12 +156,12 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html"> 
-<span class="menu-text">Home</span></a>
+    <a class="nav-link" href="../../aboutme/aboutme.html"> 
+<span class="menu-text">About Me</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../instructions/overview.html"> 
-<span class="menu-text">Instructions</span></a>
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../report/report.html"> 
@@ -251,6 +252,12 @@ window.Quarto = {
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nandini Kodali </p>
+          </div>
+  </div>
     
   
     
@@ -302,6 +309,8 @@ window.Quarto = {
 <section id="required-libraries" class="level1">
 <h1>Required Libraries</h1>
 <div id="cell-3" class="cell" data-execution_count="51">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -324,19 +333,26 @@ window.Quarto = {
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.svm <span class="im">import</span> SVR</span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures</span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="feature-selection" class="level1">
 <h1>Feature Selection</h1>
 <p><strong>Feature Selection</strong> is the process of identifying the most relevant features from a dataset that contribute significantly to predicting the target variable. By reducing the number of features, it improves computational efficiency during training, minimizes the risk of overfitting, and enhances model performance. Additionally, reducing feature complexity simplifies models, making them easier to interpret and explain, which is crucial for understanding the underlying data relationships.</p>
 <div id="cell-5" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the binary target variable</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/pitstop_with_positions.csv"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df.drop(columns<span class="op">=</span>[<span class="st">'Unnamed: 0'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'points_category'</span>] <span class="op">=</span> df[<span class="st">'position'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="dv">1</span> <span class="cf">if</span> x <span class="op">&lt;=</span> <span class="dv">10</span> <span class="cf">else</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-6" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
@@ -497,6 +513,8 @@ window.Quarto = {
 </div>
 </div>
 <div id="cell-7" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define features and target</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> [</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Year"</span>,</span>
@@ -507,11 +525,14 @@ window.Quarto = {
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[features]</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df[<span class="st">"points_category"</span>]  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <section id="correlation-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="correlation-analysis">Correlation Analysis</h2>
 <p>Correlation analysis helps identify features that are strongly correlated with the target variable.</p>
 <div id="cell-9" class="cell" data-execution_count="9">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>correlations <span class="op">=</span> X.corrwith(y)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>correlations.sort_values().plot(kind<span class="op">=</span><span class="st">'barh'</span>, color<span class="op">=</span><span class="st">'deepskyblue'</span>)</span>
@@ -522,6 +543,7 @@ window.Quarto = {
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Feature"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>plt.grid(axis<span class="op">=</span><span class="st">'x'</span>)</span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -542,6 +564,8 @@ window.Quarto = {
 <li>Stop when the desired number of features is selected.</li>
 </ol>
 <div id="cell-11" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># inititlize logistic regression model</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>, random_state<span class="op">=</span><span class="dv">123</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># initialize RFE with the logistic regression model </span></span>
@@ -562,6 +586,7 @@ window.Quarto = {
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Feature"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>plt.grid(axis<span class="op">=</span><span class="st">'x'</span>)</span>
 <span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -575,6 +600,8 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="mutual-information">Mutual Information</h2>
 <p>Mutual information measures the dependency between two variables. It identifies the most informative features by quantifying how much knowing one variable reduces uncertainty about the other</p>
 <div id="cell-13" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute MI between each features and y</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>mutual_info <span class="op">=</span> mutual_info_classif(X, y, random_state<span class="op">=</span><span class="dv">123</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>mutual_info_series <span class="op">=</span> pd.Series(mutual_info, index<span class="op">=</span>features).sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
@@ -588,6 +615,7 @@ window.Quarto = {
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Mutual Information Score"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>plt.grid(axis<span class="op">=</span><span class="st">'x'</span>)</span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -644,12 +672,17 @@ window.Quarto = {
 <li>Instability: Small changes in the data can result in significant changes in the tree structure</li>
 </ul>
 <div id="cell-17" class="cell" data-execution_count="21">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df_transformed <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/pitstop_with_positions.csv"</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># create a new categortical variable - 1 if its a points finish</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#                                    - 0, otherwise</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>df_transformed[<span class="st">'points_category'</span>] <span class="op">=</span> df_transformed[<span class="st">'position'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="dv">1</span> <span class="cf">if</span> x <span class="op">&lt;=</span> <span class="dv">10</span> <span class="cf">else</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-18" class="cell" data-execution_count="22">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Selected features</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df_transformed[[<span class="st">'grid'</span>, <span class="st">'Duration1'</span>, <span class="st">'Duration2'</span>, <span class="st">'Lap1'</span>, <span class="st">'Lap2'</span>, <span class="st">'Lap3'</span>, <span class="st">'Stop2'</span>, <span class="st">'Stop3'</span>]]</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df_transformed[<span class="st">'points_category'</span>]  </span>
@@ -657,8 +690,11 @@ window.Quarto = {
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Train-test split</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># splitting the data into training and testing sets (80% train, 20% test)</span></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">123</span>, stratify<span class="op">=</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-19" class="cell" data-execution_count="23">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the Decision Tree Classifier</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># training with default values</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">42</span>)</span>
@@ -677,6 +713,7 @@ window.Quarto = {
 <span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>ConfusionMatrixDisplay.from_estimator(dt, X_test, y_test, cmap<span class="op">=</span><span class="st">"Blues"</span>)</span>
 <span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Confusion Matrix - Decision Tree"</span>)</span>
 <span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Classification Report - Decision Tree:
               precision    recall  f1-score   support
@@ -703,6 +740,8 @@ weighted avg       0.68      0.67      0.67       242
 <li>There is no significant class imbalance.</li>
 </ul>
 <div id="cell-21" class="cell" data-execution_count="26">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hyperparameter Tuning</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Define max_depth range</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>max_depth_range <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">25</span>)</span>
@@ -776,6 +815,7 @@ weighted avg       0.68      0.67      0.67       242
 <span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a>fig.delaxes(axes[<span class="dv">0</span>, <span class="dv">1</span>])</span>
 <span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -786,6 +826,8 @@ weighted avg       0.68      0.67      0.67       242
 </div>
 <p>As the depth of the tree increases, the training accuracy of the model increases and the test accuracy of the model decreases. This is because the model starts to overfit the training data. To avoid overfitting of the model, we select the optimal number of layers when the test and training accuracy are high. In this case, we select the <strong>max depth to be 5</strong>. Beyond 5, the test accruacy significantly drops.</p>
 <div id="cell-23" class="cell" data-execution_count="19">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hyper parameter tuning</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># fix max_depth = 5</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># define the parameter grid </span></span>
@@ -815,6 +857,7 @@ weighted avg       0.68      0.67      0.67       242
 <span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>ConfusionMatrixDisplay.from_estimator(best_dt, X_test, y_test, cmap<span class="op">=</span><span class="st">"Blues"</span>)</span>
 <span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Confusion Matrix - Optimized Decision Tree with max_depth=5"</span>)</span>
 <span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Best Parameters: {'min_samples_leaf': 2, 'min_samples_split': 5}
 Classification Report - Optimized Decision Tree with max_depth=5:
@@ -841,6 +884,8 @@ weighted avg       0.80      0.80      0.80       242
 <li>The precision for the turned model is also more balanced than the original model.</li>
 </ul>
 <div id="cell-25" class="cell" data-execution_count="20">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ROC Curve for the Initial Decision Tree</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>y_proba_initial <span class="op">=</span> dt.predict_proba(X_test)[:, <span class="dv">1</span>]  <span class="co"># Probability for the positive class</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>fpr_initial, tpr_initial, _ <span class="op">=</span> roc_curve(y_test, y_proba_initial)</span>
@@ -861,6 +906,7 @@ weighted avg       0.80      0.80      0.80       242
 <span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'ROC Curves - Decision Tree'</span>)</span>
 <span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">"lower right"</span>)</span>
 <span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -887,6 +933,8 @@ weighted avg       0.80      0.80      0.80       242
 <li>By combining outputs from multiple decision trees, Random Forest reduces variance, improves generalization, and enhances model robustness.</li>
 </ul>
 <div id="cell-28" class="cell" data-execution_count="27">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df_transformed <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/pitstop_with_positions.csv"</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>df_transformed[<span class="st">'points_category'</span>] <span class="op">=</span> df_transformed[<span class="st">'position'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="dv">1</span> <span class="cf">if</span> x <span class="op">&lt;=</span> <span class="dv">10</span> <span class="cf">else</span> <span class="dv">0</span>)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df_transformed[[<span class="st">'grid'</span>, <span class="st">'Duration1'</span>, <span class="st">'Duration2'</span>, <span class="st">'Lap1'</span>, <span class="st">'Lap2'</span>, <span class="st">'Lap3'</span>, <span class="st">'Stop2'</span>, <span class="st">'Stop3'</span>]]</span>
@@ -895,8 +943,11 @@ weighted avg       0.80      0.80      0.80       242
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Train-test split</span></span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># splitting the data into training and testing sets (80% train, 20% test)</span></span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">123</span>, stratify<span class="op">=</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-29" class="cell" data-execution_count="28">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize Random Forest Classifier</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>rf <span class="op">=</span> RandomForestClassifier(random_state<span class="op">=</span><span class="dv">123</span>)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -917,6 +968,7 @@ weighted avg       0.80      0.80      0.80       242
 <span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Accuracy Score</span></span>
 <span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Accuracy:"</span>, accuracy_score(y_test, y_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Classification Report:
               precision    recall  f1-score   support
@@ -942,6 +994,8 @@ weighted avg       0.79      0.79      0.79       242
 </div>
 <p>The Random Forest Classifier, using its default hyperparameters, achieved an accuracy of approximately 0.80. Comparable to a Decision Tree after hyperparameter tuning, this highlights the superior performance and robustness of Random Forests, especially when handling large datasets, as they effectively reduce overfitting compared to a single decision tree.</p>
 <div id="cell-31" class="cell" data-execution_count="29">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># hyperparameter tuning</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'n_estimators'</span>: [<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>],</span>
@@ -964,6 +1018,7 @@ weighted avg       0.79      0.79      0.79       242
 <span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Classification Report</span></span>
 <span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Report - Optimized Random Forest:"</span>)</span>
 <span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, y_pred_best))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Best Parameters: {'max_depth': 10, 'min_samples_split': 10, 'n_estimators': 200}
 Classification Report - Optimized Random Forest:
@@ -979,10 +1034,13 @@ weighted avg       0.81      0.81      0.81       242
 </div>
 </div>
 <div id="cell-32" class="cell" data-execution_count="30">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Confusion Matrix for Optimized Random Forest</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>ConfusionMatrixDisplay.from_estimator(best_rf, X_test, y_test, cmap<span class="op">=</span><span class="st">"Blues"</span>)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Confusion Matrix - Optimized Random Forest"</span>)</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -992,6 +1050,8 @@ weighted avg       0.81      0.81      0.81       242
 </div>
 </div>
 <div id="cell-33" class="cell" data-execution_count="31">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ROC Curve for the Initial Random Forest</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>y_proba_initial <span class="op">=</span> rf.predict_proba(X_test)[:, <span class="dv">1</span>]  <span class="co"># Probability for the positive class</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>fpr_initial, tpr_initial, _ <span class="op">=</span> roc_curve(y_test, y_proba_initial)</span>
@@ -1012,6 +1072,7 @@ weighted avg       0.81      0.81      0.81       242
 <span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'ROC Curves - Random Forest'</span>)</span>
 <span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">"lower right"</span>)</span>
 <span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1031,6 +1092,8 @@ weighted avg       0.81      0.81      0.81       242
 <section id="random-forest-classifier" class="level2">
 <h2 class="anchored" data-anchor-id="random-forest-classifier">Random Forest Classifier</h2>
 <div id="cell-37" class="cell" data-execution_count="36">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new column with binned classes based on 'position'</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># multiclass categorical variable</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> position_to_class(position):</span>
@@ -1052,13 +1115,19 @@ weighted avg       0.81      0.81      0.81       242
 <span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Define features and target</span></span>
 <span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df_transformed[[<span class="st">'grid'</span>, <span class="st">'Duration1'</span>, <span class="st">'Duration2'</span>, <span class="st">'Lap1'</span>, <span class="st">'Lap2'</span>, <span class="st">'Lap3'</span>, <span class="st">'Stop2'</span>, <span class="st">'Stop3'</span>]]</span>
 <span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df_transformed[<span class="st">'position_class'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-38" class="cell" data-execution_count="37">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train-test split</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># splitting the data into training and testing sets (80% train, 20% test)</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">123</span>, stratify<span class="op">=</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-39" class="cell" data-execution_count="38">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize Random Forest Classifier</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>rf_multi <span class="op">=</span> RandomForestClassifier(random_state<span class="op">=</span><span class="dv">123</span>)</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1076,6 +1145,7 @@ weighted avg       0.81      0.81      0.81       242
 <span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>ConfusionMatrixDisplay.from_estimator(rf_multi, X_test, y_test, cmap<span class="op">=</span><span class="st">"Blues"</span>)</span>
 <span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Confusion Matrix - Multi-class Random Forest"</span>)</span>
 <span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Classification Report - Multi-class Random Forest:
               precision    recall  f1-score   support
@@ -1099,6 +1169,8 @@ weighted avg       0.51      0.51      0.49       235
 </div>
 </div>
 <div id="cell-40" class="cell" data-execution_count="39">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hyperparameter tuning</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>param_grid_multi <span class="op">=</span> {</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'n_estimators'</span>: [<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>],</span>
@@ -1126,6 +1198,7 @@ weighted avg       0.51      0.51      0.49       235
 <span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>ConfusionMatrixDisplay.from_estimator(best_rf_multi, X_test, y_test, cmap<span class="op">=</span><span class="st">"Blues"</span>)</span>
 <span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Confusion Matrix - Optimized Multi-class Random Forest"</span>)</span>
 <span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Best Parameters: {'max_depth': 10, 'min_samples_split': 5, 'n_estimators': 200}
 Classification Report - Optimized Multi-class Random Forest:
@@ -1165,6 +1238,8 @@ weighted avg       0.51      0.51      0.50       235
 </ul></li>
 </ul>
 <div id="cell-42" class="cell" data-execution_count="46">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Range of k values to test</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>k_values <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">25</span>)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1198,6 +1273,7 @@ weighted avg       0.51      0.51      0.50       235
 <span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
 <span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
 <span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1208,6 +1284,8 @@ weighted avg       0.51      0.51      0.50       235
 </div>
 <p>Optimal number for k is 19. Beyond 19, the test accuracy starts to drop.</p>
 <div id="cell-44" class="cell" data-execution_count="40">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize KNN with k=19</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>knn <span class="op">=</span> KNeighborsClassifier(n_neighbors<span class="op">=</span><span class="dv">19</span>)</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1225,6 +1303,7 @@ weighted avg       0.51      0.51      0.50       235
 <span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>ConfusionMatrixDisplay.from_estimator(knn, X_test, y_test, cmap<span class="op">=</span><span class="st">"Blues"</span>)</span>
 <span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Confusion Matrix - KNN (k=19)"</span>)</span>
 <span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Classification Report - KNN (k=19):
               precision    recall  f1-score   support
@@ -1283,9 +1362,12 @@ weighted avg       0.49      0.51      0.49       235
 <li>Mean Absolute Percentage Error (MAPE): Expresses prediction errors as a percentage of actual values, making it useful for comparing across datasets with varying scales.</li>
 </ul>
 <div id="cell-47" class="cell" data-execution_count="52">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../../data/processed-data/pitstop_long.csv"</span>)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>data.drop(columns<span class="op">=</span>[<span class="st">'Unnamed: 0'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="52">
 <div>
 
@@ -1367,6 +1449,8 @@ weighted avg       0.49      0.51      0.49       235
 </div>
 </div>
 <div id="cell-48" class="cell" data-execution_count="53">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dropping non-numeric columns (RaceName and DriverID) for regression</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.drop(columns<span class="op">=</span>[<span class="st">"RaceName"</span>, <span class="st">"DriverID"</span>])</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1417,6 +1501,7 @@ weighted avg       0.49      0.51      0.49       235
 <span id="cb34-48"><a href="#cb34-48" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean Absolute Error: </span><span class="sc">{</span>mean_absolute_error(y_test, y_pred_rf)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
 <span id="cb34-49"><a href="#cb34-49" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean Squared Error: </span><span class="sc">{</span>mean_squared_error(y_test, y_pred_rf)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
 <span id="cb34-50"><a href="#cb34-50" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R-squared: </span><span class="sc">{</span>r2_score(y_test, y_pred_rf)<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear Regression Metrics:
 Mean Absolute Error: 0.0654
@@ -1447,6 +1532,8 @@ R-squared: 0.6408</code></pre>
 </ul>
 <p>Well be tune the Random Forest Regressor to imporve its accuracy further.</p>
 <div id="cell-50" class="cell" data-execution_count="111">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting function for parity plots</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_parity(y_actual, y_pred, title):</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
@@ -1470,6 +1557,7 @@ R-squared: 0.6408</code></pre>
 <span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Random Forest Regressor</span></span>
 <span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>plot_parity(y_test, y_pred_rf, <span class="st">"Parity Plot - Random Forest Regressor"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1500,6 +1588,8 @@ R-squared: 0.6408</code></pre>
 </div>
 </div>
 <div id="cell-51" class="cell" data-execution_count="54">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># optimizing random forest regressor</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameter grid for tuning</span></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {</span>
@@ -1518,8 +1608,11 @@ R-squared: 0.6408</code></pre>
 <span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="dv">2</span>,</span>
 <span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=-</span><span class="dv">1</span></span>
 <span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-52" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>grid_search.fit(X_train, y_train)</span>
@@ -1530,8 +1623,11 @@ R-squared: 0.6408</code></pre>
 <span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict on test set</span></span>
 <span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>y_pred_rf <span class="op">=</span> best_rf.predict(X_test)</span>
 <span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div id="cell-53" class="cell" data-execution_count="56">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluation Metrics</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>mae <span class="op">=</span> mean_absolute_error(y_test, y_pred_rf)</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>mse <span class="op">=</span> mean_squared_error(y_test, y_pred_rf)</span>
@@ -1541,6 +1637,7 @@ R-squared: 0.6408</code></pre>
 <span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean Absolute Error: </span><span class="sc">{</span>mae<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
 <span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean Squared Error: </span><span class="sc">{</span>mse<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
 <span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R-squared: </span><span class="sc">{</span>r2<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Optimized Random Forest Regressor Metrics:
@@ -1550,6 +1647,8 @@ R-squared: 0.6439</code></pre>
 </div>
 </div>
 <div id="cell-54" class="cell" data-execution_count="57">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(y_test, y_pred_rf, alpha<span class="op">=</span><span class="fl">0.7</span>, label<span class="op">=</span><span class="st">"Predicted vs Actual"</span>, color<span class="op">=</span><span class="st">"steelblue"</span>)</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>plt.plot([y_test.<span class="bu">min</span>(), y_test.<span class="bu">max</span>()], [y_test.<span class="bu">min</span>(), y_test.<span class="bu">max</span>()], <span class="st">'b--'</span>, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Perfect Parity Line"</span>)  <span class="co"># Red dashed line for perfect prediction</span></span>
@@ -1559,6 +1658,7 @@ R-squared: 0.6439</code></pre>
 <span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
 <span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
 <span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">

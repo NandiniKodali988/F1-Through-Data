@@ -1,0 +1,18 @@
+---
+title: "About Me"
+author: "Nandini Kodali"
+---
+
+![](../assets/Picture_Bio.png){fig-align="center" width="30%"}
+
+I'm Nandini, a first-year student in the DSAN program at Georgetown University. I'm originally from Hyderabad, India, where I completed my BTech degree in Computaion and Mathematics. My academic journey has sparked a deep interest in data science, especially in its ability to predict future outcomes rather than simply describe the past events.
+
+I aim to build a career in the finance sector, where I hope to use data science to drive innovation and make a meaningful impact. I believe that my rigorous coursework in mathematics during my undergrad, combined with ML and AI courses I'll focus on at Georgetown, will equip me with the skills to not only implement existing algorithms but also develop new ones. My ultimate goal is to develop advanced modules that can offer fresh solutions to real-world chanllenges.
+
+To me, data science is the practice of transforming raw data into actionable insights through the use of statistical analysis, algorithms, and domain knowledge. It's about eliminating bias and emotion from the decision-making process and allowing data-backed evidence to guide strategies and shape outcomes.
+
+**netID**: nk988
+
+**E-Mail**: nk988@georgetown.edu
+
+**Location**: Arlington, Virginia
