@@ -22,9 +22,9 @@ The project aims to answer key questions about race performance and strategies:
 
 1.	**Impact of Team Performance on Driver’s Success**
 
-![Sebastian Vettel](../../data/eda/PointsOverSeason_Drivers/seb.png)
-![Fernando Alonso](../../data/eda/PointsOverSeason_Drivers/alonso.png)
-![Kimi Räikkönen](../../data/eda/PointsOverSeason_Drivers/kimi.png)
+![Sebastian Vettel](../data/eda/PointsOverSeason_Drivers/seb.png)
+![Fernando Alonso](../data/eda/PointsOverSeason_Drivers/alonso.png)
+![Kimi Räikkönen](../data/eda/PointsOverSeason_Drivers/kimi.png)
 
 A significant portion of the total championship points for most drivers has been earned while driving for top-performing teams such as Ferrari, Red Bull, and Mercedes. This highlights the crucial role that team performance plays in a driver’s success. A clear correlation is observed between the points scored in a season and the team a driver represents, emphasizing the importance of car performance, engineering excellence, and team strategy.\
 Analyzing the career trajectories of drivers like Daniel Ricciardo, Kimi Räikkönen, and Sebastian Vettel, a discernible pattern emerges: they initially excelled while driving for championship-winning teams, followed by moves to midfield teams later in their careers, often before retirement. This transition reflects the competitive nature of Formula 1 and the significance of being part of a top-performing constructor.\
