@@ -47,16 +47,34 @@ title: "Progress log"
 -- Focus on DSAN 5100 Project, 6300 Project and Final --
 
 **12-11-2024**
+
 - Complete EDA
+  
   - Word Clouds
   - Points / Driver and Constructor
   - Line plot: points / driver for different teams - different colors
   - distrubution of DNF per team
   - Trend in points for constructors - for top teams only
   - pair plot for finish categories
-- Work on the theme 
-  - overall theme:
-    - team colors or blue?
-  - colors for the plot
-  - font size
-  - sequence of plots - figure it out!!!
+  - work on the theme
+
+**13-11-2024**
+
+- Complete Unsupervised learning
+- collect data on pit stops
+- clean pit stop data
+- data set for clustering - race track features
+  
+**14-11-2024**
+
+- Complete Supervised learning
+- create categorial variables for bivar. and multivar. classification
+
+**15-11-2024**
+
+- Technical Pages - Topic Introductions
+- Explain algorithms
+- analysis
+- interpretations
+- customize plots - font size 
+- code documentation - detailed

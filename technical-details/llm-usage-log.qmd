@@ -2,6 +2,13 @@
 title: "LLM usage log"
 ---
 
+## Writing
+- Proofreading 
+- Streamline lengthy algorithm explanations
+  
+## Data Collection
+- Search for APIs and Websites for data - list of sources
+
 This page can serve as a "catch-all" for LLM use cases that don’t involve content creation, such as reformatting your own ideas, commenting code that you wrote, or proofreading text, PDF summarization.
 
 LLM tools were used in the following way for the tasks below
@@ -18,4 +25,4 @@ LLM tools were used in the following way for the tasks below
 
 ## Code: 
 
-* Code commenting and explanatory documentation 
+* Code commenting and explanatory documentation [@gpt4o_kmean]

@@ -38,12 +38,12 @@ website:
 
 format:
   html:
-    theme: cosmo
+    theme: yeti
     bibliography:   ./assets/references.bib
     csl:  ./assets/nature.csl
     toc: true
     toc-expand: true
-    code-fold: false
+    code-fold: true
 
 
 
