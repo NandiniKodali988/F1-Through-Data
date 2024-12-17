@@ -18,8 +18,8 @@ In this project, Dimensionality reduction and Clustering algorithms are used, wh
 
 -	Dimensionality reduction is applied to pit stop data to simplify the dataset and enhance the interpretability of subsequent analysis.
 -	Clustering is employed to:
-o	Analyze pit stop strategies and uncover potential groupings.
-o	Group circuits based on their features. 
+    - Analyze pit stop strategies and uncover potential groupings.
+    - Group circuits based on their features. 
 
 # Dimensionality Reduction
 
