@@ -1,74 +1,79 @@
-# Final Report
+---
+title: "Report"
+author: "Nandini Kodali"
+---
 
-**Audio instructions:** 
+# Introduction
 
-If you want, you can listen to the instructions:
+Formula 1 (F1) is a sport that combine cutting-edge technology, strategic decision-making, and driver skill to create a dynamic and competitive environment. Every race involves millions of data points – ranging from tire temperatures to lap times – that influence the outcomes. This project aims to explore how data can be utilized to uncover hidden insights into team and driver performance, pit stop strategies, and race dynamics. The goal is to simplify complex analysis into actionable findings that highlight the factors driving success in F1 racing. 
 
-<audio controls><source src="../audio/report-page.mp3" type="audio/mpeg"></audio>
+# Objective
 
-<sup> **Source**: Text-to-speech conversion done with Amazon Polly on AWS </sup>
+The project aims to answer key questions about race performance and strategies:
 
-`Note`: These audio instructions should not be included in your final submission or repository, once you are done wiht them, please delete the files and remove them from the website. 
+1.	How does a driver’s performance evolve when they switch teams, and what role do constructors play in shaping their success?
+2.	Can patterns or trends in pit stop data reveal insights into team strategies and race outcomes?
+3.	Can data-driven models predict race outcomes, such as point finishes, podium placements, or race wins, based on race and pit stop data?
+4.	What influence do pit stop duration, frequency, and timing have on overall race success for drivers and teams?
+5.	Are certain circuit types, like high-speed tracks or technical layouts, better suited to specific constructors?
 
 
-This report is designed for a **non-technical audience** (e.g., the general public, executives, marketing teams, or clients), focusing on **high-level insights**, **actionable results**, and **visualizations** to convey the impact without requiring technical knowledge. The goal is to highlight how a model affects business strategy or revenue without diving into complex methods.
+# Key Findings
 
-## Guidelines for Creating a Good Narrative
+1.	**Impact of Team Performance on Driver’s Success**
 
-- **Clear Purpose**: Define the core message or objective early on.
-- **Know Your Audience**: Adjust language, tone, and detail based on the audience’s understanding.
-- **Strong Opening**: Start with a hook that sets context and stakes.
-- **Logical Flow**: Structure with a clear beginning, middle, and end.
-- **Key Insights**: Highlight the most important points; avoid unnecessary details or jargon.
-- **Data Support**: Use data to enhance the narrative without overwhelming.
-- **Visuals**: Incorporate charts to simplify ideas and engage the audience.
-- **Actionable Takeaways**: Conclude with recommendations or next steps.
-- **Authenticity**: Use storytelling to make the content engaging and relatable.
-- **Revise**: Edit for clarity and impact, removing unnecessary content.
+![Sebastian Vettel](../../data/eda/PointsOverSeason_Drivers/seb.png)
+![Fernando Alonso](../../data/eda/PointsOverSeason_Drivers/alonso.png)
+![Kimi Räikkönen](../../data/eda/PointsOverSeason_Drivers/kimi.png)
+
+A significant portion of the total championship points for most drivers has been earned while driving for top-performing teams such as Ferrari, Red Bull, and Mercedes. This highlights the crucial role that team performance plays in a driver’s success. A clear correlation is observed between the points scored in a season and the team a driver represents, emphasizing the importance of car performance, engineering excellence, and team strategy.\
+Analyzing the career trajectories of drivers like Daniel Ricciardo, Kimi Räikkönen, and Sebastian Vettel, a discernible pattern emerges: they initially excelled while driving for championship-winning teams, followed by moves to midfield teams later in their careers, often before retirement. This transition reflects the competitive nature of Formula 1 and the significance of being part of a top-performing constructor.\
+Additionally, some drivers switched teams despite achieving substantial championship points in the preceding season. This observation underscores the intense competition for seats in Formula 1, where only 20 positions are available across the grid. The combination of driver performance, team expectations, and future potential dictates these decisions, reinforcing the high-stakes environment of the sport.
+
+2.	**Cyclical Nature of Team Success in Formula 1**
+
+![Team Performance](../data/eda/team_points.png)
+
+The analysis of constructor performance reveals clear periods of highs and lows, emphasizing the dynamic and cyclical nature of Formula 1. Success in the sport is not guaranteed and often alternates between periods of dominance and rebuilding phases, driven by factors such as technical regulations, innovation, and strategic decisions.
+
+- Red Bull Racing: A rapid rise beginning in 2009 coincided with their dominance during the Sebastian Vettel era (2010–2013), where they secured multiple championships. Following a slight dip between 2014 and 2020, Red Bull has experienced another significant upward trajectory, led by Max Verstappen in recent years.
+- Mercedes: Entering the sport as a constructor in 2010, Mercedes rose to dominance during the hybrid engine era starting in 2014. Their decade-long supremacy was marked by exceptional car performance and driver consistency. However, a decline observed post-2021 coincides with Red Bull’s resurgence and the challenges of adapting to new regulation changes.
+- Ferrari: Ferrari’s performance has been marked by noticeable fluctuations. A steep decline in 2020, attributed to car performance struggles, was followed by a sharp recovery in 2022, signaling their return to competitiveness and underscoring their resilience as a historic team.
+- McLaren: While McLaren achieved strong results in the early 2000s, their performance significantly declined after 2012, particularly during the hybrid era. However, a gradual recovery since 2018 reflects significant improvements in car design, team operations, and overall strategy.
   
-## Report Content
+This analysis highlights that Formula 1 success is not solely determined by driver skill. Instead, it hinges on a team’s ability to innovate, adapt, and build competitive cars under constantly evolving technical regulations. 
 
-These are just examples, you can use any structure that is suitable for your project.
+3. **Minimizing Failures for Consistent Success**
+   
+One of the key differentiating factors between top-performing teams and those struggling for competitiveness in Formula 1 lies in their ability to minimize mechanical failures and accidents, ensuring both driver performance and vehicle reliability contribute to consistent results.
 
-### Case-1: Academic-Oriented Projects
+- Ferrari serves as an excellent example of a top-performing team, with 77.9% of their races completed successfully, a low 6.0% attributed to accidents, and 11.9% due to mechanical failures. This highlights Ferrari's strong engineering capabilities and their ability to ensure reliability across seasons.
+- On the other hand, teams like Haas face significant challenges, completing only 27.8% of their races successfully, while experiencing 10.1% accidents and 16.5% mechanical failures. Such high failure rates indicate gaps in vehicle reliability and race execution, which hinder their ability to compete consistently.
+- Williams, historically a strong team, shows mixed results. While they completed 47.2% of their races successfully, they recorded 11.4% accidents and 13.1% mechanical failures. Additionally, a notable 28.4% of their races ended with drivers being lapped, emphasizing struggles with car performance and speed relative to competitors.
 
-- **Introduction**: Provide an accessible overview and explain the motivation and importance of the research.
-   *Example*: "This study explores how climate change affects local ecosystems, vital for wildlife conservation."
-- **Objective**: Clearly define the research goal and relate it to real-world challenges.
-   *Example*: "We aim to analyze the effects of air pollution on public health in urban areas."
-- **Key Findings**: Present insights without technical terms, focusing on the impact.
-   *Example*: "Air pollution increases the risk of respiratory diseases by 20%."
-- **Methodology Overview**: Briefly explain relevant methods.
-   *Example*: "We analyzed air quality data from 50 cities and surveyed 10,000 residents."
-- **Visualizations**: Use simple graphs and infographics to convey findings.
-   *Example*: A map showing pollution levels and a bar chart of health risks.
-- **Societal Implications**: Highlight the broader impact.
-   *Example*: "This study highlights the need for better air quality policies."
-- **Call to Action**: Offer recommendations based on findings.
-   *Example*: "We recommend city planners invest in green spaces."
-- **Conclusion**: Recap the main findings and societal impact.
-   *Example*: "Understanding pollution's health impacts will help create healthier cities."
+These findings demonstrate that success in Formula 1 is a balance of driver skill, strategic decision-making, and, crucially, vehicle reliability. Teams with lower rates of accidents and failures, like Ferrari, gain a competitive edge, whereas higher failure rates, as seen with Haas and Williams, highlight the difficulties faced by midfield and lower-tier teams in maintaining consistency and achieving race finishes.
 
-### Case-2: Business-Oriented Projects
 
-- **Executive Summary**: Summarize key findings and their relevance to business goals.
-   *Example*: "This report predicts customer churn and offers strategies to reduce churn by 15%."
-- **Objective**: Define the problem or question addressed.
-   *Example*: "This project aims to identify the drivers of customer churn."
-- **Key Insights**: Present the most important, actionable insights.
-   *Example*: "Customers who interact with support twice within 30 days are 25% less likely to churn."
-- **Visualizations**: Use clear graphs to convey key insights.
-   *Example*: A bar chart showing churn likelihood based on engagement.
-- **Business Implications**: Explain how findings impact business outcomes and offer specific recommendations.
-   *Example*: "Focus retention efforts on low-engagement customers."
-- **Recommendations**: Provide clear, actionable steps with projections.
-   *Example*: "Implement an automated retention campaign, reducing churn by 10%."
-- **Conclusion**: Summarize findings and suggest next steps.
-   *Example*: "Addressing churn drivers can reduce loss and improve profitability."
-- **Appendix** (Optional): Additional charts or explanations for further insights.
+4.	**Relationship Between Pit Stop Data and Race Results**
 
-## Final Tips
+An important insight derived from the analysis is the relationship between pit stop data and race results. While pit stop duration, frequency, and timing are crucial factors that influence whether a driver scores points, the data reveals that it is challenging to determine the exact finishing position solely based on pit stop variables.
 
-- **Simplicity**: Avoid jargon; focus on business-relevant insights.
-- **Visual Focus**: Prioritize charts and graphs over dense text.
-- **Emphasize Impact**: Always link data insights to business outcomes.
+5.	**Predicting Pit Stop Duration Using Race Variables**
+
+The analysis demonstrates that pit stop duration can be effectively predicted using variables such as lap time, pit stop number, and lap number. These features provide meaningful insights into the time efficiency of pit stops, allowing teams to optimize their strategy during the race. Accurate predictions of pit stop duration can further help teams reduce time loss, improve competitiveness, and ensure that drivers return to the track with minimal delays.
+
+# Conclusion
+
+This project provides a comprehensive analysis of Formula 1 data, exploring the interplay between driver performance, team strategy, circuit characteristics, and pit stop efficiency. By leveraging Exploratory Data Analysis (EDA) and machine learning techniques, we uncovered critical insights into the factors influencing success in Formula 1 racing.
+
+Key findings emphasize that a driver’s success is heavily influenced by the team they represent, with top-performing teams such as Ferrari, Mercedes, and Red Bull enabling drivers to secure the majority of championship points. The analysis also highlights the cyclical nature of team success, with periods of dominance followed by rebuilding phases, reflecting the dynamic and evolving technical landscape of the sport.
+
+Reliability, in terms of minimizing mechanical failures and accidents, emerged as a critical factor distinguishing top-performing teams from those struggling for competitiveness. Teams with higher completion rates and fewer incidents, such as Ferrari, showcase the importance of engineering excellence and race execution in achieving consistent results.
+
+The analysis of pit stop data demonstrated its importance in determining race outcomes, revealing that while pit stops significantly influence whether a driver scores points, predicting the exact finishing position remains challenging. Additionally, we successfully showcased how pit stop duration can be modeled using race variables such as lap times and stop numbers, providing actionable insights for optimizing pit stop strategies.
+
+# Future Scope
+
+I aim to further analyze team win percentages across the different clusters of race tracks formed based on their features. By grouping tracks with similar characteristics (e.g., number of corners, straights, or full-throttle percentages), this analysis can uncover patterns that highlight which teams perform best under specific circuit conditions. Such insights can help teams tailor their strategies to maximize performance on different track types, ultimately contributing to more effective decision-making and improved race results.
+
+This project serves as a foundation for deeper data-driven exploration of Formula 1, where the combination of technology, strategy, and human performance continues to define success in this high-stakes sport.
