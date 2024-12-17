@@ -25,3 +25,6 @@ This project harnesses Exploratory Data Analysis (EDA) and machine learning tech
 4. What influence do pit stop duration, frequency, and timing have on overall race success for drivers and teams?
 5. Are certain circuit types, like high-speed tracks or technical layouts, better suited to specific constructors?
 
+# Literature Review
+
+There is a limited body of research focused on Formula 1, with most studies concentrating on technological advancements in motorsport racing. However, a few notable works provide unique insights into the sport. For instance, research has explored topics such as determining the greatest driver of all time [@eichenberger2009best], analyzing the impact of teams selling their technology to competitors on overall performance [@aversa2015business], and examining how environmental changes influence team performance[@marino2015driving].

@@ -21,7 +21,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -153,6 +173,8 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#research-questions" id="toc-research-questions" class="nav-link" data-scroll-target="#research-questions">Research Questions</a></li>
+  <li><a href="#literature-review" id="toc-literature-review" class="nav-link" data-scroll-target="#literature-review">Literature Review</a></li>
   </ul>
 </nav>
     </div>
@@ -195,11 +217,36 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p>In F1, data analysis is just as vital as the skill of the driver or the technological advancements of the car. During a race, teams collect vast amounts of data, monitoring key parameters such as tire wear, fuel consumption, aerodynamic efficiency, lap times, and pit stop durations. These data points offer opportunities to optimize car setups, refine race strategies, and predict future outcomes. However, integrating and analyzing these factors collectively remains a complex challenge, providing a rich foundation for data-driven research.</p>
 <p>This project harnesses Exploratory Data Analysis (EDA) and machine learning techniques to identify relationships hidden within F1 racing data. By exploring driver performance, constructor success, pit stop efficiency, and circuit characteristics, this research seeks to uncover insights into how strategy, engineering decisions, and team execution collectively influence race results.</p>
+</section>
+<section id="research-questions" class="level1">
+<h1>Research Questions</h1>
+<ol type="1">
+<li>How does a driver’s performance evolve when they switch teams, and what role do constructors play in shaping their success?</li>
+<li>Can patterns or trends in pit stop data reveal insights into team strategies and race outcomes?</li>
+<li>Can data-driven models predict race outcomes, such as point finishes, podium placements, or race wins, based on race and pit stop data?</li>
+<li>What influence do pit stop duration, frequency, and timing have on overall race success for drivers and teams?</li>
+<li>Are certain circuit types, like high-speed tracks or technical layouts, better suited to specific constructors?</li>
+</ol>
+</section>
+<section id="literature-review" class="level1">
+<h1>Literature Review</h1>
+<p>There is a limited body of research focused on Formula 1, with most studies concentrating on technological advancements in motorsport racing. However, a few notable works provide unique insights into the sport. For instance, research has explored topics such as determining the greatest driver of all time<span class="citation" data-cites="eichenberger2009best"><sup><a href="#ref-eichenberger2009best" role="doc-biblioref">1</a></sup></span>, analyzing the impact of teams selling their technology to competitors on overall performance<span class="citation" data-cites="aversa2015business"><sup><a href="#ref-aversa2015business" role="doc-biblioref">2</a></sup></span>, and examining how environmental factors influence team performance<span class="citation" data-cites="marino2015driving"><sup><a href="#ref-marino2015driving" role="doc-biblioref">3</a></sup></span>.</p>
+
 
 
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-eichenberger2009best" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Eichenberger, R., Stadelmann, D., <em>et al.</em> Who is the best formula 1 driver? An economic approach to evaluating talent. <em>Economic Analysis and Policy</em> <strong>39</strong>, 389 (2009).</div>
+</div>
+<div id="ref-aversa2015business" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Aversa, P., Furnari, S. &amp; Haefliger, S. Business model configurations and performance: A qualitative comparative analysis in formula one racing, 2005–2013. <em>Industrial and Corporate Change</em> <strong>24</strong>, 655–676 (2015).</div>
+</div>
+<div id="ref-marino2015driving" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Marino, A., Aversa, P., Mesquita, L. &amp; Anand, J. Driving performance via exploration in changing environments: Evidence from formula one racing. <em>Organization Science</em> <strong>26</strong>, 1079–1100 (2015).</div>
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
