@@ -24,7 +24,7 @@ This project leverages exploratory data analysis (EA) and machine learning techn
 
 Data was collected from a combination of APIs and web scrapping:
 
-**ERGGASRT API** 
+**ERGAST API** 
 - Race information: Season, round, location, date, driver, and constructor details.
 - Driver standings: Contains total points earned by each driver from 2000 to 2023. 
 - Circuit information: Circuit name, city, country, coordinates. 
