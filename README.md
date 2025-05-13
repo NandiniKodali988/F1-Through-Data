@@ -35,9 +35,11 @@ Data was collected from a combination of APIs and web scrapping:
 Articles were gathered for the top 10 drivers as of Round 22 (Las Vegas) of the 2024 season to analyze media coverage and potential career moves. 
 
 **fastf1** 
+
 Circuit Features: Around the F1 season, circuits vary widely in their features—some are known for tight, technical corners, others for long, high-speed straights, and a few for their narrow and challenging layouts. These unique characteristics influence car and driver performance significantly, with certain drivers or car designs excelling on specific track types. Analyzing racetrack features is crucial for understanding how different teams and drivers perform under varying conditions. This information can be used to classify tracks, which can further be studied to identify patterns and trends in race results.
 
 **Web Scraping (Wikipedia)**
+
 Weather Data: Collected for each Grand Prix, as race-day conditions impact tire choice, race strategy and driver performance. 
 
 ## Data Cleaning
