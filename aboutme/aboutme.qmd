@@ -1,18 +1,29 @@
 ---
 title: "About Me"
-author: "Nandini Kodali"
 ---
 
 ![](../assets/Picture_Bio.png){fig-align="center" width="30%"}
 
-I'm Nandini, a first-year student in the DSAN program at Georgetown University. I'm originally from Hyderabad, India, where I completed my BTech degree in Computaion and Mathematics. My academic journey has sparked a deep interest in data science, especially in its ability to predict future outcomes rather than simply describe the past events.
+<div style="text-align: center; font-size: 2em; margin-top: 1em;">
+  Nandini Kodali
+</div>
 
-I aim to build a career in the finance sector, where I hope to use data science to drive innovation and make a meaningful impact. I believe that my rigorous coursework in mathematics during my undergrad, combined with ML and AI courses I'll focus on at Georgetown, will equip me with the skills to not only implement existing algorithms but also develop new ones. My ultimate goal is to develop advanced modules that can offer fresh solutions to real-world chanllenges.
 
-To me, data science is the practice of transforming raw data into actionable insights through the use of statistical analysis, algorithms, and domain knowledge. It's about eliminating bias and emotion from the decision-making process and allowing data-backed evidence to guide strategies and shape outcomes.
+With a strong foundation in mathematics and computation, I bring an analytical mindset to solving complex data problems.
 
-**netID**: nk988
+I’m currently pursuing a Master’s in Data Science and Analytics at Georgetown University, after my BTech in Computation and Mathematics at Mahindra University, India.
 
-**E-Mail**: nk988@georgetown.edu
+My early interest in business analytics sparked my journey into data science, where I’ve since developed skills across the full pipeline — from building ETL pipelines and developing predictive models to designing impactful visualizations. I’ve worked on several machine learning and deep learning projects, and my academic path has led me to explore advanced domains like computer vision, generative image modeling, and natural language processing.
 
-**Location**: Arlington, Virginia
+I’m now focused on applying this technical skillset across diverse areas, leveraging both statistical rigor and creative experimentation.
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<div style="text-align:center; margin-top:1.5em;">
+  <a href="https://github.com/NandiniKodali988" target="_blank" style="display:inline-block; border:1px solid #555; padding:10px 20px; border-radius:5px; text-decoration:none; color:#333; margin-right:10px;">
+    <i class="fab fa-github"></i> GitHub
+  </a>
+  <a href="https://nandinikodali.georgetown.domains/portfolio/" target="_blank" style="display:inline-block; border:1px solid #555; padding:10px 20px; border-radius:5px; text-decoration:none; color:#333;">
+    <i class="fas fa-globe"></i> Website
+  </a>
+</div>

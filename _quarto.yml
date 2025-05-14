@@ -30,15 +30,12 @@ website:
             href: technical-details/unsupervised-learning/main.ipynb 
           - text: Supervised Learning
             href: technical-details/supervised-learning/main.ipynb 
-          - text: Progress Log
-            href: technical-details/progress-log.qmd
-          - text: LLM usage Log
-            href: technical-details/llm-usage-log.qmd
+
 
 format:
   html:
     theme: yeti
-    bibliography:   ./assets/references.bib
+    bibliography: ./assets/references.bib
     csl:  ./assets/nature.csl
     toc: true
     toc-expand: true

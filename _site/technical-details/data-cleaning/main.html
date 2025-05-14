@@ -192,14 +192,6 @@ window.Quarto = {
     <a class="dropdown-item" href="../../technical-details/supervised-learning/main.html">
  <span class="dropdown-text">Supervised Learning</span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="../../technical-details/progress-log.html">
- <span class="dropdown-text">Progress Log</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../technical-details/llm-usage-log.html">
- <span class="dropdown-text">LLM usage Log</span></a>
-  </li>  
     </ul>
   </li>
 </ul>
@@ -818,7 +810,7 @@ dtype: int64</code></pre>
 <span id="cb21-66"><a href="#cb21-66" aria-hidden="true" tabindex="-1"></a>        <span class="co"># append the results for this file to the combined list</span></span>
 <span id="cb21-67"><a href="#cb21-67" aria-hidden="true" tabindex="-1"></a>        all_combined_results.extend(file_results)</span>
 <span id="cb21-68"><a href="#cb21-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-69"><a href="#cb21-69" aria-hidden="true" tabindex="-1"></a><span class="co"># aonvert the combined results to a Pandas DataFrame</span></span>
+<span id="cb21-69"><a href="#cb21-69" aria-hidden="true" tabindex="-1"></a><span class="co"># convert the combined results to a Pandas DataFrame</span></span>
 <span id="cb21-70"><a href="#cb21-70" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(all_combined_results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
@@ -2146,7 +2138,7 @@ dtype: int64</code></pre>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>transformed <span class="op">=</span> (</span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># group the data by year, round, race name and driver</span></span>
-<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># create Pit stop number for each pitstop of a driver in the data</span></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># create Pit stop number for each pit stop of a driver in the data</span></span>
 <span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># pit stop number will be used for pivoting</span></span>
 <span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>    df.assign(PitStopNumber<span class="op">=</span><span class="kw">lambda</span> x: x.groupby([<span class="st">'Year'</span>, <span class="st">'Round'</span>, <span class="st">'RaceName'</span>, <span class="st">'DriverID'</span>]).cumcount() <span class="op">+</span> <span class="dv">1</span>)</span>
 <span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># index[] - unique identifiers</span></span>
