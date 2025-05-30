@@ -2,7 +2,7 @@
 title: "About Me"
 ---
 
-![](../assets/Picture_Bio.png){fig-align="center" width="30%"}
+![](../assets/Formal_1_Resized.jpg){fig-align="center" width="30%"}
 
 <div style="text-align: center; font-size: 2em; margin-top: 1em;">
   Nandini Kodali
